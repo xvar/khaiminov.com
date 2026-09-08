@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Alexey Khaiminov</title>
+<meta name="description" content="Android platform engineer. Build systems, CI/CD, developer productivity.">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=IBM+Plex+Sans:wght@400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --plum:#2E1B4E;
+  --plum-deep:#1C0F33;
+  --brass:#C98A2E;
+  --soft:#C3B6DC;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  background:linear-gradient(160deg,var(--plum) 0%,var(--plum-deep) 100%);
+  color:#EDE7F6;
+  font:400 17px/1.6 "IBM Plex Sans",system-ui,sans-serif;
+  display:grid;
+  place-items:center;
+  padding:2rem;
+}
+.card{display:flex;gap:1.25rem;align-items:stretch;max-width:34rem}
+.stem{
+  width:2px;flex:none;background:var(--brass);border-radius:1px;
+  transform-origin:top;animation:stem .9s cubic-bezier(.2,.7,.3,1) both;
+}
+@keyframes stem{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+.body{animation:rise .8s .15s cubic-bezier(.2,.7,.3,1) both}
+@keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+h1{
+  font:600 clamp(2rem,6vw,2.75rem)/1.1 "Fraunces",Georgia,serif;
+  letter-spacing:-.02em;margin:0 0 .6rem;
+}
+p{margin:0 0 1.5rem;color:var(--soft);max-width:30rem}
+a{
+  color:#EDE7F6;text-decoration:none;
+  border-bottom:1px solid #5C4680;padding-bottom:2px;
+  transition:border-color .15s;
+}
+a:hover{border-bottom-color:var(--brass)}
+small{display:block;margin-top:2rem;font-size:.85rem;color:#7A6A9B}
+:focus-visible{outline:2px solid var(--brass);outline-offset:4px;border-radius:2px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}}
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="stem" aria-hidden="true"></div>
+    <div class="body">
+      <h1>Alexey<br>Khaiminov</h1>
+      <p>Android platform engineer. Build systems, CI/CD, developer productivity. Currently in Limassol, moving to Barcelona.</p>
+      <p><a href="mailto:hi@khaiminov.com">hi@khaiminov.com</a></p>
+      <small>Proper site landing shortly.</small>
+    </div>
+  </div>
+</body>
+</html>
