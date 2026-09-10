@@ -122,28 +122,49 @@ function setLang(next) {
 }
 langButtons.forEach((b) => b.addEventListener("click", () => setLang(b.dataset.lang)));
 
+// "Rain" curtain garland: parallel vertical strands hanging from the top
+// wire, each strand strung with a few glowing points — modeled after
+// straight-strand LED curtain lights (semi-transparent, twinkling).
 function garlandSVG() {
-  const bulbs = 14;
-  let circles = "";
-  for (let i = 0; i < bulbs; i++) {
-    const x = (1000 / (bulbs - 1)) * i;
-    const wave = Math.sin(i * 1.1) * 14 + 26;
-    circles += `<circle class="bulb-glow" cx="${x}" cy="${wave}" r="10" fill="url(#glowGrad)"/><circle cx="${x}" cy="${wave}" r="5" fill="url(#bulbGrad)"/>`;
+  const strands = 26;
+  let content = "";
+  for (let i = 0; i < strands; i++) {
+    const x = (1000 / (strands - 1)) * i + (Math.sin(i * 3.1) * 3);
+    const len = 55 + Math.sin(i * 1.7) * 20 + (i % 5) * 4;
+    content += `<line x1="${x}" y1="4" x2="${x}" y2="${len}" stroke="#fff" stroke-opacity=".18" stroke-width="1"/>`;
+    const dots = 3;
+    for (let d = 1; d <= dots; d++) {
+      const y = (len / (dots + 1)) * d;
+      content += `<circle class="bulb-glow" cx="${x}" cy="${y}" r="7" fill="url(#glowGrad)"/><circle cx="${x}" cy="${y}" r="2.6" fill="url(#bulbGrad)"/>`;
+    }
   }
-  return `<svg viewBox="0 0 1000 60" preserveAspectRatio="none" aria-hidden="true">
+  return `<svg viewBox="0 0 1000 100" preserveAspectRatio="none" aria-hidden="true">
     <defs>
       <radialGradient id="bulbGrad" cx="35%" cy="30%" r="70%">
-        <stop offset="0%" stop-color="#FFF4D6"/><stop offset="45%" stop-color="#FFDA8A"/><stop offset="100%" stop-color="#B9812C"/>
+        <stop offset="0%" stop-color="#FFF9E8"/><stop offset="45%" stop-color="#FFDA8A"/><stop offset="100%" stop-color="#B9812C"/>
       </radialGradient>
       <radialGradient id="glowGrad" cx="50%" cy="50%" r="50%">
-        <stop offset="0%" stop-color="#FFDA8A" stop-opacity=".55"/><stop offset="100%" stop-color="#FFDA8A" stop-opacity="0"/>
+        <stop offset="0%" stop-color="#FFDA8A" stop-opacity=".6"/><stop offset="100%" stop-color="#FFDA8A" stop-opacity="0"/>
       </radialGradient>
     </defs>
-    <path d="M0,26 C 80,55 170,5 250,26 S 420,55 500,26 S 670,5 750,26 S 920,55 1000,26" fill="none" stroke="#6d5638" stroke-width="1.5" opacity=".7"/>
-    ${circles}
+    <line x1="0" y1="2" x2="1000" y2="2" stroke="#6d5638" stroke-width="1.5" stroke-opacity=".6"/>
+    ${content}
   </svg>`;
 }
 document.querySelectorAll(".garland").forEach((g) => (g.innerHTML = garlandSVG()));
+
+function randomTape() {
+  const corners = ["tl", "tr", "bl", "br"];
+  for (let i = corners.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [corners[i], corners[j]] = [corners[j], corners[i]];
+  }
+  const count = 1 + Math.floor(Math.random() * 3);
+  return corners.slice(0, count).map((c) => {
+    const rot = (Math.random() * 18 - 9).toFixed(1);
+    return `<span class="tape tape-${c}" style="transform:rotate(${rot}deg)" aria-hidden="true"></span>`;
+  }).join("");
+}
 
 function renderSideNav(activeId) {
   sideNavEl.innerHTML = NAV.map((n) => {
@@ -172,18 +193,15 @@ function crumb(route) {
   return `<button type="button" data-nav="home">&larr; ${lang === "ru" ? "На главную" : "Home"}</button><span style="opacity:.5">/ ${navLabel(route)}</span>`;
 }
 
-function photoCard({ id, glyph, caption, meta, placeholder, hang, href, syncId }) {
-  const cls = hang === "tape" ? "taped" : "";
-  const threadStyle = hang === "tape" ? "" : `style="--thread-len:${16 + (id.length % 4) * 8}px"`;
+function photoCard({ id, glyph, caption, meta, placeholder, href, syncId }) {
   const rot = (((id.charCodeAt(0) + id.length) % 7) - 3) * 1.1;
   const tag = href ? "a" : "button";
   const extAttrs = href && href.startsWith("http") ? `target="_blank" rel="noopener"` : "";
   const attrs = href ? `href="${href}" ${extAttrs}` : `type="button" data-open="${id}"`;
   const sync = syncId ? `data-sync="${syncId}"` : "";
-  return `<${tag} class="photo-card ${cls} ${href ? "link" : ""}" style="--rot:${rot}deg" ${attrs} ${sync}>
-    <span class="hook" aria-hidden="true"></span>
-    <span class="thread" aria-hidden="true" ${threadStyle}></span>
+  return `<${tag} class="photo-card ${href ? "link" : ""}" style="--rot:${rot}deg" ${attrs} ${sync}>
     <span class="polaroid">
+      ${randomTape()}
       ${placeholder ? `<span class="ph-flag">${lang === "ru" ? "план" : "planned"}</span>` : ""}
       <span class="frame"><span class="glyph">${glyph}</span></span>
       <span class="caption">${caption}${meta ? `<span class="meta">${meta}</span>` : ""}</span>
@@ -194,7 +212,7 @@ function photoCard({ id, glyph, caption, meta, placeholder, hang, href, syncId }
 function renderHome() {
   const cards = NAV.map((n, i) => photoCard({
     id: n.id, glyph: n.glyph, caption: n.label[lang],
-    href: n.external, syncId: n.id, hang: i % 3 === 0 ? "tape" : "thread",
+    href: n.external, syncId: n.id,
   })).join("");
   return `
     <section class="hero"><h1>${t(DATA.hero)}</h1></section>
@@ -206,7 +224,7 @@ function renderCollectionWall(key) {
   const items = DATA[key];
   const cards = items.map((it, i) => photoCard({
     id: it.id, glyph: it.glyph, placeholder: it.placeholder,
-    caption: t(it.title), meta: t(it.period), hang: i % 3 === 0 ? "tape" : "thread",
+    caption: t(it.title), meta: t(it.period),
   })).join("");
   return `
     <section class="wall">
@@ -225,7 +243,7 @@ function renderContacts() {
     { id: "github", glyph: "🐙", caption: c.github, href: `https://${c.github}` },
     { id: "cv", glyph: "📄", caption: lang === "ru" ? "Скачать CV" : "Download CV", href: c.cv[lang] },
   ];
-  const cards = items.map((it, i) => photoCard({ ...it, hang: i % 2 === 0 ? "thread" : "tape" })).join("");
+  const cards = items.map((it) => photoCard(it)).join("");
   return `
     <section class="wall">
       <h2 class="section-title">${navLabel("contacts")}</h2>
@@ -238,7 +256,7 @@ function renderContacts() {
 function openStory(collection, id) {
   const job = DATA[collection].find((j) => j.id === id);
   if (!job) return;
-  const gallery = [1, 2].map((n) => photoCard({ id: id + n, glyph: job.glyph, caption: "", hang: n % 2 ? "thread" : "tape", placeholder: job.placeholder })).join("");
+  const gallery = [1, 2].map((n) => photoCard({ id: id + n, glyph: job.glyph, caption: "", placeholder: job.placeholder })).join("");
   const metaParts = [t(job.role), t(job.period)].filter(Boolean).join(" · ");
   const overlay = document.createElement("div");
   overlay.className = "story-overlay";
