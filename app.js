@@ -106,7 +106,6 @@ const DATA = {
 let lang = localStorage.getItem("km-lang") || "ru";
 const app = document.getElementById("app");
 const sideNavEl = document.getElementById("side-nav");
-const crumbBar = document.getElementById("crumb-bar");
 const footerEl = document.getElementById("site-footer");
 const langButtons = document.querySelectorAll(".lang-toggle button");
 
@@ -123,34 +122,40 @@ function setLang(next) {
 langButtons.forEach((b) => b.addEventListener("click", () => setLang(b.dataset.lang)));
 
 // Horizontal LED strand: a plain wire with a loose bunch of lights along
-// it — not an even decorative swag, just LEDs scattered on a wire.
+// it. Each light is a real Gaussian-blurred halo plus a sharp core, for a
+// photographic bokeh look instead of a flat gradient dot.
 function garlandSVG() {
-  const wireY = 20;
-  const count = 46;
-  let dots = "";
+  const wireY = 22;
+  const count = 42;
+  const palette = ["#FFD98A", "#FFC873", "#FFE9B0", "#FFDA8A"];
+  let lights = "";
   for (let i = 0; i < count; i++) {
-    const x = (1000 / (count - 1)) * i + (Math.random() * 8 - 4);
-    const y = wireY + Math.sin(i * 2.3) * 3 + (Math.random() * 10 - 5);
-    const r = 2 + Math.random() * 1.4;
-    dots += `<circle class="bulb-glow" cx="${x}" cy="${y}" r="${r + 4}" fill="url(#glowGrad)"/><circle cx="${x}" cy="${y}" r="${r}" fill="url(#bulbGrad)"/>`;
+    const x = (1000 / (count - 1)) * i + (Math.random() * 10 - 5);
+    const y = wireY + Math.sin(i * 2.3) * 3 + (Math.random() * 12 - 6);
+    const big = Math.random() < 0.3;
+    const haloR = big ? 9 + Math.random() * 4 : 5 + Math.random() * 3;
+    const coreR = big ? 2.6 + Math.random() : 1.6 + Math.random() * 0.8;
+    const color = palette[i % palette.length];
+    const delay = (Math.random() * 3).toFixed(2);
+    lights += `<g class="bulb-glow" style="animation-delay:${delay}s">
+      <circle cx="${x}" cy="${y}" r="${haloR}" fill="${color}" filter="url(#softBlur)" opacity=".65"/>
+      <circle cx="${x}" cy="${y}" r="${coreR}" fill="#FFF8E6"/>
+    </g>`;
   }
-  return `<svg viewBox="0 0 1000 40" preserveAspectRatio="none" aria-hidden="true">
+  return `<svg viewBox="0 0 1000 44" preserveAspectRatio="none" aria-hidden="true">
     <defs>
-      <radialGradient id="bulbGrad" cx="35%" cy="30%" r="70%">
-        <stop offset="0%" stop-color="#FFF9E8"/><stop offset="45%" stop-color="#FFDA8A"/><stop offset="100%" stop-color="#B9812C"/>
-      </radialGradient>
-      <radialGradient id="glowGrad" cx="50%" cy="50%" r="50%">
-        <stop offset="0%" stop-color="#FFDA8A" stop-opacity=".6"/><stop offset="100%" stop-color="#FFDA8A" stop-opacity="0"/>
-      </radialGradient>
+      <filter id="softBlur" x="-200%" y="-200%" width="500%" height="500%">
+        <feGaussianBlur stdDeviation="3.2"/>
+      </filter>
     </defs>
-    <path d="M0,${wireY} Q 250,${wireY + 6} 500,${wireY} T 1000,${wireY}" fill="none" stroke="#6d5638" stroke-width="1.2" stroke-opacity=".55"/>
-    ${dots}
+    <path d="M0,${wireY} Q 250,${wireY + 5} 500,${wireY} T 1000,${wireY}" fill="none" stroke="#4a3a28" stroke-width="1" stroke-opacity=".45"/>
+    ${lights}
   </svg>`;
 }
 document.querySelectorAll(".garland").forEach((g) => (g.innerHTML = garlandSVG()));
 
 function randomTape() {
-  const corners = ["tl", "tr", "tm"];
+  const corners = ["tl", "tr", "bl", "br"];
   for (let i = corners.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [corners[i], corners[j]] = [corners[j], corners[i]];
@@ -163,12 +168,21 @@ function randomTape() {
 }
 
 function renderSideNav(activeId) {
-  sideNavEl.innerHTML = NAV.map((n) => {
+  const backItem = activeId
+    ? `<li class="nav-back"><a href="#/" data-nav="home">${lang === "ru" ? "← Назад" : "← Back"}</a></li>`
+    : "";
+  const items = NAV.map((n) => {
     if (n.external) {
       return `<li><a href="${n.external}" target="_blank" rel="noopener" data-sync="${n.id}"><span class="dot" aria-hidden="true"></span>${n.label[lang]} ↗</a></li>`;
     }
     return `<li><a href="#/${n.id}" data-sync="${n.id}" class="${n.id === activeId ? "active" : ""}"><span class="dot" aria-hidden="true"></span>${n.label[lang]}</a></li>`;
   }).join("");
+  sideNavEl.classList.remove("redraw");
+  // restart the redraw animation on every route change
+  void sideNavEl.offsetWidth;
+  sideNavEl.innerHTML = backItem + items;
+  sideNavEl.classList.add("redraw");
+  sideNavEl.querySelectorAll("[data-nav]").forEach((el) => el.addEventListener("click", (e) => { e.preventDefault(); location.hash = "/" + el.dataset.nav; }));
   wireSync();
 }
 
@@ -182,11 +196,6 @@ function wireSync() {
 }
 function syncSet(id, on) {
   document.querySelectorAll(`[data-sync="${id}"]`).forEach((el) => el.classList.toggle("is-synced", on));
-}
-
-function crumb(route) {
-  if (route === "home") return "";
-  return `<button type="button" data-nav="home">&larr; ${lang === "ru" ? "На главную" : "Home"}</button><span style="opacity:.5">/ ${navLabel(route)}</span>`;
 }
 
 function photoCard({ id, glyph, caption, meta, placeholder, href, syncId }) {
@@ -283,8 +292,6 @@ function renderAll() {
   const route = currentRoute();
   const activeTop = ["career", "projects", "personal", "contacts"].includes(route) ? route : null;
   renderSideNav(activeTop);
-  crumbBar.innerHTML = crumb(route);
-  crumbBar.querySelectorAll("[data-nav]").forEach((el) => el.addEventListener("click", () => (location.hash = "/" + el.dataset.nav)));
 
   if (route === "home") app.innerHTML = renderHome();
   else if (route === "career") app.innerHTML = renderCollectionWall("career");
