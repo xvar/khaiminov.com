@@ -86,14 +86,14 @@ const DATA = {
       },
     },
     {
-      id: "bimash", glyph: "🏔️", logo: "assets/career/bimash/logo.webp", size: "sm", pinLeft: true,
+      id: "bimash", glyph: "🏔️", logo: "assets/career/bimash/logo.webp",
       title: { ru: "Bimash", en: "Bimash" },
       role: { ru: "Портлеты под IBM WebSphere Portal", en: "Portlets on IBM WebSphere Portal" },
-      period: { ru: "2010 · Казахстан", en: "2010 · Kazakhstan" },
-      summary: { ru: "Подработка на 4 курсе (Казахстанский филиал МГУ) в местной ИТ-компании Bimash — портлеты под IBM WebSphere Portal, немного веба и бэкенда.", en: "A part-time student job (Kazakhstan branch of Moscow State University, 4th year) at local IT company Bimash — portlets on IBM WebSphere Portal, some web and backend work." },
+      period: { ru: "2010 · Астана", en: "2010 · Astana" },
+      summary: { ru: "О, время учёбы — 4 курс, Казахстанский филиал МГУ, и подработка в местной компании Bimash. Уже тогда писал код: портлеты под WebSphere, веб, js, немного бэкенда.", en: "Ah, uni days — 4th year at the Kazakhstan branch of Moscow State University, and a part-time gig at local company Bimash. Even then I was writing code: WebSphere portlets, some web and JS, a bit of backend." },
       highlights: {
-        ru: ["Написал портлет-калькулятор налога на ввоз автотранспорта — его увидел весь Казахстан; проработал до закрытия старого сайта таможенного департамента customs.kz"],
-        en: ["Built a vehicle import tax calculator portlet — seen across all of Kazakhstan; stayed live until the old customs department site (customs.kz) was shut down"],
+        ru: ["Уже тогда охват был отличный: мой портлет (кусок сайта) с калькулятором налога на ввоз транспортного средства увидел весь Казахстан! И проработал он до самого закрытия старого сайта таможенного департамента customs.kz"],
+        en: ["Even back then the reach was great: my portlet (a page component) with a vehicle import tax calculator was seen across all of Kazakhstan! It stayed running right up until the old customs department site, customs.kz, shut down"],
       },
       photos: ["assets/career/bimash/portlet.webp", "assets/career/bimash/astana-1.webp", "assets/career/bimash/astana-2.webp"],
     },
@@ -220,21 +220,26 @@ function syncSet(id, on) {
   document.querySelectorAll(`[data-sync="${id}"]`).forEach((el) => el.classList.toggle("is-synced", on));
 }
 
-function photoCard({ id, glyph, logo, photo, caption, meta, placeholder, href, syncId, size, pinLeft }) {
+function photoCard({ id, glyph, logo, photo, caption, meta, placeholder, href, syncId, size, pinLeft, natural, lightbox }) {
   const rot = (((id.charCodeAt(0) + id.length) % 7) - 3) * 1.1;
   const tag = href ? "a" : "button";
   const extAttrs = href && href.startsWith("http") ? `target="_blank" rel="noopener"` : "";
-  const attrs = href ? `href="${href}" ${extAttrs}` : `type="button" data-open="${id}"`;
+  const attrs = href
+    ? `href="${href}" ${extAttrs}`
+    : lightbox
+    ? `type="button" data-lightbox="${photo}"`
+    : `type="button" data-open="${id}"`;
   const sync = syncId ? `data-sync="${syncId}"` : "";
   const mount = randomMount();
   const sizeClass = size ? ` size-${size}` : "";
+  const naturalClass = natural ? " natural" : "";
   const style = `--rot:${rot}deg${pinLeft ? ";grid-column:1" : ""}`;
   const media = photo
     ? `<img class="frame-photo" src="${photo}" alt="">`
     : logo
     ? `<img class="frame-logo" src="${logo}" alt="">`
     : `<span class="glyph">${glyph}</span>`;
-  return `<${tag} class="photo-card${sizeClass} ${href ? "link" : ""}" style="${style}" ${attrs} ${sync}>
+  return `<${tag} class="photo-card${sizeClass}${naturalClass} ${href ? "link" : ""}" style="${style}" ${attrs} ${sync}>
     ${mount.pre}
     <span class="polaroid">
       ${mount.tape}
@@ -293,7 +298,7 @@ function openStory(collection, id) {
   const job = DATA[collection].find((j) => j.id === id);
   if (!job) return;
   const gallery = (job.photos && job.photos.length)
-    ? job.photos.map((src, n) => photoCard({ id: `${id}-p${n}`, photo: src, caption: "" })).join("")
+    ? job.photos.map((src, n) => photoCard({ id: `${id}-p${n}`, photo: src, caption: "", natural: true, lightbox: true })).join("")
     : [1, 2].map((n) => photoCard({ id: id + n, glyph: job.glyph, caption: "", placeholder: job.placeholder })).join("");
   const metaParts = [t(job.role), t(job.period)].filter(Boolean).join(" · ");
   const overlay = document.createElement("div");
@@ -312,9 +317,27 @@ function openStory(collection, id) {
   const close = () => overlay.remove();
   overlay.querySelector(".story-close").addEventListener("click", close);
   overlay.addEventListener("click", (e) => { if (e.target === overlay) close(); });
+  overlay.querySelectorAll("[data-lightbox]").forEach((el) => {
+    el.addEventListener("click", (e) => { e.stopPropagation(); openLightbox(el.dataset.lightbox); });
+  });
   document.addEventListener("keydown", function onEsc(e) {
     if (e.key === "Escape") { close(); document.removeEventListener("keydown", onEsc); }
   });
+}
+
+function openLightbox(src) {
+  const overlay = document.createElement("div");
+  overlay.className = "lightbox-overlay";
+  overlay.innerHTML = `<img src="${src}" alt="">`;
+  document.body.appendChild(overlay);
+  const close = () => overlay.remove();
+  overlay.addEventListener("click", close);
+  document.addEventListener("keydown", function onEsc(e) {
+    if (e.key !== "Escape") return;
+    e.stopPropagation();
+    close();
+    document.removeEventListener("keydown", onEsc, { capture: true });
+  }, { capture: true });
 }
 
 function currentRoute() {

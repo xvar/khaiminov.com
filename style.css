@@ -165,6 +165,11 @@ button{font:inherit}
 .frame .glyph{font-size:clamp(3.2rem,7vw,4.6rem);position:relative;z-index:1;filter:drop-shadow(0 2px 4px rgba(0,0,0,.4))}
 .frame .frame-logo{width:62%;height:62%;object-fit:contain;position:relative;z-index:1;filter:drop-shadow(0 2px 4px rgba(0,0,0,.4))}
 .frame .frame-photo{width:100%;height:100%;object-fit:cover;position:relative;z-index:1}
+
+/* natural: real photos keep their own aspect ratio instead of a forced square crop */
+.photo-card.natural .frame{aspect-ratio:auto;background:none}
+.photo-card.natural .frame::after{display:none}
+.photo-card.natural .frame-photo{width:100%;height:auto;display:block;object-fit:initial}
 .caption{font-family:var(--hand);font-size:1.3rem;line-height:1.15;color:#3a2c1e;margin-top:.65rem;text-align:center}
 .caption .meta{display:block;font-family:var(--sans);font-size:.74rem;letter-spacing:.03em;color:#6b5b46;margin-top:.2rem;text-transform:uppercase}
 .ph-flag{position:absolute;top:6px;right:6px;background:rgba(20,10,30,.7);color:var(--brass-hot);font-size:.6rem;padding:.15rem .4rem;border-radius:3px;letter-spacing:.03em;z-index:2}
@@ -181,8 +186,14 @@ button{font:inherit}
 .story-close{position:absolute;top:.9rem;right:.9rem;width:34px;height:34px;border-radius:50%;border:1px solid var(--panel-line);background:rgba(255,255,255,.03);color:var(--ink);font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1}
 .story-close:hover{border-color:var(--brass);color:var(--brass-hot)}
 .story-gallery{display:flex;flex-wrap:wrap;gap:1rem;margin:0 0 1.4rem;padding-top:.5rem}
-.story-gallery .photo-card{cursor:default;width:clamp(110px,16vw,150px)}
-.story-gallery .photo-card:hover{transform:rotate(var(--rot))}
+.story-gallery .photo-card{width:clamp(130px,30vw,320px);cursor:zoom-in}
+.story-gallery .photo-card:hover,.story-gallery .photo-card:focus-visible{transform:rotate(var(--rot))}
+.story-gallery .photo-card::before{display:none}
+.story-gallery .photo-card:hover .polaroid,.story-gallery .photo-card:focus-visible .polaroid{box-shadow:var(--card-shadow)}
+
+/* ---------- lightbox (enlarged story photo) ---------- */
+.lightbox-overlay{position:fixed;inset:0;z-index:200;background:rgba(5,2,10,.92);display:flex;align-items:center;justify-content:center;padding:clamp(1rem,4vw,3rem);cursor:zoom-out}
+.lightbox-overlay img{max-width:100%;max-height:100%;object-fit:contain;border-radius:4px;box-shadow:0 30px 60px -10px rgba(0,0,0,.7)}
 .story-head{font-family:var(--serif);font-weight:600;font-size:clamp(1.4rem,3vw,1.9rem);margin:0 0 .2rem}
 .story-meta{color:var(--brass-hot);font-size:.85rem;margin:0 0 1rem}
 .story-summary{color:var(--ink-soft);max-width:38rem;margin:0 0 1rem}
