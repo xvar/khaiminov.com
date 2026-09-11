@@ -217,7 +217,11 @@ footer.site-footer{position:relative;z-index:1;text-align:left;color:var(--ink-f
     width:100%;height:auto;position:sticky;top:var(--header-h);
     display:flex;overflow-x:auto;padding:.6rem;border-right:none;border-bottom:1px solid var(--panel-line);
     -webkit-overflow-scrolling:touch;
+    transition:transform .25s ease;
   }
+  /* hide the secondary nav strip on scroll-down so it doesn't compete
+     with the header bar; reappears on scroll-up (see app.js) */
+  .sidebar.nav-hidden{transform:translateY(-100%)}
   .side-nav{display:flex;gap:.4rem;grid-auto-flow:column}
   .side-nav a{width:auto;white-space:nowrap;padding:.55rem .8rem}
   .nav-back{width:auto;padding-bottom:0;margin-bottom:0;border-bottom:none;border-right:1px solid var(--panel-line);padding-right:.5rem;margin-right:.1rem}

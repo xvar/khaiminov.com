@@ -92,8 +92,8 @@ const DATA = {
       period: { ru: "2010 · Астана", en: "2010 · Astana" },
       summary: { ru: "О, время учёбы — 4 курс, Казахстанский филиал МГУ, и подработка в местной компании Bimash. Уже тогда писал код: портлеты под WebSphere, веб, js, немного бэкенда.", en: "Ah, uni days — 4th year at the Kazakhstan branch of Moscow State University, and a part-time gig at local company Bimash. Even then I was writing code: WebSphere portlets, some web and JS, a bit of backend." },
       highlights: {
-        ru: ["Уже тогда охват был отличный: мой портлет (кусок сайта) с калькулятором налога на ввоз транспортного средства увидел весь Казахстан! И проработал он до самого закрытия старого сайта таможенного департамента customs.kz"],
-        en: ["Even back then the reach was great: my portlet (a page component) with a vehicle import tax calculator was seen across all of Kazakhstan! It stayed running right up until the old customs department site, customs.kz, shut down"],
+        ru: ["Разработал портлет-калькулятор налога на ввоз автотранспорта (компонент сайта) — использовался по всему Казахстану и оставался в эксплуатации вплоть до закрытия старого сайта таможенного департамента customs.kz"],
+        en: ["Built a vehicle import tax calculator portlet (a page component) used across Kazakhstan; it remained in production until the old customs department site, customs.kz, was retired"],
       },
       photos: ["assets/career/bimash/portlet.webp", "assets/career/bimash/astana-1.webp", "assets/career/bimash/astana-2.webp"],
     },
@@ -375,3 +375,17 @@ window.addEventListener("hashchange", renderAll);
 langButtons.forEach((b) => b.classList.toggle("active", b.dataset.lang === lang));
 document.documentElement.lang = lang;
 renderAll();
+
+// Mobile only: the horizontal nav strip sits directly under the sticky
+// header and the two competing backgrounds read as a jarring band while
+// scrolling. Hide the strip on scroll-down, bring it back on scroll-up.
+const sidebarEl = document.querySelector(".sidebar");
+const isMobileNav = () => window.matchMedia("(max-width: 860px)").matches;
+let lastScrollY = window.scrollY;
+window.addEventListener("scroll", () => {
+  if (!isMobileNav()) { sidebarEl.classList.remove("nav-hidden"); lastScrollY = window.scrollY; return; }
+  const y = window.scrollY;
+  if (y > lastScrollY && y > 80) sidebarEl.classList.add("nav-hidden");
+  else sidebarEl.classList.remove("nav-hidden");
+  lastScrollY = y;
+}, { passive: true });
