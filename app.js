@@ -12,6 +12,7 @@ const NAV = [
 
 const DATA = {
   hero: { ru: "Алексей Хайминов", en: "Alexey Khaiminov" },
+  heroLede: { ru: "Карьера в мобильной разработке — и человек за ней.", en: "A career in mobile engineering — and the person behind it." },
   sectionIntro: {
     career: { ru: "Путь по компаниям и продуктам — с фото рабочих мест (скоро настоящих).", en: "A path through companies and products — with photos of the places (real ones coming soon)." },
     projects: { ru: "Фриланс и сторонние проекты. Список пополняется.", en: "Freelance and side projects. List is growing." },
@@ -231,7 +232,7 @@ function renderHome() {
     href: n.external, syncId: n.id,
   })).join("");
   return `
-    <section class="hero"><h1>${t(DATA.hero)}</h1></section>
+    <section class="hero"><h1>${t(DATA.hero)}</h1><p class="section-lede">${t(DATA.heroLede)}</p></section>
     <section class="wall"><div class="wall-grid">${cards}</div></section>
   `;
 }
@@ -240,7 +241,7 @@ function renderCollectionWall(key) {
   const items = DATA[key];
   const cards = items.map((it, i) => photoCard({
     id: it.id, glyph: it.glyph, placeholder: it.placeholder,
-    caption: t(it.title), meta: t(it.period),
+    caption: t(it.title),
   })).join("");
   return `
     <section class="wall">
