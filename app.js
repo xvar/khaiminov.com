@@ -375,17 +375,3 @@ window.addEventListener("hashchange", renderAll);
 langButtons.forEach((b) => b.classList.toggle("active", b.dataset.lang === lang));
 document.documentElement.lang = lang;
 renderAll();
-
-// Mobile only: the horizontal nav strip sits directly under the sticky
-// header and the two competing backgrounds read as a jarring band while
-// scrolling. Hide the strip on scroll-down, bring it back on scroll-up.
-const sidebarEl = document.querySelector(".sidebar");
-const isMobileNav = () => window.matchMedia("(max-width: 860px)").matches;
-let lastScrollY = window.scrollY;
-window.addEventListener("scroll", () => {
-  if (!isMobileNav()) { sidebarEl.classList.remove("nav-hidden"); lastScrollY = window.scrollY; return; }
-  const y = window.scrollY;
-  if (y > lastScrollY && y > 80) sidebarEl.classList.add("nav-hidden");
-  else sidebarEl.classList.remove("nav-hidden");
-  lastScrollY = y;
-}, { passive: true });
