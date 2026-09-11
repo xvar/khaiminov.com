@@ -188,7 +188,7 @@ button{font:inherit}
 .cv-button{display:inline-flex;align-items:center;gap:.5rem;background:var(--brass);color:#241533;font-weight:600;text-decoration:none;padding:.7rem 1.2rem;border-radius:999px;font-size:.9rem}
 .cv-button:hover{background:var(--brass-hot)}
 
-footer.site-footer{position:relative;z-index:1;text-align:center;color:var(--ink-faint);font-size:.72rem;padding:2rem 1rem 3rem}
+footer.site-footer{position:relative;z-index:1;text-align:left;color:var(--ink-faint);opacity:.55;font-size:.65rem;padding:0 clamp(1rem,3vw,2.5rem) 1rem}
 
 /* ---------- mobile ---------- */
 @media (max-width:860px){
