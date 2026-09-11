@@ -122,23 +122,19 @@ function setLang(next) {
 }
 langButtons.forEach((b) => b.addEventListener("click", () => setLang(b.dataset.lang)));
 
-// "Rain" curtain garland: parallel vertical strands hanging from the top
-// wire, each strand strung with a few glowing points — modeled after
-// straight-strand LED curtain lights (semi-transparent, twinkling).
+// Horizontal LED strand: a plain wire with a loose bunch of lights along
+// it — not an even decorative swag, just LEDs scattered on a wire.
 function garlandSVG() {
-  const strands = 26;
-  let content = "";
-  for (let i = 0; i < strands; i++) {
-    const x = (1000 / (strands - 1)) * i + (Math.sin(i * 3.1) * 3);
-    const len = 55 + Math.sin(i * 1.7) * 20 + (i % 5) * 4;
-    content += `<line x1="${x}" y1="4" x2="${x}" y2="${len}" stroke="#fff" stroke-opacity=".18" stroke-width="1"/>`;
-    const dots = 3;
-    for (let d = 1; d <= dots; d++) {
-      const y = (len / (dots + 1)) * d;
-      content += `<circle class="bulb-glow" cx="${x}" cy="${y}" r="7" fill="url(#glowGrad)"/><circle cx="${x}" cy="${y}" r="2.6" fill="url(#bulbGrad)"/>`;
-    }
+  const wireY = 20;
+  const count = 46;
+  let dots = "";
+  for (let i = 0; i < count; i++) {
+    const x = (1000 / (count - 1)) * i + (Math.random() * 8 - 4);
+    const y = wireY + Math.sin(i * 2.3) * 3 + (Math.random() * 10 - 5);
+    const r = 2 + Math.random() * 1.4;
+    dots += `<circle class="bulb-glow" cx="${x}" cy="${y}" r="${r + 4}" fill="url(#glowGrad)"/><circle cx="${x}" cy="${y}" r="${r}" fill="url(#bulbGrad)"/>`;
   }
-  return `<svg viewBox="0 0 1000 100" preserveAspectRatio="none" aria-hidden="true">
+  return `<svg viewBox="0 0 1000 40" preserveAspectRatio="none" aria-hidden="true">
     <defs>
       <radialGradient id="bulbGrad" cx="35%" cy="30%" r="70%">
         <stop offset="0%" stop-color="#FFF9E8"/><stop offset="45%" stop-color="#FFDA8A"/><stop offset="100%" stop-color="#B9812C"/>
@@ -147,14 +143,14 @@ function garlandSVG() {
         <stop offset="0%" stop-color="#FFDA8A" stop-opacity=".6"/><stop offset="100%" stop-color="#FFDA8A" stop-opacity="0"/>
       </radialGradient>
     </defs>
-    <line x1="0" y1="2" x2="1000" y2="2" stroke="#6d5638" stroke-width="1.5" stroke-opacity=".6"/>
-    ${content}
+    <path d="M0,${wireY} Q 250,${wireY + 6} 500,${wireY} T 1000,${wireY}" fill="none" stroke="#6d5638" stroke-width="1.2" stroke-opacity=".55"/>
+    ${dots}
   </svg>`;
 }
 document.querySelectorAll(".garland").forEach((g) => (g.innerHTML = garlandSVG()));
 
 function randomTape() {
-  const corners = ["tl", "tr", "bl", "br"];
+  const corners = ["tl", "tr", "tm"];
   for (let i = corners.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [corners[i], corners[j]] = [corners[j], corners[i]];
