@@ -154,17 +154,26 @@ function garlandSVG() {
 }
 document.querySelectorAll(".garland").forEach((g) => (g.innerHTML = garlandSVG()));
 
-function randomTape() {
-  const corners = ["tl", "tr", "bl", "br"];
-  for (let i = corners.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [corners[i], corners[j]] = [corners[j], corners[i]];
+// Only physically plausible mounts: taped at all 4 corners, taped at the
+// 2 top corners, taped by a single strip top-center, or clipped onto a
+// light strand. No random subsets — e.g. "both left corners only" can't
+// actually hold a photo up.
+const TAPE_PATTERNS = {
+  tape4: ["tl", "tr", "bl", "br"],
+  tape2: ["tl", "tr"],
+  tape1: ["tm"],
+};
+function randomMount() {
+  const modes = ["tape4", "tape4", "tape2", "tape2", "tape1", "clip"];
+  const mode = modes[Math.floor(Math.random() * modes.length)];
+  if (mode === "clip") {
+    return {
+      pre: `<span class="clip-mount" aria-hidden="true"><span class="clip-light"></span><span class="clip-thread"></span><span class="clip-peg"></span></span>`,
+      tape: "",
+    };
   }
-  const count = 1 + Math.floor(Math.random() * 3);
-  return corners.slice(0, count).map((c) => {
-    const rot = (Math.random() * 18 - 9).toFixed(1);
-    return `<span class="tape tape-${c}" style="transform:rotate(${rot}deg)" aria-hidden="true"></span>`;
-  }).join("");
+  const tape = TAPE_PATTERNS[mode].map((c) => `<span class="tape tape-${c}" aria-hidden="true"></span>`).join("");
+  return { pre: "", tape };
 }
 
 function renderSideNav(activeId) {
@@ -204,9 +213,11 @@ function photoCard({ id, glyph, caption, meta, placeholder, href, syncId }) {
   const extAttrs = href && href.startsWith("http") ? `target="_blank" rel="noopener"` : "";
   const attrs = href ? `href="${href}" ${extAttrs}` : `type="button" data-open="${id}"`;
   const sync = syncId ? `data-sync="${syncId}"` : "";
+  const mount = randomMount();
   return `<${tag} class="photo-card ${href ? "link" : ""}" style="--rot:${rot}deg" ${attrs} ${sync}>
+    ${mount.pre}
     <span class="polaroid">
-      ${randomTape()}
+      ${mount.tape}
       ${placeholder ? `<span class="ph-flag">${lang === "ru" ? "план" : "planned"}</span>` : ""}
       <span class="frame"><span class="glyph">${glyph}</span></span>
       <span class="caption">${caption}${meta ? `<span class="meta">${meta}</span>` : ""}</span>
