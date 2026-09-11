@@ -19,9 +19,9 @@
   --header-h:60px;
 }
 *{box-sizing:border-box}
-html,body{height:100%}
+html{height:100%}
 body{
-  margin:0;min-height:100%;color:var(--ink);overflow-x:hidden;
+  margin:0;min-height:100vh;color:var(--ink);overflow-x:hidden;
   font:400 16px/1.6 var(--sans);
   background:linear-gradient(160deg,var(--wall-1) 0%,var(--wall-2) 100%);
   position:relative;
@@ -53,7 +53,7 @@ button{font:inherit}
 }
 .lang-toggle button.active{background:var(--brass);color:#241533;font-weight:600}
 
-.shell{display:flex;align-items:stretch;min-height:calc(100% - var(--header-h))}
+.shell{display:flex;align-items:stretch;min-height:calc(100vh - var(--header-h))}
 
 /* ---------- sidebar ---------- */
 .sidebar{
