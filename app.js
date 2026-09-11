@@ -229,7 +229,7 @@ function photoCard({ id, glyph, caption, meta, placeholder, href, syncId }) {
 function renderHome() {
   const cards = NAV.map((n, i) => photoCard({
     id: n.id, glyph: n.glyph, caption: n.label[lang],
-    href: n.external, syncId: n.id,
+    href: n.external || "#/" + n.id, syncId: n.id,
   })).join("");
   return `
     <section class="hero"><h1>${t(DATA.hero)}</h1><p class="section-lede">${t(DATA.heroLede)}</p></section>
