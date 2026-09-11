@@ -21,14 +21,6 @@ const DATA = {
   },
   career: [
     {
-      id: "kazakhstan", glyph: "🏔️", placeholder: true,
-      title: { ru: "Казахстан", en: "Kazakhstan" },
-      role: { ru: "Портлеты под IBM WebSphere Portal", en: "Portlets on IBM WebSphere Portal" },
-      period: { ru: "уточняется", en: "TBD" },
-      summary: { ru: "Начало карьеры. Детали и достижения — уточняются у Алексея.", en: "Where the career started. Details and highlights to be confirmed." },
-      highlights: { ru: [], en: [] },
-    },
-    {
       id: "bss", glyph: "🏦",
       title: { ru: "BSS", en: "BSS" },
       role: { ru: "Android-разработчик", en: "Android Developer" },
@@ -51,6 +43,14 @@ const DATA = {
       period: { ru: "ноя 2015 – апр 2018 · Москва", en: "Nov 2015 – Apr 2018 · Moscow" },
       summary: { ru: "Социальная сеть с ~40 млн MAU.", en: "A social network with ~40M MAU." },
       highlights: { ru: ["Отвечал за флоу входа, регистрации и восстановления аккаунта для воронки новых пользователей"], en: ["Owned login, registration, and account recovery flows for the new-user acquisition funnel"] },
+    },
+    {
+      id: "revolut", glyph: "🚀", logo: "assets/career/revolut/logo.svg", placeholder: true,
+      title: { ru: "Revolut", en: "Revolut" },
+      role: { ru: "", en: "" },
+      period: { ru: "С октября 2026", en: "Starting Oct 2026" },
+      summary: { ru: "Волнуюсь! Подробности скоро.", en: "I'm excited — details TBD." },
+      highlights: { ru: [], en: [] },
     },
     {
       id: "youla", glyph: "🛒",
@@ -84,6 +84,18 @@ const DATA = {
         ru: ["Сократил медианное время сборки на 35% через дашборды Grafana со Slack-алертами", "Мигрировал DI с Dagger 2 на Metro: холодная сборка ускорилась в 1,5 раза", "Внедрил Baseline Profiles: холодный старт улучшился на ~20%", "Заложил основы Mobile Toolbox — внутреннего сервиса телеметрии"],
         en: ["Reduced median build time by 35% via Grafana dashboards with Slack alerting", "Migrated DI from Dagger 2 to Metro: 1.5× faster cold builds", "Introduced Baseline Profiles: ~20% cold start improvement", "Founded Mobile Toolbox — an internal telemetry service"],
       },
+    },
+    {
+      id: "bimash", glyph: "🏔️", logo: "assets/career/bimash/logo.webp", size: "sm", pinLeft: true,
+      title: { ru: "Bimash", en: "Bimash" },
+      role: { ru: "Портлеты под IBM WebSphere Portal", en: "Portlets on IBM WebSphere Portal" },
+      period: { ru: "2010 · Казахстан", en: "2010 · Kazakhstan" },
+      summary: { ru: "Подработка на 4 курсе (Казахстанский филиал МГУ) в местной ИТ-компании Bimash — портлеты под IBM WebSphere Portal, немного веба и бэкенда.", en: "A part-time student job (Kazakhstan branch of Moscow State University, 4th year) at local IT company Bimash — portlets on IBM WebSphere Portal, some web and backend work." },
+      highlights: {
+        ru: ["Написал портлет-калькулятор налога на ввоз автотранспорта — его увидел весь Казахстан; проработал до закрытия старого сайта таможенного департамента customs.kz"],
+        en: ["Built a vehicle import tax calculator portlet — seen across all of Kazakhstan; stayed live until the old customs department site (customs.kz) was shut down"],
+      },
+      photos: ["assets/career/bimash/portlet.webp", "assets/career/bimash/astana-1.webp", "assets/career/bimash/astana-2.webp"],
     },
   ],
   projects: [
@@ -208,19 +220,26 @@ function syncSet(id, on) {
   document.querySelectorAll(`[data-sync="${id}"]`).forEach((el) => el.classList.toggle("is-synced", on));
 }
 
-function photoCard({ id, glyph, caption, meta, placeholder, href, syncId }) {
+function photoCard({ id, glyph, logo, photo, caption, meta, placeholder, href, syncId, size, pinLeft }) {
   const rot = (((id.charCodeAt(0) + id.length) % 7) - 3) * 1.1;
   const tag = href ? "a" : "button";
   const extAttrs = href && href.startsWith("http") ? `target="_blank" rel="noopener"` : "";
   const attrs = href ? `href="${href}" ${extAttrs}` : `type="button" data-open="${id}"`;
   const sync = syncId ? `data-sync="${syncId}"` : "";
   const mount = randomMount();
-  return `<${tag} class="photo-card ${href ? "link" : ""}" style="--rot:${rot}deg" ${attrs} ${sync}>
+  const sizeClass = size ? ` size-${size}` : "";
+  const style = `--rot:${rot}deg${pinLeft ? ";grid-column:1" : ""}`;
+  const media = photo
+    ? `<img class="frame-photo" src="${photo}" alt="">`
+    : logo
+    ? `<img class="frame-logo" src="${logo}" alt="">`
+    : `<span class="glyph">${glyph}</span>`;
+  return `<${tag} class="photo-card${sizeClass} ${href ? "link" : ""}" style="${style}" ${attrs} ${sync}>
     ${mount.pre}
     <span class="polaroid">
       ${mount.tape}
       ${placeholder ? `<span class="ph-flag">${lang === "ru" ? "план" : "planned"}</span>` : ""}
-      <span class="frame"><span class="glyph">${glyph}</span></span>
+      <span class="frame">${media}</span>
       <span class="caption">${caption}${meta ? `<span class="meta">${meta}</span>` : ""}</span>
     </span>
   </${tag}>`;
@@ -240,8 +259,8 @@ function renderHome() {
 function renderCollectionWall(key) {
   const items = DATA[key];
   const cards = items.map((it, i) => photoCard({
-    id: it.id, glyph: it.glyph, placeholder: it.placeholder,
-    caption: t(it.title),
+    id: it.id, glyph: it.glyph, logo: it.logo, placeholder: it.placeholder,
+    caption: t(it.title), size: it.size, pinLeft: it.pinLeft,
   })).join("");
   return `
     <section class="wall">
@@ -273,7 +292,9 @@ function renderContacts() {
 function openStory(collection, id) {
   const job = DATA[collection].find((j) => j.id === id);
   if (!job) return;
-  const gallery = [1, 2].map((n) => photoCard({ id: id + n, glyph: job.glyph, caption: "", placeholder: job.placeholder })).join("");
+  const gallery = (job.photos && job.photos.length)
+    ? job.photos.map((src, n) => photoCard({ id: `${id}-p${n}`, photo: src, caption: "" })).join("")
+    : [1, 2].map((n) => photoCard({ id: id + n, glyph: job.glyph, caption: "", placeholder: job.placeholder })).join("");
   const metaParts = [t(job.role), t(job.period)].filter(Boolean).join(" · ");
   const overlay = document.createElement("div");
   overlay.className = "story-overlay";

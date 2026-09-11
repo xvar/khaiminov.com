@@ -107,7 +107,9 @@ button{font:inherit}
 
 .wall{position:relative;z-index:1;padding:1.25rem clamp(1rem,3vw,2.5rem) 5rem}
 .wall-grid{
-  display:flex;flex-wrap:wrap;justify-content:center;gap:clamp(1.5rem,3vw,3rem) clamp(1.2rem,3vw,2.5rem);
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,260px));
+  justify-content:center;justify-items:center;
+  gap:clamp(1.5rem,3vw,3rem) clamp(1.2rem,3vw,2.5rem);
   padding-top:1.25rem;
 }
 .section-title{font-family:var(--serif);font-weight:600;font-size:1.4rem;margin:.4rem 0 .3rem}
@@ -161,10 +163,17 @@ button{font:inherit}
 .frame{aspect-ratio:1/1;border-radius:1px;overflow:hidden;position:relative;display:flex;align-items:center;justify-content:center;background:var(--frame-bg,linear-gradient(145deg,#4b3468,#241533))}
 .frame::after{content:"";position:absolute;inset:0;opacity:.35;background:repeating-linear-gradient(135deg,rgba(255,255,255,.05) 0 2px,transparent 2px 10px)}
 .frame .glyph{font-size:clamp(3.2rem,7vw,4.6rem);position:relative;z-index:1;filter:drop-shadow(0 2px 4px rgba(0,0,0,.4))}
+.frame .frame-logo{width:62%;height:62%;object-fit:contain;position:relative;z-index:1;filter:drop-shadow(0 2px 4px rgba(0,0,0,.4))}
+.frame .frame-photo{width:100%;height:100%;object-fit:cover;position:relative;z-index:1}
 .caption{font-family:var(--hand);font-size:1.3rem;line-height:1.15;color:#3a2c1e;margin-top:.65rem;text-align:center}
 .caption .meta{display:block;font-family:var(--sans);font-size:.74rem;letter-spacing:.03em;color:#6b5b46;margin-top:.2rem;text-transform:uppercase}
 .ph-flag{position:absolute;top:6px;right:6px;background:rgba(20,10,30,.7);color:var(--brass-hot);font-size:.6rem;padding:.15rem .4rem;border-radius:3px;letter-spacing:.03em;z-index:2}
 .photo-card.link .frame{background:linear-gradient(145deg,#3a2a55,#1c1128)}
+
+/* low-prominence variant — smaller card, e.g. brief/minor jobs tucked into a corner */
+.photo-card.size-sm{width:clamp(130px,15vw,170px)}
+.photo-card.size-sm .caption{font-size:1.05rem}
+.photo-card.size-sm .frame .glyph{font-size:clamp(2.1rem,5vw,2.8rem)}
 
 /* ---------- story overlay ---------- */
 .story-overlay{position:fixed;inset:0;z-index:100;background:rgba(10,5,16,.82);backdrop-filter:blur(3px);display:flex;align-items:flex-start;justify-content:center;padding:clamp(1rem,4vw,3.5rem) 1rem;overflow-y:auto}
