@@ -33,12 +33,16 @@ const DATA = {
       photos: ["assets/career/bss/nagatinskaya-street.webp", "assets/career/bss/chertanovo.webp", "assets/career/bss/tatfondbank-app.webp"],
     },
     {
-      id: "mailru-games", glyph: "🎮",
+      id: "mailru-games", glyph: "🎮", logo: "assets/career/mailru-games/logo.svg",
       title: { ru: "Mail.Ru Игры", en: "Mail.Ru Games" },
       role: { ru: "Android-разработчик", en: "Android Developer" },
       period: { ru: "апр – ноя 2015 · Москва", en: "Apr – Nov 2015 · Moscow" },
-      summary: { ru: "Два проекта под NDA — подробности пока закрыты.", en: "Two projects under NDA — details stay closed." },
-      highlights: { ru: [], en: [] },
+      summary: { ru: "Тут делал не игры, а проект под NDA — подробности пока закрыты. Дополнительно собрал приложение на Windows Universal Platform (UWP), которое показывало статистику игроков «Арматы».", en: "Not games here, actually — an NDA project, details still under wraps. On the side, I built a Windows Universal Platform (UWP) app that showed player stats for Armata." },
+      highlights: {
+        ru: ["Разрабатывал проект под NDA (детали закрыты соглашением)", "Собрал приложение на Windows Universal Platform (UWP) со статистикой игроков «Арматы»"],
+        en: ["Worked on an NDA project (details under confidentiality)", "Built a Windows Universal Platform (UWP) app with player stats for Armata"],
+      },
+      photos: ["assets/career/mailru-games/baltiysky.webp", "assets/career/mailru-games/skylight-tower.webp"],
     },
     {
       id: "odnoklassniki", glyph: "👥",
