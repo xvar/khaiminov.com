@@ -30,7 +30,7 @@ const DATA = {
         ru: ["Разрабатывал и поддерживал портфель из 26 банковских Android-приложений", "Консультировал коллег при переходе на новый Android-клиент", "Собрал первое приложение под умные часы"],
         en: ["Developed and maintained a portfolio of 26 banking Android applications", "Advised colleagues during the transition to a new Android client", "Built the team's first smartwatch app"],
       },
-      photos: ["assets/career/bss/tatfondbank-app.webp", "assets/career/bss/nagatinskaya-street.webp", "assets/career/bss/chertanovo.webp"],
+      photos: ["assets/career/bss/nagatinskaya-street.webp", "assets/career/bss/chertanovo.webp", "assets/career/bss/tatfondbank-app.webp"],
     },
     {
       id: "mailru-games", glyph: "🎮",
