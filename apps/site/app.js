@@ -5,6 +5,7 @@
 const NAV = [
   { id: "career", glyph: "💼", label: { ru: "Карьера", en: "Career" } },
   { id: "projects", glyph: "🧩", label: { ru: "Проекты", en: "Projects" } },
+  { id: "talks", glyph: "🎤", label: { ru: "Выступления", en: "Public Talks" } },
   { id: "blog", glyph: "📝", label: { ru: "Блог", en: "Blog" }, external: "https://blog.khaiminov.com" },
   { id: "personal", glyph: "🎸", label: { ru: "Личное", en: "Personal" } },
   { id: "contacts", glyph: "✉️", label: { ru: "Контакты", en: "Contacts" } },
@@ -16,6 +17,7 @@ const DATA = {
   sectionIntro: {
     career: { ru: "Путь по компаниям и продуктам — с фото рабочих мест (скоро настоящих).", en: "A path through companies and products — with photos of the places (real ones coming soon)." },
     projects: { ru: "Фриланс и сторонние проекты. Список пополняется.", en: "Freelance and side projects. List is growing." },
+    talks: { ru: "Конференции, менторство, митапы.", en: "Conferences, mentoring, meetups." },
     personal: { ru: "То, что вне программирования.", en: "The things outside of programming." },
     contacts: { ru: "Как со мной связаться.", en: "How to reach me." },
   },
@@ -78,8 +80,8 @@ const DATA = {
       period: { ru: "дек 2021 – мар 2023 · Москва · 1 год 3 мес", en: "Dec 2021 – Mar 2023 · Moscow · 1 yr 3 mos" },
       summary: { ru: "Горизонтальный лид для ~20 разработчиков (VK Маркет + Юла).", en: "Horizontal lead across ~20 engineers (VK Marketplace + Youla)." },
       highlights: {
-        ru: ["Ускорил холодный старт приложения Юла на 55%", "Запустил «Инициативные группы» — добровольную программу работы с техдолгом", "Выстроил кросс-командные практики: release management, бэклог техдолга, найм", "Доклады на Mobius и Heisenbug, преподавание в Сириусе и Техносфере ВК"],
-        en: ["Reduced Youla app cold start by 55%", "Launched Initiative Groups — a voluntary tech-debt program", "Established cross-team practices: release management, tech debt backlog, hiring", "Spoke at Mobius and Heisenbug; taught at VK's Sirius and Technopark"],
+        ru: ["Ускорил холодный старт приложения Юла на 55%", "Запустил «Инициативные группы» — добровольную программу работы с техдолгом", "Выстроил кросс-командные практики: release management, бэклог техдолга, найм"],
+        en: ["Reduced Youla app cold start by 55%", "Launched Initiative Groups — a voluntary tech-debt program", "Established cross-team practices: release management, tech debt backlog, hiring"],
       },
     },
     {
@@ -109,6 +111,40 @@ const DATA = {
   projects: [
     { id: "proj-1", glyph: "💻", placeholder: true, title: { ru: "Скоро", en: "Coming soon" }, role: { ru: "", en: "" }, period: { ru: "", en: "" }, summary: { ru: "Первый фриланс-проект появится здесь.", en: "The first freelance project will appear here." }, highlights: { ru: [], en: [] } },
     { id: "proj-2", glyph: "🛠️", placeholder: true, title: { ru: "Скоро", en: "Coming soon" }, role: { ru: "", en: "" }, period: { ru: "", en: "" }, summary: { ru: "Ещё один проект — на подходе.", en: "Another project — on the way." }, highlights: { ru: [], en: [] } },
+  ],
+  talks: [
+    {
+      id: "mobius", glyph: "🎤",
+      title: { ru: "Mobius", en: "Mobius" },
+      role: { ru: "Доклад", en: "Conference talk" },
+      period: { ru: "2021 – 2023 · Москва", en: "2021 – 2023 · Moscow" },
+      summary: { ru: "Доклад на конференции Mobius — во время работы в ВКонтакте.", en: "A conference talk at Mobius, during my time at VK." },
+      highlights: { ru: [], en: [] },
+    },
+    {
+      id: "heisenbug", glyph: "🎤",
+      title: { ru: "Heisenbug", en: "Heisenbug" },
+      role: { ru: "Доклад", en: "Conference talk" },
+      period: { ru: "2021 – 2023 · Москва", en: "2021 – 2023 · Moscow" },
+      summary: { ru: "Доклад на конференции Heisenbug — во время работы в ВКонтакте.", en: "A conference talk at Heisenbug, during my time at VK." },
+      highlights: { ru: [], en: [] },
+    },
+    {
+      id: "sirius", glyph: "👨‍🏫",
+      title: { ru: "Сириус", en: "Sirius" },
+      role: { ru: "Преподавание", en: "Teaching" },
+      period: { ru: "2021 – 2023 · Сочи", en: "2021 – 2023 · Sochi" },
+      summary: { ru: "Преподавал в образовательном центре «Сириус» — во время работы в ВКонтакте.", en: "Taught at the Sirius education center, during my time at VK." },
+      highlights: { ru: [], en: [] },
+    },
+    {
+      id: "vk-technopark", glyph: "👨‍🏫",
+      title: { ru: "Техносфера ВК", en: "VK Technopark" },
+      role: { ru: "Преподавание", en: "Teaching" },
+      period: { ru: "2021 – 2023 · Москва", en: "2021 – 2023 · Moscow" },
+      summary: { ru: "Преподавал в Техносфере ВК — во время работы в ВКонтакте.", en: "Taught at VK's Technopark program, during my time at VK." },
+      highlights: { ru: [], en: [] },
+    },
   ],
   personal: [
     { id: "guitar", glyph: "🎸", title: { ru: "Гитара", en: "Guitar" }, role: { ru: "", en: "" }, period: { ru: "", en: "" }, summary: { ru: "Подробности и фото — позже.", en: "Details and photos — later." }, highlights: { ru: [], en: [] } },
@@ -354,12 +390,13 @@ function currentRoute() {
 
 function renderAll() {
   const route = currentRoute();
-  const activeTop = ["career", "projects", "personal", "contacts"].includes(route) ? route : null;
+  const activeTop = ["career", "projects", "talks", "personal", "contacts"].includes(route) ? route : null;
   renderSideNav(activeTop);
 
   if (route === "home") app.innerHTML = renderHome();
   else if (route === "career") app.innerHTML = renderCollectionWall("career");
   else if (route === "projects") app.innerHTML = renderCollectionWall("projects");
+  else if (route === "talks") app.innerHTML = renderCollectionWall("talks");
   else if (route === "personal") app.innerHTML = renderCollectionWall("personal");
   else if (route === "contacts") app.innerHTML = renderContacts();
   else app.innerHTML = renderHome();
