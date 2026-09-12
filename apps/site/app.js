@@ -51,12 +51,12 @@ const DATA = {
       title: { ru: "Одноклассники (OK.RU)", en: "Odnoklassniki (OK.RU)" },
       role: { ru: "Android-разработчик, Mail.Ru Group", en: "Android Developer, Mail.Ru Group" },
       period: { ru: "ноя 2015 – апр 2018 · Москва", en: "Nov 2015 – Apr 2018 · Moscow" },
-      summary: { ru: "С Димой и Мишей здесь мы прошли всё — от запуска стартапа до правок в разделах «до логина» (у соцсети с ~40 млн MAU это значило миллионы пользователей на этих экранах каждый день). Считали аналитику, спорили с core-командой, чтобы успеть замержить новую архитектуру в срок. Феерический финал этой работы стал ступенькой к ещё большему росту как специалиста.", en: "With Dima and Misha, we went through everything here — from launching a startup to tweaking the screens before login (on a social network with ~40M MAU, that meant millions of users hitting those screens every day). Crunched analytics, argued with the core team to merge the new architecture in time. The wild finale of this job became a stepping stone to an even bigger jump in my growth as an engineer." },
+      summary: { ru: "С Димой и Мишей здесь мы прошли всё — от запуска стартапа до правок в разделах «до логина» (экраны, которые видели миллионы пользователей каждый день). Считали аналитику, спорили с core-командой, чтобы успеть замержить новую архитектуру в срок. Феерический финал этой работы стал ступенькой к ещё большему росту как специалиста.", en: "With Dima and Misha, we went through everything here — from launching a startup to tweaking the screens before login (screens seen by millions of users every day). Crunched analytics, argued with the core team to merge the new architecture in time. The wild finale of this job became a stepping stone to an even bigger jump in my growth as an engineer." },
       highlights: {
-        ru: ["Отвечал за флоу входа, регистрации и восстановления аккаунта для воронки новых пользователей", "Участвовал в миграции на новую архитектуру и работе с продуктовой аналитикой"],
-        en: ["Owned login, registration, and account recovery flows for the new-user acquisition funnel", "Worked on the migration to a new architecture and product analytics, coordinating with the core team on timelines"],
+        ru: ["Соцсеть с аудиторией ~40 млн MAU", "Отвечал за флоу входа, регистрации и восстановления аккаунта для воронки новых пользователей"],
+        en: ["A social network with ~40M MAU", "Owned login, registration, and account recovery flows for the new-user acquisition funnel"],
       },
-      photos: ["assets/career/ok/anniversary.webp", "assets/career/ok/keychains.webp", "assets/career/ok/app-login.webp", "assets/career/ok/app-notfound.webp", "assets/career/ok/me.webp"],
+      photos: ["assets/career/ok/anniversary.webp", "assets/career/ok/keychains.webp", "assets/career/ok/app-login.webp", "assets/career/ok/app-notfound.webp", "assets/career/ok/me.webp", "assets/career/ok/prague.webp", "assets/career/ok/analytics.webp"],
     },
     {
       id: "revolut", glyph: "🚀", logo: "assets/career/revolut/logo.svg", placeholder: true,
