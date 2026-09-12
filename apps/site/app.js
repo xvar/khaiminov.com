@@ -21,12 +21,16 @@ const DATA = {
   },
   career: [
     {
-      id: "bss", glyph: "🏦",
+      id: "bss", glyph: "🏦", logo: "assets/career/bss/logo.webp",
       title: { ru: "BSS", en: "BSS" },
       role: { ru: "Android-разработчик", en: "Android Developer" },
       period: { ru: "июн 2013 – апр 2015 · Москва", en: "Jun 2013 – Apr 2015 · Moscow" },
-      summary: { ru: "Два года в банковской разработке.", en: "Two years in banking software." },
-      highlights: { ru: ["Разрабатывал и поддерживал портфель из 26 банковских Android-приложений"], en: ["Developed and maintained a portfolio of 26 banking Android applications"] },
+      summary: { ru: "Первая работа Android-разработчиком в Москве! Android 4.2, и уже тогда — легаси: ActivityTab с переключением Activity вместо фрагментов, AsyncTask как вполне нормальное продуктовое решение, IntentService, завязанный на навигацию по Activity, разные launch mode — сколько открытий тогда было, хах. Часть логики к тому же приходилось писать на BSScript — прослойке между бэком и клиентом.", en: "My first job as an Android developer in Moscow! Android 4.2, and even then it was already legacy: ActivityTab-based tab switching instead of fragments, AsyncTask as a perfectly normal production solution, an IntentService tied to Activity navigation, different launch modes — so many discoveries back then, haha. On top of that, part of the logic had to be written in BSScript — the layer between backend and client." },
+      highlights: {
+        ru: ["Разрабатывал и поддерживал портфель из 26 банковских Android-приложений", "Консультировал коллег при переходе на новый Android-клиент", "Собрал первое приложение под умные часы"],
+        en: ["Developed and maintained a portfolio of 26 banking Android applications", "Advised colleagues during the transition to a new Android client", "Built the team's first smartwatch app"],
+      },
+      photos: ["assets/career/bss/tulskaya-metro.webp", "assets/career/bss/chertanovo.webp"],
     },
     {
       id: "mailru-games", glyph: "🎮",
