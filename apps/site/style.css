@@ -45,6 +45,14 @@ button{font:inherit}
   border-bottom:1px solid var(--panel-line);
   position:sticky;top:0;z-index:50;background:rgba(23,13,34,.9);backdrop-filter:blur(6px);
 }
+.header-left{display:flex;align-items:center;gap:.9rem}
+.menu-btn{
+  width:34px;height:34px;flex:none;border-radius:8px;border:1px solid var(--panel-line);
+  background:rgba(255,255,255,.03);color:var(--ink-soft);cursor:pointer;
+  display:flex;align-items:center;justify-content:center;transition:border-color .15s,color .15s;
+}
+.menu-btn:hover{border-color:var(--brass);color:var(--brass-hot)}
+.menu-btn svg{width:16px;height:16px}
 .brand{
   display:flex;align-items:baseline;gap:.5rem;text-decoration:none;
   font-family:var(--serif);font-weight:600;font-size:1.05rem;letter-spacing:-.01em;white-space:nowrap;
@@ -64,10 +72,12 @@ button{font:inherit}
 /* ---------- sidebar ---------- */
 .sidebar{
   width:var(--sidebar-w);flex:none;position:sticky;top:var(--header-h);
-  align-self:stretch;
+  align-self:stretch;overflow:hidden;
   background:var(--panel);border-right:1px solid var(--panel-line);
   padding:1.25rem .75rem;
+  transition:width .28s cubic-bezier(.2,.7,.3,1),padding .28s cubic-bezier(.2,.7,.3,1),opacity .2s;
 }
+.sidebar.is-collapsed{width:0;padding-left:0;padding-right:0;border-right-color:transparent;opacity:0}
 .side-nav{list-style:none;margin:0;padding:0;display:grid;gap:.15rem;justify-items:center}
 .side-nav a{
   display:flex;align-items:center;justify-content:center;gap:.55rem;padding:.6rem .75rem;border-radius:8px;
@@ -269,8 +279,9 @@ footer.site-footer{position:relative;z-index:1;text-align:left;color:var(--ink-f
 /* ---------- mobile ---------- */
 @media (max-width:860px){
   .shell{flex-direction:column}
-  .sidebar{
-    width:100%;height:auto;position:static;
+  .menu-btn{display:none}
+  .sidebar,.sidebar.is-collapsed{
+    width:100%;height:auto;position:static;opacity:1;
     display:flex;overflow-x:auto;padding:.6rem;border-right:none;border-bottom:1px solid var(--panel-line);
     -webkit-overflow-scrolling:touch;
   }
