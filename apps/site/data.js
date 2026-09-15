@@ -13,7 +13,7 @@ const NAV = [
 
 const DATA = {
   hero: { ru: "Алексей Хайминов", en: "Alexey Khaiminov" },
-  heroLede: { ru: "Помогаю миллионам людей своей работой за компом =) Staff Android, ментор «Творчества чувств», личность.", en: "I help millions of people with my work behind a screen =) Staff Android engineer, mentor at «Tvorchestvo Chuvstv», a person." },
+  heroLede: { ru: "Помогаю миллионам людей своей работой за компом =)<br>Staff Android, ментор «Творчества чувств», личность.", en: "I help millions of people with my work behind a screen =)<br>Staff Android engineer, mentor at «Tvorchestvo Chuvstv», a person." },
   sectionIntro: {
     career: { ru: "Путь по компаниям и продуктам — с фото рабочих мест (скоро настоящих).", en: "A path through companies and products — with photos of the places (real ones coming soon)." },
     projects: { ru: "Фриланс и сторонние проекты. Список пополняется.", en: "Freelance and side projects. List is growing." },
