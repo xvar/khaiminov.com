@@ -207,7 +207,7 @@ button{font:inherit}
 /* ---------- story overlay ---------- */
 .story-overlay{position:fixed;inset:0;z-index:100;background:rgba(10,5,16,.82);backdrop-filter:blur(3px);display:flex;align-items:flex-start;justify-content:center;padding:clamp(1rem,4vw,3.5rem) 1rem;overflow-y:auto}
 .story-panel{background:linear-gradient(170deg,#2c1c44,#1a0f2a);border:1px solid var(--panel-line);border-radius:14px;max-width:52rem;width:100%;padding:clamp(1.2rem,3vw,2.4rem);position:relative;box-shadow:0 30px 60px -15px rgba(0,0,0,.6)}
-.story-close{position:absolute;top:.9rem;right:.9rem;width:34px;height:34px;border-radius:50%;border:1px solid var(--panel-line);background:rgba(255,255,255,.03);color:var(--ink);font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1}
+.story-close{position:absolute;top:.9rem;right:.9rem;z-index:5;width:34px;height:34px;border-radius:50%;border:1px solid var(--panel-line);background:rgba(255,255,255,.03);color:var(--ink);font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1}
 .story-close:hover{border-color:var(--brass);color:var(--brass-hot)}
 /* Masonry via CSS columns instead of a flex row: photos are rarely the
    same aspect ratio (a tall phone screenshot next to wide street shots),
