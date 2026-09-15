@@ -267,12 +267,19 @@ function renderAll() {
   renderFooter();
 }
 
+const COPYRIGHT_START_YEAR = 2026;
+function copyrightLine() {
+  const now = new Date().getFullYear();
+  const years = now > COPYRIGHT_START_YEAR ? `${COPYRIGHT_START_YEAR}–${now}` : `${COPYRIGHT_START_YEAR}`;
+  const name = lang === "ru" ? "Алексей Хайминов" : "Alexey Khaiminov";
+  return `© ${years} ${name}`;
+}
 function renderFooter() {
   const label = lang === "ru" ? "версия" : "version";
-  footerEl.textContent = `${label}: —`;
+  footerEl.textContent = `${copyrightLine()} · ${label}: —`;
   fetch("version.json").then((r) => r.ok ? r.json() : null).then((v) => {
     if (!v) return;
-    footerEl.textContent = `${label} ${v.date} · ${v.commit}`;
+    footerEl.textContent = `${copyrightLine()} · ${label} ${v.commit}`;
   }).catch(() => {});
 }
 
