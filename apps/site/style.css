@@ -112,19 +112,21 @@ button{font:inherit}
 }
 .hero--split{padding-bottom:2.5rem}
 
-/* home hero: portrait photo (placeholder box for now — a real <img> will
-   fill this same fixed-aspect-ratio box with object-fit:cover later,
-   so swapping the photo in never reflows the card grid beside it) next
-   to the section-nav cards, name/bio overlaid on the photo itself. */
-.hero--split .split{display:grid;grid-template-columns:1.15fr 1fr;gap:2.5rem;align-items:center}
+/* home hero: portrait photo, fixed aspect-ratio box (a real <img> fills it
+   with object-fit:cover, so swapping the photo never reflows the card grid
+   beside it), no frame/shadow of its own and no gap to speak of — the
+   right-edge fade resolves to the exact page-background color, so the
+   photo reads as part of the wall itself, dissolving straight into the
+   card column instead of sitting beside it as a separate boxed tile. */
+.hero--split .split{display:grid;grid-template-columns:1.15fr 1fr;gap:.75rem;align-items:center}
 .hero-photo{
-  position:relative;aspect-ratio:4/5;border-radius:4px;overflow:hidden;
-  background:linear-gradient(150deg,#4b3468,#241533);box-shadow:var(--card-shadow);
+  position:relative;aspect-ratio:4/5;overflow:hidden;
+  background:linear-gradient(160deg,var(--wall-1) 0%,var(--wall-2) 100%);
 }
-.hero-photo::before{content:"";position:absolute;inset:0;opacity:.35;background:repeating-linear-gradient(135deg,rgba(255,255,255,.06) 0 2px,transparent 2px 10px)}
+.hero-photo-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 30%;z-index:0}
 .hero-photo::after{
   content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
-  background:linear-gradient(90deg,transparent 62%,rgba(23,13,34,.4) 85%,rgba(23,13,34,.7) 100%);
+  background:linear-gradient(90deg,transparent 45%,var(--wall-1) 100%);
 }
 .hero-name{
   position:absolute;top:1.5rem;left:1.75rem;right:1.75rem;z-index:2;
