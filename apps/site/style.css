@@ -189,7 +189,7 @@ button{font:inherit}
   color:var(--ink-soft);font-size:1.02rem;text-shadow:0 2px 12px rgba(0,0,0,.55);
 }
 .hero-cards{display:flex;justify-content:center;position:relative;z-index:2}
-.wall-grid.hero-wall-grid{grid-template-columns:repeat(2,1fr);justify-items:stretch;width:100%;max-width:460px;gap:3.5rem 3.25rem;padding-top:0}
+.wall-grid.hero-wall-grid{grid-template-columns:repeat(2,1fr);justify-items:stretch;width:100%;max-width:460px;gap:4rem 3.25rem;padding-top:0}
 .hero-wall-grid .photo-card{width:100%}
 
 .wall{position:relative;z-index:1;padding:1.25rem clamp(1rem,3vw,2.5rem) 5rem}
@@ -237,11 +237,17 @@ button{font:inherit}
 .photo-card:focus-visible{outline:2px solid var(--brass);outline-offset:4px;border-radius:6px}
 .polaroid{background:var(--card-bg);padding:.6rem .6rem 1rem;border-radius:2px;box-shadow:var(--card-shadow);position:relative;width:100%;transition:box-shadow .25s}
 .tape{position:absolute;width:50px;height:22px;background:rgba(233,217,168,.62);border:1px solid rgba(255,255,255,.3);box-shadow:0 1px 3px rgba(0,0,0,.25);z-index:2;pointer-events:none}
-/* corner pieces cross the actual corner point on the diagonal, like real tape pinning a corner */
-.tape-tl{top:-11px;left:-11px;transform:rotate(45deg)}
-.tape-tr{top:-11px;right:-11px;transform:rotate(-45deg)}
-.tape-bl{bottom:-11px;left:-11px;transform:rotate(-45deg)}
-.tape-br{bottom:-11px;right:-11px;transform:rotate(45deg)}
+/* corner pieces cross the actual corner point on the diagonal, like real tape pinning a corner.
+   Offset is bigger than it looks like it should be: a 45deg-rotated 50x22
+   rectangle's diamond footprint reaches ~19px past its own center along
+   each axis, so an 11px offset (which centers it exactly on the corner)
+   let the bottom pieces reach into the caption text above them. 20px
+   pushes the diamond's inward point back into the polaroid's own padding
+   instead of past it. */
+.tape-tl{top:-16px;left:-16px;transform:rotate(45deg)}
+.tape-tr{top:-16px;right:-16px;transform:rotate(-45deg)}
+.tape-bl{bottom:-16px;left:-16px;transform:rotate(-45deg)}
+.tape-br{bottom:-16px;right:-16px;transform:rotate(45deg)}
 /* single top-center strip, for the one-point mount */
 .tape-tm{top:-11px;left:calc(50% - 25px);transform:rotate(1deg)}
 
