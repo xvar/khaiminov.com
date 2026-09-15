@@ -16,6 +16,7 @@
   --hand:"Caveat","Segoe Script",cursive;
   --nav-font:var(--sans);
   --sidebar-w:clamp(170px,17vw,250px);
+  --content-gutter:clamp(1rem,3vw,2.5rem);
   --header-h:60px;
 }
 *{box-sizing:border-box}
@@ -75,27 +76,39 @@ button{font:inherit}
    a section route (which has its own "back" item to show) forces it open
    regardless of hover/pin. */
 .sidebar-hover-zone{position:absolute;left:0;top:0;bottom:0;width:16px;z-index:30}
+/* Two layers on purpose: .sidebar (this one) stretches the full height of
+   .shell, same as .content, so its background panel runs all the way to
+   the bottom of the page instead of stopping a few nav items down. The
+   actual sticky positioning lives on .sidebar-inner below -- a sticky box
+   needs a taller ancestor to have room to float in as you scroll, which
+   is exactly what this full-height outer box provides. */
 .sidebar{
-  width:0;flex:none;position:sticky;top:var(--header-h);z-index:31;
+  width:0;flex:none;z-index:31;
+  /* no overflow:hidden here on purpose -- .sidebar is the containing
+     block .sidebar-inner needs for position:sticky to have room to float
+     in, and any non-visible overflow on an ancestor of a sticky element
+     breaks its sticky behavior (it'd stick to that ancestor's box instead
+     of the viewport). Collapsed content is fully inert instead: opacity
+     hides it and pointer-events keeps it from stealing clicks/hover. */
   /* above .sidebar-hover-zone -- that strip only needs to sit on top while
      the sidebar is collapsed (to catch the hover that opens it); once
      open, the sidebar itself must win hit-testing over its own leftmost
      16px, or a click near a link's left edge (the "<- Back" arrow, say)
      would hit the invisible zone instead and silently do nothing. */
-  /* flex-start, not stretch: a stretched sidebar matches .content's full
-     height, which leaves it no slack to actually become "stuck" while
-     scrolling -- it would just scroll away like a normal block. Sizing it
-     to its own (short) content height is what lets sticky have room to work. */
-  align-self:flex-start;overflow:hidden;
   background:var(--panel);border-right:1px solid transparent;
-  padding:1.25rem 0;opacity:0;
-  transition:width .28s cubic-bezier(.2,.7,.3,1),padding .28s cubic-bezier(.2,.7,.3,1),opacity .2s,border-color .28s;
+  opacity:0;pointer-events:none;
+  transition:width .28s cubic-bezier(.2,.7,.3,1),opacity .2s,border-color .28s;
 }
+.sidebar-inner{position:sticky;top:var(--header-h);padding:1.25rem .75rem}
 .sidebar-hover-zone:hover ~ .sidebar,
 .sidebar:hover,
 .sidebar.is-pinned,
 .shell.nav-expanded .sidebar{
-  width:var(--sidebar-w);padding:1.25rem .75rem;border-right-color:var(--panel-line);opacity:1;
+  /* open width reaches the left edge of the hero photo, not just
+     --sidebar-w -- .content's own left padding (the same gutter used
+     everywhere else) sits between the two otherwise, and would show as a
+     dead gap between the panel and the photo. */
+  width:calc(var(--sidebar-w) + var(--content-gutter));border-right-color:var(--panel-line);opacity:1;pointer-events:auto;
 }
 .side-nav{list-style:none;margin:0;padding:0;display:grid;gap:.15rem;justify-items:center}
 .side-nav a{
@@ -139,7 +152,7 @@ button{font:inherit}
   50%{opacity:1}
 }
 
-.hero{padding:1.5rem clamp(1rem,3vw,2.5rem) 0;position:relative;z-index:1}
+.hero{padding:1.5rem var(--content-gutter) 0;position:relative;z-index:1}
 .hero h1{
   font-family:var(--serif);font-weight:600;font-size:clamp(1.9rem,4vw,2.6rem);
   line-height:1.08;margin:0;
@@ -322,10 +335,13 @@ footer.site-footer{position:relative;z-index:1;text-align:left;color:var(--ink-f
      full stop, whichever desktop state a route left it in. */
   .sidebar.sidebar,
   .shell.nav-expanded .sidebar{
-    width:100%;height:auto;position:static;opacity:1;
+    width:100%;height:auto;position:static;opacity:1;pointer-events:auto;
     display:flex;overflow-x:auto;padding:.6rem;border-right:none;border-bottom:1px solid var(--panel-line);
     -webkit-overflow-scrolling:touch;
   }
+  /* unwrap the desktop sticky/padding layer -- mobile's .sidebar is
+     already just a plain horizontal strip, laid out on .sidebar itself */
+  .sidebar-inner{display:contents}
   .side-nav{display:flex;gap:.4rem;grid-auto-flow:column}
   .side-nav a{width:auto;white-space:nowrap;padding:.55rem .8rem}
   .nav-back{width:auto;padding-bottom:0;margin-bottom:0;border-bottom:none;border-right:1px solid var(--panel-line);padding-right:.5rem;margin-right:.1rem}
@@ -336,6 +352,12 @@ footer.site-footer{position:relative;z-index:1;text-align:left;color:var(--ink-f
   .hero-photo{aspect-ratio:4/5}
   .hero-wall-grid{max-width:100%}
   .hero-cards{margin-left:0}
+  /* stacked layout: the cards sit below the photo now, not beside it, so
+     the fade should reach toward the bottom edge instead of the right one */
+  .hero-photo-img{
+    -webkit-mask-image:linear-gradient(180deg,black calc(100% - 240px),transparent calc(100% - 30px));
+    mask-image:linear-gradient(180deg,black calc(100% - 240px),transparent calc(100% - 30px));
+  }
 }
 @media (max-width:480px){
   .site-header{padding:0 .75rem;gap:.5rem}
