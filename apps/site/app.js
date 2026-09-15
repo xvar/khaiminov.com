@@ -8,14 +8,15 @@ const app = document.getElementById("app");
 const sideNavEl = document.getElementById("side-nav");
 const footerEl = document.getElementById("site-footer");
 const langButtons = document.querySelectorAll(".lang-toggle button");
+const shellEl = document.querySelector(".shell");
 const sidebarEl = document.querySelector(".sidebar");
 const menuBtn = document.getElementById("menu-btn");
 
-if (localStorage.getItem("km-sidebar-collapsed") === "1") sidebarEl.classList.add("is-collapsed");
-menuBtn.addEventListener("click", () => {
-  const collapsed = sidebarEl.classList.toggle("is-collapsed");
-  localStorage.setItem("km-sidebar-collapsed", collapsed ? "1" : "0");
-});
+// Sidebar is hidden by default and reveals on hover near the left edge
+// (CSS handles that part); the button here just lets it be pinned open
+// without holding the mouse there. A section route forces it open via
+// the "nav-expanded" class set in renderAll(), regardless of pin/hover.
+menuBtn.addEventListener("click", () => sidebarEl.classList.toggle("is-pinned"));
 
 function t(field) { return field ? field[lang] : ""; }
 function navLabel(id) { const n = NAV.find((x) => x.id === id); return n ? n.label[lang] : id; }
@@ -252,6 +253,7 @@ const COLLECTION_ROUTES = ["career", "projects", "talks", "personal"];
 function renderAll() {
   const route = currentRoute();
   const activeTop = [...COLLECTION_ROUTES, "contacts"].includes(route) ? route : null;
+  shellEl.classList.toggle("nav-expanded", !!activeTop);
   renderSideNav(activeTop);
 
   if (COLLECTION_ROUTES.includes(route)) app.innerHTML = renderCollectionWall(route);

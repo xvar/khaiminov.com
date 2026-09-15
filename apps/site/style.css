@@ -21,7 +21,7 @@
 *{box-sizing:border-box}
 html{height:100%}
 body{
-  margin:0;min-height:100vh;color:var(--ink);overflow-x:hidden;
+  margin:0;min-height:100vh;color:var(--ink);
   font:400 16px/1.6 var(--sans);
   position:relative;
 }
@@ -67,17 +67,32 @@ button{font:inherit}
 }
 .lang-toggle button.active{background:var(--brass);color:#241533;font-weight:600}
 
-.shell{display:flex;align-items:stretch;min-height:calc(100vh - var(--header-h))}
+.shell{display:flex;align-items:stretch;min-height:calc(100vh - var(--header-h));position:relative}
 
 /* ---------- sidebar ---------- */
+/* Hidden by default; hovering the thin edge strip (or the sidebar itself,
+   once it has slid out) reveals it, the header button pins it open, and
+   a section route (which has its own "back" item to show) forces it open
+   regardless of hover/pin. */
+.sidebar-hover-zone{position:absolute;left:0;top:0;bottom:0;width:16px;z-index:30}
 .sidebar{
-  width:var(--sidebar-w);flex:none;position:sticky;top:var(--header-h);
-  align-self:stretch;overflow:hidden;
-  background:var(--panel);border-right:1px solid var(--panel-line);
-  padding:1.25rem .75rem;
-  transition:width .28s cubic-bezier(.2,.7,.3,1),padding .28s cubic-bezier(.2,.7,.3,1),opacity .2s;
+  width:0;flex:none;position:sticky;top:var(--header-h);
+  /* flex-start, not stretch: a stretched sidebar matches .content's full
+     height, which leaves it no slack to actually become "stuck" while
+     scrolling -- it would just scroll away like a normal block. Sizing it
+     to its own (short) content height is what lets sticky have room to work. */
+  align-self:flex-start;overflow:hidden;
+  background:var(--panel);border-right:1px solid transparent;border-radius:0 8px 8px 0;
+  box-shadow:var(--card-shadow);
+  padding:1.25rem 0;opacity:0;
+  transition:width .28s cubic-bezier(.2,.7,.3,1),padding .28s cubic-bezier(.2,.7,.3,1),opacity .2s,border-color .28s;
 }
-.sidebar.is-collapsed{width:0;padding-left:0;padding-right:0;border-right-color:transparent;opacity:0}
+.sidebar-hover-zone:hover ~ .sidebar,
+.sidebar:hover,
+.sidebar.is-pinned,
+.shell.nav-expanded .sidebar{
+  width:var(--sidebar-w);padding:1.25rem .75rem;border-right-color:var(--panel-line);opacity:1;
+}
 .side-nav{list-style:none;margin:0;padding:0;display:grid;gap:.15rem;justify-items:center}
 .side-nav a{
   display:flex;align-items:center;justify-content:center;gap:.55rem;padding:.6rem .75rem;border-radius:8px;
@@ -97,7 +112,12 @@ button{font:inherit}
 .side-nav.redraw{animation:navRedraw .28s cubic-bezier(.2,.7,.3,1) both}
 
 /* ---------- content / wall ---------- */
-.content{flex:1;min-width:0;position:relative}
+/* overflow-x:hidden lives here rather than on body/.shell: those are also
+   .sidebar's containing-block ancestors, and any non-visible overflow on
+   one of those breaks position:sticky (it'd stick to that box instead of
+   the viewport). Scoping it to .content keeps rotated-card overhang from
+   causing a horizontal scrollbar without touching the sidebar's own chain. */
+.content{flex:1;min-width:0;position:relative;overflow-x:hidden}
 .content::before{
   content:"";position:absolute;inset:0;pointer-events:none;z-index:0;opacity:.05;mix-blend-mode:overlay;
   background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
@@ -136,18 +156,22 @@ button{font:inherit}
 .hero-photo-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 30%;z-index:0}
 .hero-photo::after{
   content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
-  background:linear-gradient(90deg,transparent 45%,var(--wall-1) 100%);
+  background:linear-gradient(90deg,transparent 8%,var(--wall-1) 65%);
 }
 .hero-name{
   position:absolute;top:1.5rem;left:1.75rem;right:1.75rem;z-index:2;
   font-family:var(--serif);font-weight:600;font-size:clamp(1.9rem,4vw,2.6rem);line-height:1.05;margin:0;
   color:var(--ink);text-shadow:0 2px 16px rgba(0,0,0,.55);
+  -webkit-text-stroke:1px rgba(23,13,34,.6);paint-order:stroke fill;
 }
 .hero-bio{
   position:absolute;left:1.75rem;right:1.75rem;bottom:1.5rem;z-index:2;margin:0;
   color:var(--ink-soft);font-size:1.02rem;text-shadow:0 2px 12px rgba(0,0,0,.55);
 }
-.hero-cards{display:flex;justify-content:center}
+/* pull the card grid left so the tape corners (which already stick out past
+   the polaroid's own edge) creep onto the photo, instead of stopping short
+   at a clean seam between the two columns */
+.hero-cards{display:flex;justify-content:center;margin-left:-1.25rem;position:relative;z-index:2}
 .wall-grid.hero-wall-grid{grid-template-columns:repeat(2,1fr);justify-items:stretch;width:100%;max-width:420px;gap:2rem 1.4rem;padding-top:0}
 .hero-wall-grid .photo-card{width:100%}
 
@@ -280,7 +304,11 @@ footer.site-footer{position:relative;z-index:1;text-align:left;color:var(--ink-f
 @media (max-width:860px){
   .shell{flex-direction:column}
   .menu-btn{display:none}
-  .sidebar,.sidebar.is-collapsed{
+  .sidebar-hover-zone{display:none}
+  /* .sidebar.sidebar matches the desktop hover/pin/nav-expanded rules'
+     specificity so this wins on source order alone, overriding all of
+     them at once -- on mobile the nav is always a plain horizontal strip. */
+  .sidebar.sidebar{
     width:100%;height:auto;position:static;opacity:1;
     display:flex;overflow-x:auto;padding:.6rem;border-right:none;border-bottom:1px solid var(--panel-line);
     -webkit-overflow-scrolling:touch;
@@ -294,6 +322,7 @@ footer.site-footer{position:relative;z-index:1;text-align:left;color:var(--ink-f
   .hero--split .split{grid-template-columns:1fr;gap:1.75rem}
   .hero-photo{aspect-ratio:16/11}
   .hero-wall-grid{max-width:100%}
+  .hero-cards{margin-left:0}
 }
 @media (max-width:480px){
   .site-header{padding:0 .75rem;gap:.5rem}
