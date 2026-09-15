@@ -1,0 +1,261 @@
+:root{
+  --wall-1:#241533;
+  --wall-2:#170d22;
+  --panel:#1b1027;
+  --panel-line:#3a2a55;
+  --ink:#EDE7F6;
+  --ink-soft:#C3B6DC;
+  --ink-faint:#8577a6;
+  --brass:#D9A343;
+  --brass-hot:#FFDA8A;
+  --card-bg:#F3ECDD;
+  --card-shadow:0 10px 24px -8px rgba(0,0,0,.55);
+  --thread:#6d5c92;
+  --serif:"Spectral",Georgia,serif;
+  --sans:"Manrope",system-ui,sans-serif;
+  --hand:"Caveat","Segoe Script",cursive;
+  --nav-font:var(--sans);
+  --sidebar-w:clamp(170px,17vw,250px);
+  --header-h:60px;
+}
+*{box-sizing:border-box}
+html{height:100%}
+body{
+  margin:0;min-height:100vh;color:var(--ink);overflow-x:hidden;
+  font:400 16px/1.6 var(--sans);
+  position:relative;
+}
+/* Fixed to the viewport (not the document box) so the gradient can never
+   mis-measure body's height on mobile browsers with dynamic toolbars/
+   resizing — it just always covers what's on screen, full stop. */
+body::before{
+  content:"";position:fixed;inset:0;z-index:-1;
+  background:linear-gradient(160deg,var(--wall-1) 0%,var(--wall-2) 100%);
+}
+a{color:inherit}
+img{max-width:100%}
+button{font:inherit}
+[hidden]{display:none!important}
+:focus-visible{outline:2px solid var(--brass);outline-offset:3px}
+
+/* ---------- shell ---------- */
+.site-header{
+  height:var(--header-h);display:flex;align-items:center;justify-content:space-between;
+  gap:1rem;padding:0 clamp(1rem,3vw,1.75rem);
+  border-bottom:1px solid var(--panel-line);
+  position:sticky;top:0;z-index:50;background:rgba(23,13,34,.9);backdrop-filter:blur(6px);
+}
+.brand{
+  display:flex;align-items:baseline;gap:.5rem;text-decoration:none;
+  font-family:var(--serif);font-weight:600;font-size:1.05rem;letter-spacing:-.01em;white-space:nowrap;
+}
+.lang-toggle{
+  display:flex;border:1px solid var(--panel-line);border-radius:999px;overflow:hidden;
+  font-size:.72rem;letter-spacing:.04em;flex:none;
+}
+.lang-toggle button{
+  appearance:none;border:none;background:transparent;color:var(--ink-faint);
+  padding:.4rem .7rem;cursor:pointer;
+}
+.lang-toggle button.active{background:var(--brass);color:#241533;font-weight:600}
+
+.shell{display:flex;align-items:stretch;min-height:calc(100vh - var(--header-h))}
+
+/* ---------- sidebar ---------- */
+.sidebar{
+  width:var(--sidebar-w);flex:none;position:sticky;top:var(--header-h);
+  align-self:stretch;
+  background:var(--panel);border-right:1px solid var(--panel-line);
+  padding:1.25rem .75rem;
+}
+.side-nav{list-style:none;margin:0;padding:0;display:grid;gap:.15rem;justify-items:center}
+.side-nav a{
+  display:flex;align-items:center;justify-content:center;gap:.55rem;padding:.6rem .75rem;border-radius:8px;
+  width:100%;text-decoration:none;color:var(--ink-soft);font-family:var(--nav-font);
+  font-size:clamp(.82rem,1.4vw,.95rem);font-weight:700;letter-spacing:.01em;line-height:1.2;text-align:center;
+  transition:background .15s,color .15s;
+}
+.side-nav a .dot{width:6px;height:6px;border-radius:50%;background:var(--panel-line);flex:none;transition:background .15s,box-shadow .15s}
+.side-nav a:hover,.side-nav a.is-synced{background:rgba(217,163,67,.12);color:var(--ink)}
+.side-nav a:hover .dot,.side-nav a.is-synced .dot{background:var(--brass-hot);box-shadow:0 0 6px var(--brass-hot)}
+.side-nav a.active{color:var(--brass-hot);font-weight:600}
+.side-nav a.active .dot{background:var(--brass)}
+.nav-back{width:100%;padding-bottom:.5rem;margin-bottom:.35rem;border-bottom:1px solid var(--panel-line)}
+.nav-back a{color:var(--ink-faint);font-size:clamp(.78rem,1.3vw,.88rem)}
+.nav-back a:hover{color:var(--brass-hot);background:rgba(217,163,67,.1)}
+@keyframes navRedraw{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+.side-nav.redraw{animation:navRedraw .28s cubic-bezier(.2,.7,.3,1) both}
+
+/* ---------- content / wall ---------- */
+.content{flex:1;min-width:0;position:relative}
+.content::before{
+  content:"";position:absolute;inset:0;pointer-events:none;z-index:0;opacity:.05;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+}
+.garland{position:relative;width:100%;line-height:0;z-index:1}
+.garland::after{
+  content:"";position:absolute;left:0;right:0;top:0;height:220px;pointer-events:none;z-index:-1;
+  background:radial-gradient(60% 100% at 50% 0%,rgba(255,196,110,.16),transparent 75%);
+  mix-blend-mode:screen;
+}
+.garland svg{width:100%;height:clamp(46px,7vw,72px);display:block;overflow:visible}
+.bulb-glow{animation:twinkle 3.4s ease-in-out infinite}
+@keyframes twinkle{
+  0%,100%{opacity:.55}
+  50%{opacity:1}
+}
+
+.hero{padding:1.5rem clamp(1rem,3vw,2.5rem) 0;position:relative;z-index:1}
+.hero h1{
+  font-family:var(--serif);font-weight:600;font-size:clamp(1.9rem,4vw,2.6rem);
+  line-height:1.08;margin:0;
+}
+
+.wall{position:relative;z-index:1;padding:1.25rem clamp(1rem,3vw,2.5rem) 5rem}
+.wall-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,260px));
+  justify-content:center;justify-items:center;
+  gap:clamp(1.5rem,3vw,3rem) clamp(1.2rem,3vw,2.5rem);
+  padding-top:1.25rem;
+}
+.section-title{font-family:var(--serif);font-weight:600;font-size:1.4rem;margin:.4rem 0 .3rem}
+.section-lede{color:var(--ink-soft);max-width:38rem;margin:0 0 .5rem}
+
+/* career wall order: loose pyramid on desktop (Revolut alone on top, then a
+   row of exactly Plata/Youla/VK, everything else flowing freely below); a
+   plain reverse-chronological list on mobile. Each card carries its own
+   --order-desktop/--order-mobile custom properties (set from the `order`
+   field on its DATA entry in app.js — see photoCard()), so this file only
+   needs to know the two structural break points, not any card's id. Uses
+   flex-wrap (not grid) so the two pinned rows are forced via
+   flex-basis:100% breaks, while the "everything else" tier just wraps
+   naturally instead of being forced into a fixed column count (which
+   stranded Bimash alone on its own row). */
+.wall-grid--career{display:flex;flex-wrap:wrap;justify-content:center}
+.wall-grid--career .photo-card{order:var(--order-desktop, 0)}
+.wall-grid--career::before{content:"";order:150;flex-basis:100%}
+.wall-grid--career::after{content:"";order:250;flex-basis:100%}
+
+/* ---------- photo card ---------- */
+.photo-card{
+  --rot:-3deg;position:relative;width:clamp(180px,22vw,260px);
+  display:flex;flex-direction:column;align-items:center;
+  background:none;border:none;padding-top:10px;cursor:pointer;color:inherit;text-align:left;
+  transform:rotate(var(--rot));transition:transform .25s cubic-bezier(.2,.7,.3,1),filter .2s;
+}
+.photo-card::before{
+  content:"";position:absolute;inset:-40px;z-index:-1;border-radius:50%;
+  background:radial-gradient(circle,rgba(255,218,138,.65),rgba(255,218,138,.22) 55%,transparent 75%);
+  filter:blur(18px);opacity:0;transition:opacity .3s ease;pointer-events:none;
+}
+.photo-card:hover,.photo-card:focus-visible,.photo-card.is-synced{transform:rotate(0deg) translateY(-6px)}
+.photo-card:hover::before,.photo-card:focus-visible::before,.photo-card.is-synced::before{opacity:1}
+.photo-card.is-synced .polaroid,.photo-card:hover .polaroid,.photo-card:focus-visible .polaroid{
+  box-shadow:0 0 0 2px var(--brass),0 0 50px 10px rgba(255,218,138,.5),var(--card-shadow);
+}
+.photo-card:focus-visible{outline:2px solid var(--brass);outline-offset:4px;border-radius:6px}
+.polaroid{background:var(--card-bg);padding:.6rem .6rem 1rem;border-radius:2px;box-shadow:var(--card-shadow);position:relative;width:100%;transition:box-shadow .25s}
+.tape{position:absolute;width:50px;height:22px;background:rgba(233,217,168,.62);border:1px solid rgba(255,255,255,.3);box-shadow:0 1px 3px rgba(0,0,0,.25);z-index:2;pointer-events:none}
+/* corner pieces cross the actual corner point on the diagonal, like real tape pinning a corner */
+.tape-tl{top:-11px;left:-11px;transform:rotate(45deg)}
+.tape-tr{top:-11px;right:-11px;transform:rotate(-45deg)}
+.tape-bl{bottom:-11px;left:-11px;transform:rotate(-45deg)}
+.tape-br{bottom:-11px;right:-11px;transform:rotate(45deg)}
+/* single top-center strip, for the one-point mount */
+.tape-tm{top:-11px;left:calc(50% - 25px);transform:rotate(1deg)}
+
+/* clip-on-a-light-strand mount: sits above the polaroid, no tape at all */
+.clip-mount{display:flex;flex-direction:column;align-items:center;margin-bottom:-4px;z-index:2}
+.clip-mount .clip-light{
+  width:6px;height:6px;border-radius:50%;
+  background:radial-gradient(circle,#fff4d6,#d9a343);
+  box-shadow:0 0 8px 3px rgba(255,218,138,.65);margin-bottom:3px;
+}
+.clip-mount .clip-thread{width:1px;height:16px;background:rgba(255,255,255,.4)}
+.clip-mount .clip-peg{
+  width:15px;height:20px;border-radius:3px;position:relative;
+  background:linear-gradient(180deg,#9c7a52,#5f4429);
+  box-shadow:0 2px 3px rgba(0,0,0,.4);margin-top:-1px;
+}
+.clip-mount .clip-peg::after{
+  content:"";position:absolute;left:50%;top:6px;width:7px;height:7px;
+  border-radius:50%;background:#2b1d10;transform:translateX(-50%);
+}
+.frame{aspect-ratio:1/1;border-radius:1px;overflow:hidden;position:relative;display:flex;align-items:center;justify-content:center;background:var(--frame-bg,linear-gradient(145deg,#4b3468,#241533))}
+.frame::after{content:"";position:absolute;inset:0;opacity:.35;background:repeating-linear-gradient(135deg,rgba(255,255,255,.05) 0 2px,transparent 2px 10px)}
+.frame .glyph{font-size:clamp(3.2rem,7vw,4.6rem);position:relative;z-index:1;filter:drop-shadow(0 2px 4px rgba(0,0,0,.4))}
+.frame .frame-logo{width:62%;height:62%;object-fit:contain;position:relative;z-index:1;filter:drop-shadow(0 2px 4px rgba(0,0,0,.4))}
+.frame .frame-photo{width:100%;height:100%;object-fit:cover;position:relative;z-index:1}
+
+/* natural: real photos keep their own aspect ratio instead of a forced square crop */
+.photo-card.natural .frame{aspect-ratio:auto;background:none}
+.photo-card.natural .frame::after{display:none}
+.photo-card.natural .frame-photo{width:100%;height:auto;display:block;object-fit:initial}
+.caption{font-family:var(--hand);font-size:1.3rem;line-height:1.15;color:#3a2c1e;margin-top:.65rem;text-align:center}
+.caption .meta{display:block;font-family:var(--sans);font-size:.74rem;letter-spacing:.03em;color:#6b5b46;margin-top:.2rem;text-transform:uppercase}
+.ph-flag{position:absolute;top:6px;right:6px;background:rgba(20,10,30,.7);color:var(--brass-hot);font-size:.6rem;padding:.15rem .4rem;border-radius:3px;letter-spacing:.03em;z-index:2}
+.photo-card.link .frame{background:linear-gradient(145deg,#3a2a55,#1c1128)}
+
+/* low-prominence variant — smaller card, e.g. brief/minor jobs tucked into a corner */
+.photo-card.size-sm{width:clamp(130px,15vw,170px)}
+.photo-card.size-sm .caption{font-size:1.05rem}
+.photo-card.size-sm .frame .glyph{font-size:clamp(2.1rem,5vw,2.8rem)}
+
+/* ---------- story overlay ---------- */
+.story-overlay{position:fixed;inset:0;z-index:100;background:rgba(10,5,16,.82);backdrop-filter:blur(3px);display:flex;align-items:flex-start;justify-content:center;padding:clamp(1rem,4vw,3.5rem) 1rem;overflow-y:auto}
+.story-panel{background:linear-gradient(170deg,#2c1c44,#1a0f2a);border:1px solid var(--panel-line);border-radius:14px;max-width:52rem;width:100%;padding:clamp(1.2rem,3vw,2.4rem);position:relative;box-shadow:0 30px 60px -15px rgba(0,0,0,.6)}
+.story-close{position:absolute;top:.9rem;right:.9rem;z-index:5;width:34px;height:34px;border-radius:50%;border:1px solid var(--panel-line);background:rgba(255,255,255,.03);color:var(--ink);font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1}
+.story-close:hover{border-color:var(--brass);color:var(--brass-hot)}
+/* Masonry via CSS columns instead of a flex row: photos are rarely the
+   same aspect ratio (a tall phone screenshot next to wide street shots),
+   and a flex row leaves a ragged gap beside the shorter ones. Columns
+   let the browser pack a tall photo into one column while short ones
+   stack in the other - no per-photo layout logic needed. */
+.story-gallery{columns:2 220px;column-gap:1rem;margin:0 0 1.4rem;padding-top:.5rem}
+.story-gallery .photo-card{width:100%;max-width:min(320px,100%);margin:0 0 1rem;break-inside:avoid;cursor:zoom-in}
+.story-gallery .photo-card:hover,.story-gallery .photo-card:focus-visible{transform:rotate(var(--rot))}
+.story-gallery .photo-card::before{display:none}
+.story-gallery .photo-card:hover .polaroid,.story-gallery .photo-card:focus-visible .polaroid{box-shadow:var(--card-shadow)}
+
+/* ---------- lightbox (enlarged story photo) ---------- */
+.lightbox-overlay{position:fixed;inset:0;z-index:200;background:rgba(5,2,10,.92);display:flex;align-items:center;justify-content:center;padding:clamp(1rem,4vw,3rem);cursor:zoom-out}
+.lightbox-overlay img{max-width:100%;max-height:100%;object-fit:contain;border-radius:4px;box-shadow:0 30px 60px -10px rgba(0,0,0,.7)}
+.story-head{font-family:var(--serif);font-weight:600;font-size:clamp(1.4rem,3vw,1.9rem);margin:0 0 .2rem}
+.story-meta{color:var(--brass-hot);font-size:.85rem;margin:0 0 1rem}
+.story-summary{color:var(--ink-soft);max-width:38rem;margin:0 0 1rem}
+.story-highlights{margin:0;padding-left:1.1rem;color:var(--ink-soft);display:grid;gap:.4rem}
+.story-highlights li::marker{color:var(--brass)}
+
+/* ---------- contacts ---------- */
+.contact-list{list-style:none;margin:0;padding:0;display:grid;gap:.8rem;max-width:26rem}
+.contact-list a{text-decoration:none;border-bottom:1px solid var(--panel-line);padding-bottom:2px;transition:border-color .15s}
+.contact-list a:hover{border-bottom-color:var(--brass)}
+.cv-buttons{display:flex;gap:.7rem;flex-wrap:wrap;margin-top:1.4rem}
+.cv-button{display:inline-flex;align-items:center;gap:.5rem;background:var(--brass);color:#241533;font-weight:600;text-decoration:none;padding:.7rem 1.2rem;border-radius:999px;font-size:.9rem}
+.cv-button:hover{background:var(--brass-hot)}
+
+footer.site-footer{position:relative;z-index:1;text-align:left;color:var(--ink-faint);opacity:.55;font-size:.65rem;padding:0 clamp(1rem,3vw,2.5rem) 1rem}
+
+/* ---------- mobile ---------- */
+@media (max-width:860px){
+  .shell{flex-direction:column}
+  .sidebar{
+    width:100%;height:auto;position:static;
+    display:flex;overflow-x:auto;padding:.6rem;border-right:none;border-bottom:1px solid var(--panel-line);
+    -webkit-overflow-scrolling:touch;
+  }
+  .side-nav{display:flex;gap:.4rem;grid-auto-flow:column}
+  .side-nav a{width:auto;white-space:nowrap;padding:.55rem .8rem}
+  .nav-back{width:auto;padding-bottom:0;margin-bottom:0;border-bottom:none;border-right:1px solid var(--panel-line);padding-right:.5rem;margin-right:.1rem}
+  .wall-grid--career::before,.wall-grid--career::after{display:none}
+  .wall-grid--career .photo-card{order:var(--order-mobile, 0)}
+  .photo-card{width:clamp(150px,42vw,200px)}
+}
+@media (max-width:480px){
+  .site-header{padding:0 .75rem;gap:.5rem}
+  .brand{font-size:.85rem}
+  .lang-toggle button{padding:.35rem .55rem}
+  .wall-grid{gap:1.4rem 1rem;justify-content:center}
+}
+
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
