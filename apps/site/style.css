@@ -121,9 +121,12 @@ button{font:inherit}
 .section-title{font-family:var(--serif);font-weight:600;font-size:1.4rem;margin:.4rem 0 .3rem}
 .section-lede{color:var(--ink-soft);max-width:38rem;margin:0 0 .5rem}
 
-/* career wall order: loose pyramid on desktop (Revolut alone on top, Plata +
-   Youla on the tier below, everything else further down); a plain
-   reverse-chronological list on mobile */
+/* career wall order: loose pyramid on desktop (Revolut alone on top, then a
+   fixed 3-across row of Plata/Youla/VK, everything else further down); a
+   plain reverse-chronological list on mobile. Fixed (not auto-fill) columns
+   so the second tier always holds exactly those three regardless of viewport
+   width. */
+.wall-grid--career{grid-template-columns:repeat(3,minmax(180px,260px))}
 .wall-grid--career [data-open="revolut"]{order:1;grid-column:1/-1}
 .wall-grid--career [data-open="banco-plata"]{order:2}
 .wall-grid--career [data-open="youla"]{order:3}
@@ -244,6 +247,7 @@ footer.site-footer{position:relative;z-index:1;text-align:left;color:var(--ink-f
   .side-nav{display:flex;gap:.4rem;grid-auto-flow:column}
   .side-nav a{width:auto;white-space:nowrap;padding:.55rem .8rem}
   .nav-back{width:auto;padding-bottom:0;margin-bottom:0;border-bottom:none;border-right:1px solid var(--panel-line);padding-right:.5rem;margin-right:.1rem}
+  .wall-grid--career{grid-template-columns:repeat(auto-fill,minmax(150px,200px))}
   .wall-grid--career [data-open="banco-plata"]{order:2}
   .wall-grid--career [data-open="vk"]{order:3}
   .wall-grid--career [data-open="youla"]{order:4}
