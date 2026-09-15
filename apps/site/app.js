@@ -170,7 +170,7 @@ function renderCollectionWall(key) {
   const items = DATA[key];
   const cards = items.map((it, i) => photoCard({
     id: it.id, glyph: it.glyph, logo: it.logo, placeholder: it.placeholder,
-    caption: t(it.title), size: it.size, pinLeft: it.pinLeft, order: it.order,
+    caption: t(it.title), size: it.size, pinLeft: it.pinLeft, order: it.order, href: it.href,
   })).join("");
   return `
     <section class="wall">
