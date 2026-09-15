@@ -12,9 +12,14 @@
 </head>
 <body>
   <header class="site-header">
-    <a href="#/" class="brand" onclick="location.hash='/';return false;">
-      Alexey Khaiminov
-    </a>
+    <div class="header-left">
+      <button type="button" class="menu-btn" id="menu-btn" aria-label="Меню">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+      <a href="#/" class="brand" onclick="location.hash='/';return false;">
+        Alexey Khaiminov
+      </a>
+    </div>
     <div class="lang-toggle" role="group" aria-label="language">
       <button type="button" data-lang="ru">RU</button>
       <button type="button" data-lang="en">EN</button>

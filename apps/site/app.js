@@ -8,6 +8,14 @@ const app = document.getElementById("app");
 const sideNavEl = document.getElementById("side-nav");
 const footerEl = document.getElementById("site-footer");
 const langButtons = document.querySelectorAll(".lang-toggle button");
+const sidebarEl = document.querySelector(".sidebar");
+const menuBtn = document.getElementById("menu-btn");
+
+if (localStorage.getItem("km-sidebar-collapsed") === "1") sidebarEl.classList.add("is-collapsed");
+menuBtn.addEventListener("click", () => {
+  const collapsed = sidebarEl.classList.toggle("is-collapsed");
+  localStorage.setItem("km-sidebar-collapsed", collapsed ? "1" : "0");
+});
 
 function t(field) { return field ? field[lang] : ""; }
 function navLabel(id) { const n = NAV.find((x) => x.id === id); return n ? n.label[lang] : id; }
