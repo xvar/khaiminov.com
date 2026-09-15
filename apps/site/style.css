@@ -82,8 +82,7 @@ button{font:inherit}
      scrolling -- it would just scroll away like a normal block. Sizing it
      to its own (short) content height is what lets sticky have room to work. */
   align-self:flex-start;overflow:hidden;
-  background:var(--panel);border-right:1px solid transparent;border-radius:0 8px 8px 0;
-  box-shadow:var(--card-shadow);
+  background:var(--panel);border-right:1px solid transparent;
   padding:1.25rem 0;opacity:0;
   transition:width .28s cubic-bezier(.2,.7,.3,1),padding .28s cubic-bezier(.2,.7,.3,1),opacity .2s,border-color .28s;
 }
@@ -145,18 +144,18 @@ button{font:inherit}
 /* home hero: portrait photo, fixed aspect-ratio box (a real <img> fills it
    with object-fit:cover, so swapping the photo never reflows the card grid
    beside it), no frame/shadow of its own and no gap to speak of — the
-   right-edge fade resolves to the exact page-background color, so the
-   photo reads as part of the wall itself, dissolving straight into the
-   card column instead of sitting beside it as a separate boxed tile. */
+   right edge fades the IMAGE ITSELF to transparent (a mask, not a flat
+   color layered on top), so whatever's actually behind it shows through
+   instead of an approximated solid patch. */
 .hero--split .split{display:grid;grid-template-columns:1.15fr 1fr;gap:.75rem;align-items:center}
 .hero-photo{
   position:relative;aspect-ratio:4/5;overflow:hidden;
   background:linear-gradient(160deg,var(--wall-1) 0%,var(--wall-2) 100%);
 }
-.hero-photo-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 30%;z-index:0}
-.hero-photo::after{
-  content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
-  background:linear-gradient(90deg,transparent 8%,var(--wall-1) 65%);
+.hero-photo-img{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 30%;z-index:0;
+  -webkit-mask-image:linear-gradient(90deg,black 45%,transparent 100%);
+  mask-image:linear-gradient(90deg,black 45%,transparent 100%);
 }
 .hero-name{
   position:absolute;top:1.5rem;left:1.75rem;right:1.75rem;z-index:2;
@@ -168,11 +167,11 @@ button{font:inherit}
   position:absolute;left:1.75rem;right:1.75rem;bottom:1.5rem;z-index:2;margin:0;
   color:var(--ink-soft);font-size:1.02rem;text-shadow:0 2px 12px rgba(0,0,0,.55);
 }
-/* pull the card grid left so the tape corners (which already stick out past
-   the polaroid's own edge) creep onto the photo, instead of stopping short
+/* pull the card grid left so the cards themselves (not just the tape
+   corners) visibly overlap the photo's edge, instead of stopping short
    at a clean seam between the two columns */
-.hero-cards{display:flex;justify-content:center;margin-left:-1.25rem;position:relative;z-index:2}
-.wall-grid.hero-wall-grid{grid-template-columns:repeat(2,1fr);justify-items:stretch;width:100%;max-width:420px;gap:2rem 1.4rem;padding-top:0}
+.hero-cards{display:flex;justify-content:center;margin-left:-2.75rem;position:relative;z-index:2}
+.wall-grid.hero-wall-grid{grid-template-columns:repeat(2,1fr);justify-items:stretch;width:100%;max-width:460px;gap:2.25rem;padding-top:0}
 .hero-wall-grid .photo-card{width:100%}
 
 .wall{position:relative;z-index:1;padding:1.25rem clamp(1rem,3vw,2.5rem) 5rem}
