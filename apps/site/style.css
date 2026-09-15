@@ -188,10 +188,7 @@ button{font:inherit}
   position:absolute;left:1.75rem;right:1.75rem;bottom:1.5rem;z-index:2;margin:0;
   color:var(--ink-soft);font-size:1.02rem;text-shadow:0 2px 12px rgba(0,0,0,.55);
 }
-/* pull the card grid left so the cards themselves (not just the tape
-   corners) visibly overlap the photo's edge, instead of stopping short
-   at a clean seam between the two columns */
-.hero-cards{display:flex;justify-content:center;margin-left:-8rem;position:relative;z-index:2}
+.hero-cards{display:flex;justify-content:center;position:relative;z-index:2}
 .wall-grid.hero-wall-grid{grid-template-columns:repeat(2,1fr);justify-items:stretch;width:100%;max-width:460px;gap:2.5rem 3.25rem;padding-top:0}
 .hero-wall-grid .photo-card{width:100%}
 
