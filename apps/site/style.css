@@ -110,6 +110,34 @@ button{font:inherit}
   font-family:var(--serif);font-weight:600;font-size:clamp(1.9rem,4vw,2.6rem);
   line-height:1.08;margin:0;
 }
+.hero--split{padding-bottom:2.5rem}
+
+/* home hero: portrait photo (placeholder box for now — a real <img> will
+   fill this same fixed-aspect-ratio box with object-fit:cover later,
+   so swapping the photo in never reflows the card grid beside it) next
+   to the section-nav cards, name/bio overlaid on the photo itself. */
+.hero--split .split{display:grid;grid-template-columns:1.15fr 1fr;gap:2.5rem;align-items:center}
+.hero-photo{
+  position:relative;aspect-ratio:4/5;border-radius:4px;overflow:hidden;
+  background:linear-gradient(150deg,#4b3468,#241533);box-shadow:var(--card-shadow);
+}
+.hero-photo::before{content:"";position:absolute;inset:0;opacity:.35;background:repeating-linear-gradient(135deg,rgba(255,255,255,.06) 0 2px,transparent 2px 10px)}
+.hero-photo::after{
+  content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(90deg,transparent 62%,rgba(23,13,34,.4) 85%,rgba(23,13,34,.7) 100%);
+}
+.hero-name{
+  position:absolute;top:1.5rem;left:1.75rem;right:1.75rem;z-index:2;
+  font-family:var(--serif);font-weight:600;font-size:clamp(1.9rem,4vw,2.6rem);line-height:1.05;margin:0;
+  color:var(--ink);text-shadow:0 2px 16px rgba(0,0,0,.55);
+}
+.hero-bio{
+  position:absolute;left:1.75rem;right:1.75rem;bottom:1.5rem;z-index:2;margin:0;
+  color:var(--ink-soft);font-size:1.02rem;text-shadow:0 2px 12px rgba(0,0,0,.55);
+}
+.hero-cards{display:flex;justify-content:center}
+.wall-grid.hero-wall-grid{grid-template-columns:repeat(2,1fr);justify-items:stretch;width:100%;max-width:420px;gap:2rem 1.4rem;padding-top:0}
+.hero-wall-grid .photo-card{width:100%}
 
 .wall{position:relative;z-index:1;padding:1.25rem clamp(1rem,3vw,2.5rem) 5rem}
 .wall-grid{
@@ -250,6 +278,9 @@ footer.site-footer{position:relative;z-index:1;text-align:left;color:var(--ink-f
   .wall-grid--career::before,.wall-grid--career::after{display:none}
   .wall-grid--career .photo-card{order:var(--order-mobile, 0)}
   .photo-card{width:clamp(150px,42vw,200px)}
+  .hero--split .split{grid-template-columns:1fr;gap:1.75rem}
+  .hero-photo{aspect-ratio:16/11}
+  .hero-wall-grid{max-width:100%}
 }
 @media (max-width:480px){
   .site-header{padding:0 .75rem;gap:.5rem}
