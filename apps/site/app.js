@@ -144,8 +144,15 @@ function renderHome() {
     href: n.external || "#/" + n.id, syncId: n.id,
   })).join("");
   return `
-    <section class="hero"><h1>${t(DATA.hero)}</h1><p class="section-lede">${t(DATA.heroLede)}</p></section>
-    <section class="wall"><div class="wall-grid">${cards}</div></section>
+    <section class="hero hero--split">
+      <div class="split">
+        <div class="hero-photo">
+          <h1 class="hero-name">${t(DATA.hero)}</h1>
+          <p class="hero-bio">${t(DATA.heroLede)}</p>
+        </div>
+        <div class="hero-cards"><div class="wall-grid hero-wall-grid">${cards}</div></div>
+      </div>
+    </section>
   `;
 }
 
