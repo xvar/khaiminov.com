@@ -189,7 +189,7 @@ button{font:inherit}
   color:var(--ink-soft);font-size:1.02rem;text-shadow:0 2px 12px rgba(0,0,0,.55);
 }
 .hero-cards{display:flex;justify-content:center;position:relative;z-index:2}
-.wall-grid.hero-wall-grid{grid-template-columns:repeat(2,1fr);justify-items:stretch;width:100%;max-width:460px;gap:2.5rem 3.25rem;padding-top:0}
+.wall-grid.hero-wall-grid{grid-template-columns:repeat(2,1fr);justify-items:stretch;width:100%;max-width:460px;gap:3.5rem 3.25rem;padding-top:0}
 .hero-wall-grid .photo-card{width:100%}
 
 .wall{position:relative;z-index:1;padding:1.25rem clamp(1rem,3vw,2.5rem) 5rem}
