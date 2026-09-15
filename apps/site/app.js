@@ -185,7 +185,7 @@ function renderContacts() {
   const c = DATA.contacts;
   const items = [
     { id: "email", glyph: "✉️", caption: c.email, href: `mailto:${c.email}` },
-    { id: "telegram", glyph: "💬", caption: c.telegram, href: `https://t.me/${c.telegram.replace("@", "")}` },
+    { id: "telegram", logo: "assets/icons/telegram.svg", caption: c.telegram, href: `https://t.me/${c.telegram.replace("@", "")}` },
     { id: "github", glyph: "🐙", caption: c.github, href: `https://${c.github}` },
     { id: "cv", glyph: "📄", caption: lang === "ru" ? "Скачать CV" : "Download CV", href: c.cv[lang] },
   ];
