@@ -169,8 +169,9 @@ function renderHome() {
 function renderCollectionWall(key) {
   const items = DATA[key];
   const cards = items.map((it, i) => photoCard({
-    id: it.id, glyph: it.glyph, logo: it.logo, placeholder: it.placeholder,
+    id: it.id, glyph: it.glyph, logo: it.logo, photo: it.photo, placeholder: it.placeholder,
     caption: t(it.title), size: it.size, pinLeft: it.pinLeft, order: it.order, href: it.href,
+    natural: !!it.photo,
   })).join("");
   return `
     <section class="wall">
