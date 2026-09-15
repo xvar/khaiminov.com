@@ -23,7 +23,7 @@ const DATA = {
   },
   career: [
     {
-      id: "bss", glyph: "🏦", logo: "assets/career/bss/logo.webp",
+      id: "bss", glyph: "🏦", logo: "assets/career/bss/logo.webp", order: { desktop: 302, mobile: 7 },
       title: { ru: "BSS", en: "BSS" },
       role: { ru: "Android-разработчик", en: "Android Developer" },
       period: { ru: "июн 2013 – апр 2015 · Москва", en: "Jun 2013 – Apr 2015 · Moscow" },
@@ -35,7 +35,7 @@ const DATA = {
       photos: ["assets/career/bss/nagatinskaya-street.webp", "assets/career/bss/chertanovo.webp", "assets/career/bss/tatfondbank-app.webp"],
     },
     {
-      id: "mailru-games", glyph: "🎮", logo: "assets/career/mailru-games/logo.svg",
+      id: "mailru-games", glyph: "🎮", logo: "assets/career/mailru-games/logo.svg", order: { desktop: 301, mobile: 6 },
       title: { ru: "Mail.Ru Игры", en: "Mail.Ru Games" },
       role: { ru: "Android-разработчик", en: "Android Developer" },
       period: { ru: "апр – ноя 2015 · Москва", en: "Apr – Nov 2015 · Moscow" },
@@ -47,7 +47,7 @@ const DATA = {
       photos: ["assets/career/mailru-games/baltiysky.webp", "assets/career/mailru-games/skylight-tower.webp"],
     },
     {
-      id: "odnoklassniki", glyph: "👥", logo: "assets/career/ok/logo.webp",
+      id: "odnoklassniki", glyph: "👥", logo: "assets/career/ok/logo.webp", order: { desktop: 300, mobile: 5 },
       title: { ru: "Одноклассники (OK.RU)", en: "Odnoklassniki (OK.RU)" },
       role: { ru: "Android-разработчик, Mail.Ru Group", en: "Android Developer, Mail.Ru Group" },
       period: { ru: "ноя 2015 – апр 2018 · Москва", en: "Nov 2015 – Apr 2018 · Moscow" },
@@ -59,7 +59,7 @@ const DATA = {
       photos: ["assets/career/ok/anniversary.webp", "assets/career/ok/keychains.webp", "assets/career/ok/app-login.webp", "assets/career/ok/app-notfound.webp", "assets/career/ok/me.webp", "assets/career/ok/prague.webp", "assets/career/ok/analytics.webp"],
     },
     {
-      id: "revolut", glyph: "🚀", logo: "assets/career/revolut/logo.svg", placeholder: true,
+      id: "revolut", glyph: "🚀", logo: "assets/career/revolut/logo.svg", placeholder: true, order: { desktop: 100, mobile: 1 },
       title: { ru: "Revolut", en: "Revolut" },
       role: { ru: "", en: "" },
       period: { ru: "С октября 2026", en: "Starting Oct 2026" },
@@ -67,7 +67,7 @@ const DATA = {
       highlights: { ru: [], en: [] },
     },
     {
-      id: "youla", glyph: "🛒", logo: "assets/career/youla/logo.svg",
+      id: "youla", glyph: "🛒", logo: "assets/career/youla/logo.svg", order: { desktop: 201, mobile: 4 },
       title: { ru: "Юла", en: "Youla" },
       role: { ru: "Principal Android Engineer, Mail.Ru Group", en: "Principal Android Engineer, Mail.Ru Group" },
       period: { ru: "2018 – 2021 · Москва", en: "2018 – 2021 · Moscow" },
@@ -79,7 +79,7 @@ const DATA = {
       photos: ["assets/career/youla/iron-throne.webp", "assets/career/youla/backpack-patch.webp", "assets/career/youla/dark-theme.webp", "assets/career/youla/conference-talk.webp", "assets/career/youla/build-stats.webp", "assets/career/youla/old-logo.webp", "assets/career/youla/new-logo-2020.webp", "assets/career/youla/offsite-game.webp"],
     },
     {
-      id: "vk", glyph: "🌐", logo: "assets/career/vk/logo.svg",
+      id: "vk", glyph: "🌐", logo: "assets/career/vk/logo.svg", order: { desktop: 202, mobile: 3 },
       title: { ru: "ВКонтакте", en: "VK Company" },
       role: { ru: "Android Platform Lead, Marketplace BU", en: "Android Platform Lead, Marketplace BU" },
       period: { ru: "дек 2021 – мар 2023 · Москва · 1 год 3 мес", en: "Dec 2021 – Mar 2023 · Moscow · 1 yr 3 mos" },
@@ -91,7 +91,7 @@ const DATA = {
       photos: ["assets/career/vk/office-entrance.webp", "assets/career/vk/office-cube.webp", "assets/career/vk/spb.webp"],
     },
     {
-      id: "banco-plata", glyph: "🏝️", logo: "assets/career/plata/logo.svg",
+      id: "banco-plata", glyph: "🏝️", logo: "assets/career/plata/logo.svg", order: { desktop: 200, mobile: 2 },
       title: { ru: "Plata-банк", en: "Banco Plata" },
       role: { ru: "Senior Android Engineer — Platform", en: "Senior Android Engineer — Platform" },
       period: { ru: "дек 2022 – июн 2026 · Лимасол, Кипр", en: "Dec 2022 – Jun 2026 · Limassol, Cyprus" },
@@ -103,7 +103,7 @@ const DATA = {
       photos: ["assets/career/plata/office-sign.webp", "assets/career/plata/office-view.webp", "assets/career/plata/ownership-board.webp", "assets/career/plata/build-dashboard.webp", "assets/career/plata/sync-phases.webp", "assets/career/plata/daily-checks.webp", "assets/career/plata/dagger-metro-meme.webp"],
     },
     {
-      id: "bimash", glyph: "🏔️", logo: "assets/career/bimash/logo.webp",
+      id: "bimash", glyph: "🏔️", logo: "assets/career/bimash/logo.webp", order: { desktop: 303, mobile: 8 },
       title: { ru: "Bimash", en: "Bimash" },
       role: { ru: "Портлеты под IBM WebSphere Portal", en: "Portlets on IBM WebSphere Portal" },
       period: { ru: "2010 · Астана", en: "2010 · Astana" },
@@ -271,7 +271,7 @@ function syncSet(id, on) {
   document.querySelectorAll(`[data-sync="${id}"]`).forEach((el) => el.classList.toggle("is-synced", on));
 }
 
-function photoCard({ id, glyph, logo, photo, caption, meta, placeholder, href, syncId, size, pinLeft, natural, lightbox }) {
+function photoCard({ id, glyph, logo, photo, caption, meta, placeholder, href, syncId, size, pinLeft, natural, lightbox, order }) {
   const rot = (((id.charCodeAt(0) + id.length) % 7) - 3) * 1.1;
   const tag = href ? "a" : "button";
   const extAttrs = href && href.startsWith("http") ? `target="_blank" rel="noopener"` : "";
@@ -284,7 +284,8 @@ function photoCard({ id, glyph, logo, photo, caption, meta, placeholder, href, s
   const mount = randomMount();
   const sizeClass = size ? ` size-${size}` : "";
   const naturalClass = natural ? " natural" : "";
-  const style = `--rot:${rot}deg${pinLeft ? ";grid-column:1" : ""}`;
+  const orderVars = order ? `;--order-desktop:${order.desktop};--order-mobile:${order.mobile}` : "";
+  const style = `--rot:${rot}deg${pinLeft ? ";grid-column:1" : ""}${orderVars}`;
   const media = photo
     ? `<img class="frame-photo" src="${photo}" alt="">`
     : logo
@@ -316,7 +317,7 @@ function renderCollectionWall(key) {
   const items = DATA[key];
   const cards = items.map((it, i) => photoCard({
     id: it.id, glyph: it.glyph, logo: it.logo, placeholder: it.placeholder,
-    caption: t(it.title), size: it.size, pinLeft: it.pinLeft,
+    caption: t(it.title), size: it.size, pinLeft: it.pinLeft, order: it.order,
   })).join("");
   return `
     <section class="wall">
@@ -365,15 +366,14 @@ function openStory(collection, id) {
     </div>
   `;
   document.body.appendChild(overlay);
-  const close = () => overlay.remove();
+  const close = () => { overlay.remove(); document.removeEventListener("keydown", onEsc); };
+  function onEsc(e) { if (e.key === "Escape") close(); }
   overlay.querySelector(".story-close").addEventListener("click", close);
   overlay.addEventListener("click", (e) => { if (e.target === overlay) close(); });
   overlay.querySelectorAll("[data-lightbox]").forEach((el) => {
     el.addEventListener("click", (e) => { e.stopPropagation(); openLightbox(el.dataset.lightbox); });
   });
-  document.addEventListener("keydown", function onEsc(e) {
-    if (e.key === "Escape") { close(); document.removeEventListener("keydown", onEsc); }
-  });
+  document.addEventListener("keydown", onEsc);
 }
 
 function openLightbox(src) {
@@ -381,30 +381,28 @@ function openLightbox(src) {
   overlay.className = "lightbox-overlay";
   overlay.innerHTML = `<img src="${src}" alt="">`;
   document.body.appendChild(overlay);
-  const close = () => overlay.remove();
-  overlay.addEventListener("click", close);
-  document.addEventListener("keydown", function onEsc(e) {
+  const close = () => { overlay.remove(); document.removeEventListener("keydown", onEsc, { capture: true }); };
+  function onEsc(e) {
     if (e.key !== "Escape") return;
     e.stopPropagation();
     close();
-    document.removeEventListener("keydown", onEsc, { capture: true });
-  }, { capture: true });
+  }
+  overlay.addEventListener("click", close);
+  document.addEventListener("keydown", onEsc, { capture: true });
 }
 
 function currentRoute() {
   return (location.hash.replace(/^#\/?/, "") || "home");
 }
 
+const COLLECTION_ROUTES = ["career", "projects", "talks", "personal"];
+
 function renderAll() {
   const route = currentRoute();
-  const activeTop = ["career", "projects", "talks", "personal", "contacts"].includes(route) ? route : null;
+  const activeTop = [...COLLECTION_ROUTES, "contacts"].includes(route) ? route : null;
   renderSideNav(activeTop);
 
-  if (route === "home") app.innerHTML = renderHome();
-  else if (route === "career") app.innerHTML = renderCollectionWall("career");
-  else if (route === "projects") app.innerHTML = renderCollectionWall("projects");
-  else if (route === "talks") app.innerHTML = renderCollectionWall("talks");
-  else if (route === "personal") app.innerHTML = renderCollectionWall("personal");
+  if (COLLECTION_ROUTES.includes(route)) app.innerHTML = renderCollectionWall(route);
   else if (route === "contacts") app.innerHTML = renderContacts();
   else app.innerHTML = renderHome();
 

@@ -123,21 +123,18 @@ button{font:inherit}
 
 /* career wall order: loose pyramid on desktop (Revolut alone on top, then a
    row of exactly Plata/Youla/VK, everything else flowing freely below); a
-   plain reverse-chronological list on mobile. Uses flex-wrap (not grid) so
-   the two pinned rows are forced via flex-basis:100% breaks, while the
-   "everything else" tier just wraps naturally instead of being forced into
-   a fixed column count (which stranded Bimash alone on its own row). */
+   plain reverse-chronological list on mobile. Each card carries its own
+   --order-desktop/--order-mobile custom properties (set from the `order`
+   field on its DATA entry in app.js — see photoCard()), so this file only
+   needs to know the two structural break points, not any card's id. Uses
+   flex-wrap (not grid) so the two pinned rows are forced via
+   flex-basis:100% breaks, while the "everything else" tier just wraps
+   naturally instead of being forced into a fixed column count (which
+   stranded Bimash alone on its own row). */
 .wall-grid--career{display:flex;flex-wrap:wrap;justify-content:center}
-.wall-grid--career [data-open="revolut"]{order:1}
-.wall-grid--career::before{content:"";order:2;flex-basis:100%}
-.wall-grid--career [data-open="banco-plata"]{order:3}
-.wall-grid--career [data-open="youla"]{order:4}
-.wall-grid--career [data-open="vk"]{order:5}
-.wall-grid--career::after{content:"";order:6;flex-basis:100%}
-.wall-grid--career [data-open="odnoklassniki"]{order:7}
-.wall-grid--career [data-open="mailru-games"]{order:8}
-.wall-grid--career [data-open="bss"]{order:9}
-.wall-grid--career [data-open="bimash"]{order:10}
+.wall-grid--career .photo-card{order:var(--order-desktop, 0)}
+.wall-grid--career::before{content:"";order:150;flex-basis:100%}
+.wall-grid--career::after{content:"";order:250;flex-basis:100%}
 
 /* ---------- photo card ---------- */
 .photo-card{
@@ -251,13 +248,7 @@ footer.site-footer{position:relative;z-index:1;text-align:left;color:var(--ink-f
   .side-nav a{width:auto;white-space:nowrap;padding:.55rem .8rem}
   .nav-back{width:auto;padding-bottom:0;margin-bottom:0;border-bottom:none;border-right:1px solid var(--panel-line);padding-right:.5rem;margin-right:.1rem}
   .wall-grid--career::before,.wall-grid--career::after{display:none}
-  .wall-grid--career [data-open="banco-plata"]{order:2}
-  .wall-grid--career [data-open="vk"]{order:3}
-  .wall-grid--career [data-open="youla"]{order:4}
-  .wall-grid--career [data-open="odnoklassniki"]{order:5}
-  .wall-grid--career [data-open="mailru-games"]{order:6}
-  .wall-grid--career [data-open="bss"]{order:7}
-  .wall-grid--career [data-open="bimash"]{order:8}
+  .wall-grid--career .photo-card{order:var(--order-mobile, 0)}
   .photo-card{width:clamp(150px,42vw,200px)}
 }
 @media (max-width:480px){
