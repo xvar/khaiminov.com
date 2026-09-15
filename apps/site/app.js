@@ -147,7 +147,7 @@ function renderHome() {
     <section class="hero hero--split">
       <div class="split">
         <div class="hero-photo">
-          <img class="hero-photo-img" src="assets/hero/sparkler.webp" alt="">
+          <img class="hero-photo-img" src="assets/hero/studio.webp" alt="">
           <h1 class="hero-name">${t(DATA.hero)}</h1>
           <p class="hero-bio">${t(DATA.heroLede)}</p>
         </div>
