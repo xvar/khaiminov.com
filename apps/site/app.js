@@ -94,7 +94,7 @@ const DATA = {
       id: "banco-plata", glyph: "🏝️", logo: "assets/career/plata/logo.svg",
       title: { ru: "Plata-банк", en: "Banco Plata" },
       role: { ru: "Senior Android Engineer — Platform", en: "Senior Android Engineer — Platform" },
-      period: { ru: "дек 2022 – н.в. · Лимасол, Кипр", en: "Dec 2022 – Present · Limassol, Cyprus" },
+      period: { ru: "дек 2022 – июн 2026 · Лимасол, Кипр", en: "Dec 2022 – Jun 2026 · Limassol, Cyprus" },
       summary: { ru: "Стартап, к которому присоединился ещё до первого запуска — вместе с командой вышли на миллионы пользователей при моём непосредственном участии. Участвовал и в разработке фич, и в платформенной работе; не раз выходил за рамки роли просто Android-разработчика, беря задачи, поставленные в общем виде, или просто «направление работы». Платформенная команда из 4 человек, поддержка 20+ Android-разработчиков.", en: "A startup I joined before its first launch — together with the team we grew to millions of users, with my direct hand in it. Worked on both product features and platform engineering; more than once stepped outside the \"just an Android developer\" role, picking up work framed only in general terms, or simply as a \"direction to explore.\" Platform team of 4, supporting 20+ Android engineers." },
       highlights: {
         ru: ["Сократил медианное время сборки на 35% — инструментировал сотни ежедневных CI и локальных сборок (10 000+ Gradle-задач в день, ~1 000 модулей) через дашборды Grafana со Slack-алертами", "Мигрировал DI с Dagger 2 на Metro: холодная сборка ускорилась в 1,5 раза, открыв возможность team sandboxes", "Замерил фазы синхронизации Android Studio/IntelliJ IDEA, построил визуализации в Grafana и написал внутренний гайдлайн по устранению узких мест", "Перевёл CI на Kotlin DSL: полное покрытие вариантов сборки, проверки локализации, автоматизация Docker-образа", "Настроил App Bundle для Google Play и Huawei AppGallery", "Внедрил Baseline Profiles для сценария запуска: холодный старт улучшился на ~20%", "Написал автотесты для выявления лишних сетевых запросов при старте приложения", "Поддерживал Huawei-устройства без GMS — 5% пользовательской базы в Мексике", "Заложил основы Mobile Toolbox — внутреннего сервиса телеметрии для Android, спроектированного под масштабирование на другие команды", "Принимал архитектурные решения по структуре модулей с помощью Gradle Profiler и синтетических бенчмарков", "Стоял у истоков направления безопасности приложения — тесно работал с командами AppSec, DevOps и DWH", "Реализовал экран профиля, смену темы, локализацию и QR-коды (ZXing) при запуске продукта; автоматизировал переходы задач в Jira по событиям pipeline"],
@@ -322,7 +322,7 @@ function renderCollectionWall(key) {
     <section class="wall">
       <h2 class="section-title">${navLabel(key)}</h2>
       <p class="section-lede">${t(DATA.sectionIntro[key])}</p>
-      <div class="wall-grid">${cards}</div>
+      <div class="wall-grid wall-grid--${key}">${cards}</div>
     </section>
   `;
 }
