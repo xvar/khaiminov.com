@@ -49,7 +49,7 @@ function checkEntry(entry, where) {
 
 for (const n of NAV) checkI18nPair(n.label, `NAV.${n.id}.label`);
 
-for (const key of ["career", "projects", "talks", "personal"]) {
+for (const key of ["career", "education", "projects", "talks", "personal"]) {
   (DATA[key] || []).forEach((entry, i) => checkEntry(entry, `DATA.${key}[${i}:${entry.id}]`));
 }
 

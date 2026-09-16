@@ -4,6 +4,7 @@
 
 const NAV = [
   { id: "career", glyph: "💼", label: { ru: "Карьера", en: "Career" } },
+  { id: "education", glyph: "🎓", label: { ru: "Образование", en: "Education" } },
   { id: "projects", glyph: "🧩", label: { ru: "Проекты", en: "Projects" } },
   { id: "talks", glyph: "🎤", label: { ru: "Выступления", en: "Public Talks" } },
   { id: "blog", glyph: "📝", label: { ru: "Блог", en: "Blog" }, external: "https://blog.khaiminov.com" },
@@ -16,6 +17,7 @@ const DATA = {
   heroLede: { ru: "Помогаю миллионам людей своей работой за компом =)<br>Staff Android, экс-ментор «Творчества чувств», личность.", en: "I help millions of people with my work behind a screen =)<br>Staff Android engineer, ex-mentor at «The Art of Feelings», a person." },
   sectionIntro: {
     career: { ru: "Путь по компаниям и продуктам — с фото рабочих мест (скоро настоящих).", en: "A path through companies and products — with photos of the places (real ones coming soon)." },
+    education: { ru: "Университет и сертификаты.", en: "University and certifications." },
     projects: { ru: "Open source, личный сайт и всё, что делается вне основной работы.", en: "Open source, this site, and everything else outside the day job." },
     talks: { ru: "Конференции, менторство, митапы.", en: "Conferences, mentoring, meetups." },
     personal: { ru: "То, что вне программирования.", en: "The things outside of programming." },
@@ -113,6 +115,32 @@ const DATA = {
         en: ["Built a vehicle import tax calculator portlet (a page component) used across Kazakhstan; it remained in production until the old customs department site, customs.kz, was retired"],
       },
       photos: ["assets/career/bimash/portlet.webp", "assets/career/bimash/astana-1.webp", "assets/career/bimash/astana-2.webp"],
+    },
+  ],
+  education: [
+    {
+      id: "msu", glyph: "🎓",
+      title: { ru: "МГУ им. М.В. Ломоносова (Казахстанский филиал)", en: "Moscow State University (Kazakhstan branch)" },
+      role: { ru: "Магистратура, компьютерные науки", en: "Master's degree, Computer Science" },
+      period: { ru: "2008–2013 · Астана", en: "2008–2013 · Astana" },
+      summary: { ru: "Подробности и фото — позже.", en: "Details and photos — later." },
+      highlights: { ru: [], en: [] },
+    },
+    {
+      id: "cert-claude-code", glyph: "📜",
+      title: { ru: "Claude Code in Action", en: "Claude Code in Action" },
+      role: { ru: "Сертификат · Anthropic", en: "Certificate · Anthropic" },
+      period: { ru: "май 2026", en: "May 2026" },
+      summary: { ru: "", en: "" },
+      highlights: { ru: [], en: [] },
+    },
+    {
+      id: "cert-gradle-caching", glyph: "📜",
+      title: { ru: "Gradle Build Caching", en: "Gradle Build Caching" },
+      role: { ru: "Сертификат · Gradle Technologies", en: "Certificate · Gradle Technologies" },
+      period: { ru: "ноя 2024", en: "Nov 2024" },
+      summary: { ru: "", en: "" },
+      highlights: { ru: [], en: [] },
     },
   ],
   projects: [
@@ -260,6 +288,7 @@ const DATA = {
     email: "alex.haiminov@gmail.com",
     telegram: "@SmilingZen",
     github: "github.com/xvar",
+    linkedin: "linkedin.com/in/alexey-khaiminov-928459161",
     location: { ru: "Лимасол, Кипр", en: "Limassol, Cyprus" },
     cv: { ru: "assets/Alexey_Khaiminov_CV_RU.pdf", en: "assets/Alexey_Khaiminov_CV_EN.pdf" },
   },
