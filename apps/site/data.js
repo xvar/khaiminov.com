@@ -171,7 +171,7 @@ const DATA = {
   talks: [
     {
       id: "mobius-graphql-rest", glyph: "🎤",
-      title: { ru: "Why do you need a GraphQL, if you could have a REST?", en: "Why do you need a GraphQL, if you could have a REST?" },
+      title: { ru: "Зачем нужен GraphQL, если можно обойтись REST?", en: "Why do you need a GraphQL, if you could have a REST?" },
       role: { ru: "Доклад на Mobius", en: "Talk at Mobius" },
       period: { ru: "2020 · Санкт-Петербург", en: "2020 · St. Petersburg" },
       href: "https://youtu.be/UA5ynf3ecVo",
@@ -181,7 +181,7 @@ const DATA = {
     },
     {
       id: "heisenbug-ui-tests", glyph: "🎤",
-      title: { ru: "UI tests in 21 days", en: "UI tests in 21 days" },
+      title: { ru: "UI-тесты за 21 день", en: "UI tests in 21 days" },
       role: { ru: "Доклад на Heisenbug (совместно с Алексеем Червяковым)", en: "Talk at Heisenbug (with Alexey Chervyakov)" },
       period: { ru: "2022", en: "2022" },
       href: "https://youtu.be/4OZaYSDhVJY",
@@ -191,7 +191,7 @@ const DATA = {
     },
     {
       id: "podlodka-performance-battle", glyph: "🎤",
-      title: { ru: "Battle: Who needs a \"performance\"?", en: "Battle: Who needs a \"performance\"?" },
+      title: { ru: "Баттл: кому нужен «перфоманс»?", en: "Battle: Who needs a \"performance\"?" },
       role: { ru: "Доклад на Podlodka Android", en: "Talk at Podlodka Android" },
       period: { ru: "март 2024", en: "March 2024" },
       href: "https://youtu.be/QMEQe4RBz44",
@@ -201,7 +201,7 @@ const DATA = {
     },
     {
       id: "podlodka-cicd-roundtable", glyph: "🎤",
-      title: { ru: "Round table: CI/CD in a team", en: "Round table: CI/CD in a team" },
+      title: { ru: "Круглый стол: CI/CD в команде", en: "Round table: CI/CD in a team" },
       role: { ru: "Доклад на Podlodka Android", en: "Talk at Podlodka Android" },
       period: { ru: "сентябрь 2024", en: "September 2024" },
       href: "https://youtu.be/iypYY6KnsIM",
@@ -211,7 +211,7 @@ const DATA = {
     },
     {
       id: "kotlin-scripts-cicd", glyph: "🎤",
-      title: { ru: "Kotlin Scripts for CI/CD", en: "Kotlin Scripts for CI/CD" },
+      title: { ru: "Kotlin Scripts для CI/CD", en: "Kotlin Scripts for CI/CD" },
       role: { ru: "Доклад на Kotlin User Group in Cyprus", en: "Talk at Kotlin User Group in Cyprus" },
       period: { ru: "2024", en: "2024" },
       href: "https://youtu.be/Ghfh-ijUgTk",
