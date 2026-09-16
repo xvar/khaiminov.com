@@ -192,6 +192,7 @@ function renderContacts() {
     { id: "email", glyph: "✉️", caption: c.email, href: `mailto:${c.email}` },
     { id: "telegram", logo: "assets/icons/telegram.svg", caption: c.telegram, href: `https://t.me/${c.telegram.replace("@", "")}` },
     { id: "github", glyph: "🐙", caption: c.github, href: `https://${c.github}` },
+    { id: "linkedin", logo: "assets/icons/linkedin.svg", caption: "LinkedIn", href: `https://${c.linkedin}` },
     { id: "cv", glyph: "📄", caption: lang === "ru" ? "Скачать CV" : "Download CV", href: c.cv[lang] },
   ];
   const cards = items.map((it) => photoCard(it)).join("");
@@ -207,12 +208,13 @@ function renderContacts() {
 function openStory(collection, id) {
   const job = DATA[collection].find((j) => j.id === id);
   if (!job) return;
-  // projects don't get the placeholder-glyph filler tiles when there's no
-  // real gallery -- unclickable stand-ins with nothing behind them, and
-  // this collection reads better as a plain text writeup with a link out
+  // projects and education don't get the placeholder-glyph filler tiles
+  // when there's no real gallery yet -- unclickable stand-ins with nothing
+  // behind them, these collections read better as plain text until real
+  // photos land
   const gallery = (job.photos && job.photos.length)
     ? job.photos.map((src, n) => photoCard({ id: `${id}-p${n}`, photo: src, caption: "", natural: true, lightbox: true })).join("")
-    : collection === "projects"
+    : collection === "projects" || collection === "education"
     ? ""
     : [1, 2].map((n) => photoCard({ id: id + n, glyph: job.glyph, caption: "", placeholder: job.placeholder })).join("");
   const metaParts = [t(job.role), t(job.period)].filter(Boolean).join(" · ");
@@ -259,7 +261,7 @@ function currentRoute() {
   return (location.hash.replace(/^#\/?/, "") || "home");
 }
 
-const COLLECTION_ROUTES = ["career", "projects", "talks", "personal"];
+const COLLECTION_ROUTES = ["career", "education", "projects", "talks", "personal"];
 
 function renderAll() {
   const route = currentRoute();
