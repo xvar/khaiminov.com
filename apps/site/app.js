@@ -207,8 +207,13 @@ function renderContacts() {
 function openStory(collection, id) {
   const job = DATA[collection].find((j) => j.id === id);
   if (!job) return;
+  // projects don't get the placeholder-glyph filler tiles when there's no
+  // real gallery -- unclickable stand-ins with nothing behind them, and
+  // this collection reads better as a plain text writeup with a link out
   const gallery = (job.photos && job.photos.length)
     ? job.photos.map((src, n) => photoCard({ id: `${id}-p${n}`, photo: src, caption: "", natural: true, lightbox: true })).join("")
+    : collection === "projects"
+    ? ""
     : [1, 2].map((n) => photoCard({ id: id + n, glyph: job.glyph, caption: "", placeholder: job.placeholder })).join("");
   const metaParts = [t(job.role), t(job.period)].filter(Boolean).join(" · ");
   const overlay = document.createElement("div");
@@ -216,7 +221,7 @@ function openStory(collection, id) {
   overlay.innerHTML = `
     <div class="story-panel" role="dialog" aria-modal="true">
       <button class="story-close" aria-label="${lang === "ru" ? "Закрыть" : "Close"}">&times;</button>
-      <div class="story-gallery">${gallery}</div>
+      ${gallery ? `<div class="story-gallery">${gallery}</div>` : ""}
       <h3 class="story-head">${t(job.title)}</h3>
       ${metaParts ? `<p class="story-meta">${metaParts}</p>` : ""}
       <p class="story-summary">${t(job.summary)}</p>
