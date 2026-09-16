@@ -177,10 +177,11 @@ function renderCollectionWall(key) {
     href: key === "talks" ? it.href : undefined,
     natural: !!it.photo,
   })).join("");
+  const lede = t(DATA.sectionIntro[key]);
   return `
     <section class="wall">
       <h2 class="section-title">${navLabel(key)}</h2>
-      <p class="section-lede">${t(DATA.sectionIntro[key])}</p>
+      ${lede ? `<p class="section-lede">${lede}</p>` : ""}
       <div class="wall-grid wall-grid--${key}">${cards}</div>
     </section>
   `;
@@ -228,7 +229,7 @@ function openStory(collection, id) {
       ${metaParts ? `<p class="story-meta">${metaParts}</p>` : ""}
       <p class="story-summary">${t(job.summary)}</p>
       ${t(job.highlights).length ? `<ul class="story-highlights">${t(job.highlights).map((h) => `<li>${h}</li>`).join("")}</ul>` : ""}
-      ${job.href ? `<a class="cv-button" href="${job.href}" target="_blank" rel="noopener">${lang === "ru" ? "Открыть репозиторий" : "Open repository"} ↗</a>` : ""}
+      ${job.href ? `<a class="cv-button" href="${job.href}" target="_blank" rel="noopener">${t(job.linkLabel) || (lang === "ru" ? "Открыть репозиторий" : "Open repository")} ↗</a>` : ""}
     </div>
   `;
   document.body.appendChild(overlay);

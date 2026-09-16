@@ -16,8 +16,7 @@ const DATA = {
   hero: { ru: "Алексей Хайминов", en: "Alexey Khaiminov" },
   heroLede: { ru: "Помогаю миллионам людей своей работой за компом =)<br>Staff Android, экс-ментор «Творчества чувств», личность.", en: "I help millions of people with my work behind a screen =)<br>Staff Android engineer, ex-mentor at «The Art of Feelings», a person." },
   sectionIntro: {
-    career: { ru: "Путь по компаниям и продуктам — с фото рабочих мест (скоро настоящих).", en: "A path through companies and products — with photos of the places (real ones coming soon)." },
-    education: { ru: "Университет и сертификаты.", en: "University and certifications." },
+    career: { ru: "Путь по компаниям и продуктам", en: "A path through companies and products" },
     projects: { ru: "Open source, личный сайт и всё, что делается вне основной работы.", en: "Open source, this site, and everything else outside the day job." },
     talks: { ru: "Конференции, менторство, митапы.", en: "Conferences, mentoring, meetups." },
     personal: { ru: "То, что вне программирования.", en: "The things outside of programming." },
@@ -121,8 +120,16 @@ const DATA = {
     {
       id: "msu", glyph: "🎓",
       title: { ru: "МГУ имени М.В. Ломоносова", en: "Lomonosov Moscow State University" },
-      role: { ru: "Магистратура, компьютерные науки", en: "Master's degree, Computer Science" },
+      role: { ru: "Специалитет, компьютерные науки", en: "Specialist degree (5-year, equiv. Bachelor's + Master's), Computer Science" },
       period: { ru: "2008–2013 · Астана", en: "2008–2013 · Astana" },
+      summary: { ru: "Подробности и фото — позже.", en: "Details and photos — later." },
+      highlights: { ru: [], en: [] },
+    },
+    {
+      id: "lyceum-165", glyph: "🎓",
+      title: { ru: "Технический лицей №165", en: "Technical Lyceum No. 165" },
+      role: { ru: "", en: "" },
+      period: { ru: "", en: "" },
       summary: { ru: "Подробности и фото — позже.", en: "Details and photos — later." },
       highlights: { ru: [], en: [] },
     },
@@ -133,6 +140,8 @@ const DATA = {
       period: { ru: "май 2026", en: "May 2026" },
       summary: { ru: "", en: "" },
       highlights: { ru: [], en: [] },
+      href: "https://verify.skilljar.com/c/74ccm4kw4kjj",
+      linkLabel: { ru: "Показать сертификат", en: "Show credential" },
     },
     {
       id: "cert-gradle-caching", glyph: "📜",
@@ -141,6 +150,8 @@ const DATA = {
       period: { ru: "ноя 2024", en: "Nov 2024" },
       summary: { ru: "", en: "" },
       highlights: { ru: [], en: [] },
+      href: "https://dpeuniversity.gradle.com/app/certificate/6f3fd578-39d7-40eb-baec-7f29d175964f",
+      linkLabel: { ru: "Показать сертификат", en: "Show credential" },
     },
   ],
   projects: [

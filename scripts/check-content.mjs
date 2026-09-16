@@ -43,6 +43,7 @@ function checkEntry(entry, where) {
   checkI18nPair(entry.period, `${where}.period`);
   checkI18nPair(entry.summary, `${where}.summary`);
   checkI18nPair(entry.highlights, `${where}.highlights`);
+  checkI18nPair(entry.linkLabel, `${where}.linkLabel`);
   if (entry.logo) checkAssetPath(entry.logo, `${where}.logo`);
   (entry.photos || []).forEach((p, i) => checkAssetPath(p, `${where}.photos[${i}]`));
 }
