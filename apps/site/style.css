@@ -312,6 +312,7 @@ button{font:inherit}
 .story-summary{color:var(--ink-soft);max-width:38rem;margin:0 0 1rem}
 .story-highlights{margin:0;padding-left:1.1rem;color:var(--ink-soft);display:grid;gap:.4rem}
 .story-highlights li::marker{color:var(--brass)}
+.story-panel .cv-button{margin-top:1.4rem}
 
 /* ---------- contacts ---------- */
 .contact-list{list-style:none;margin:0;padding:0;display:grid;gap:.8rem;max-width:26rem}
