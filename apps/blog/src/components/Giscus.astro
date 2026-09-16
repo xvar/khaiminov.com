@@ -1,39 +1,28 @@
 ---
 // Comments via giscus (GitHub Discussions-backed, https://giscus.app).
-// TODO: enable Discussions on github.com/xvar/khaiminov.com, install the
-// giscus app, then fill in the real values from https://giscus.app — the
-// repo id and category id are NOT the same as the repo/category names.
+// Config generated from giscus.app against github.com/xvar/khaiminov.com's
+// "Announcements" Discussions category.
 const REPO = "xvar/khaiminov.com";
-const REPO_ID = ""; // fill in from giscus.app
-const CATEGORY = "Comments";
-const CATEGORY_ID = ""; // fill in from giscus.app
-
-const configured = REPO_ID && CATEGORY_ID;
+const REPO_ID = "R_kgDOUS6pXg";
+const CATEGORY = "Announcements";
+const CATEGORY_ID = "DIC_kwDOUS6pXs4DFvAP";
 ---
 
 <div id="giscus-container">
-  {
-    configured ? (
-      <script
-        src="https://giscus.app/client.js"
-        data-repo={REPO}
-        data-repo-id={REPO_ID}
-        data-category={CATEGORY}
-        data-category-id={CATEGORY_ID}
-        data-mapping="pathname"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="bottom"
-        data-theme="dark"
-        data-lang="ru"
-        crossorigin="anonymous"
-        async
-      />
-    ) : (
-      <p style="color:var(--ink-faint);font-size:0.85rem">
-        Комментарии пока не настроены (нужно включить Discussions на репозитории и вписать giscus-конфиг).
-      </p>
-    )
-  }
+  <script
+    src="https://giscus.app/client.js"
+    data-repo={REPO}
+    data-repo-id={REPO_ID}
+    data-category={CATEGORY}
+    data-category-id={CATEGORY_ID}
+    data-mapping="pathname"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="bottom"
+    data-theme="preferred_color_scheme"
+    data-lang="ru"
+    crossorigin="anonymous"
+    async
+  />
 </div>
