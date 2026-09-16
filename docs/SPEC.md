@@ -29,9 +29,9 @@
     `style.css`, `app.js`, `assets/`, `version.json`, `_headers`).
     `wrangler.jsonc` остаётся в корне репо (там его ищет Cloudflare
     Workers Builds) и просто указывает `assets.directory: "./apps/site"`.
-    Блог — отдельно, `/apps/blog`, появится и будет деплоиться отдельно
-    позже (не блокирует эту ветку). `docs/` — не деплоится, вне
-    `assets.directory`, живёт в корне.
+    Блог — отдельно, `/apps/blog` (свой `wrangler.jsonc`, свой Cloudflare
+    Workers Builds проект с root directory `apps/blog`). `docs/` — не
+    деплоится, вне `assets.directory`, живёт в корне.
 - **Cloudflare — как реально настроено (Workers Builds):**
   - Git-репозиторий подключён напрямую (без своего `.github/workflows`,
     билдит сам Cloudflare).
@@ -59,9 +59,10 @@
   таких объёмах.
 - **Хостинг:** Cloudflare Pages, бесплатный тариф (уже настроен на
   `khaiminov.com`, см. `_headers` в корне).
-- **Блог:** отдельный репозиторий, поддомен `blog.khaiminov.com`. С
-  главного сайта — просто ссылка (карточка на стене), без интеграции
-  контента.
+- **Блог:** `/apps/blog` в этом же репозитории (не отдельный репо),
+  свой Cloudflare Workers Builds проект, поддомен `blog.khaiminov.com`.
+  С главного сайта — просто ссылка (карточка на стене), без интеграции
+  контента. Подробности — в разделе "Блог" ниже.
 - **Почта на `khaiminov.com`:** отдельная задача, не блокирует мокап.
   На момент разговора похоже, что Cloudflare free tier не даёт email
   routing/hosting в нужном виде — надо перепроверить и настроить отдельно.
@@ -133,7 +134,21 @@
 
 ### Блог
 
-Просто внешняя ссылка-карточка на `blog.khaiminov.com` (отдельный репо).
+Живёт в этом же репозитории, `/apps/blog` — Astro + Markdown-статьи
+(`src/content/blog/*.md`), деплоится отдельным Cloudflare Workers Builds
+проектом (root directory `apps/blog`, build command `npm run build`,
+assets из `./dist`) на поддомен `blog.khaiminov.com`. С главного сайта —
+внешняя ссылка-карточка (нав-пункт `blog`), без интеграции контента.
+
+Правки — либо напрямую в Markdown-файлах через git, либо через Decap CMS
+(`/admin`, GitHub backend), чтобы было удобно и не через терминал.
+Decap CMS на GitHub backend требует OAuth-клиент (сайт не на Netlify) —
+см. TODO в `apps/blog/public/admin/config.yml`.
+
+Комментарии — giscus (хранится в GitHub Discussions репозитория,
+авторизация через GitHub-аккаунт комментатора, без своего бэкенда) — см.
+TODO в `apps/blog/src/components/Giscus.astro`. Лайки/дизлайки — пока не
+делаем.
 
 ### Личное
 
