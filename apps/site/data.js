@@ -16,7 +16,7 @@ const DATA = {
   heroLede: { ru: "Помогаю миллионам людей своей работой за компом =)<br>Staff Android, экс-ментор «Творчества чувств», личность.", en: "I help millions of people with my work behind a screen =)<br>Staff Android engineer, ex-mentor at «The Art of Feelings», a person." },
   sectionIntro: {
     career: { ru: "Путь по компаниям и продуктам — с фото рабочих мест (скоро настоящих).", en: "A path through companies and products — with photos of the places (real ones coming soon)." },
-    projects: { ru: "Фриланс и сторонние проекты. Список пополняется.", en: "Freelance and side projects. List is growing." },
+    projects: { ru: "Open source, личный сайт и всё, что делается вне основной работы.", en: "Open source, this site, and everything else outside the day job." },
     talks: { ru: "Конференции, менторство, митапы.", en: "Conferences, mentoring, meetups." },
     personal: { ru: "То, что вне программирования.", en: "The things outside of programming." },
     contacts: { ru: "Как со мной связаться.", en: "How to reach me." },
@@ -116,8 +116,56 @@ const DATA = {
     },
   ],
   projects: [
-    { id: "proj-1", glyph: "💻", placeholder: true, title: { ru: "Скоро", en: "Coming soon" }, role: { ru: "", en: "" }, period: { ru: "", en: "" }, summary: { ru: "Первый фриланс-проект появится здесь.", en: "The first freelance project will appear here." }, highlights: { ru: [], en: [] } },
-    { id: "proj-2", glyph: "🛠️", placeholder: true, title: { ru: "Скоро", en: "Coming soon" }, role: { ru: "", en: "" }, period: { ru: "", en: "" }, summary: { ru: "Ещё один проект — на подходе.", en: "Another project — on the way." }, highlights: { ru: [], en: [] } },
+    {
+      id: "kts-compiler", glyph: "🛠️",
+      title: { ru: "kts-compiler", en: "kts-compiler" },
+      role: { ru: "Open source · изначально в Plata-банке", en: "Open source · started at Banco Plata" },
+      period: { ru: "", en: "" },
+      href: "https://github.com/xvar/kts-compiler",
+      summary: {
+        ru: "Утилита, которая проверяет, скомпилируется ли .main.kts (Kotlin Script) файл — без реального запуска. Полезна в CI/CD, где логика пайплайнов пишется на Kotlin: умеет резолвить зависимости через @DependsOn и @Repository, кэширует результаты и работает из командной строки.",
+        en: "A utility that checks whether a .main.kts (Kotlin Script) file will compile — without actually running it. Useful for CI/CD where pipeline logic is written in Kotlin: resolves dependencies via @DependsOn and @Repository, caches results, and runs from the CLI.",
+      },
+      highlights: {
+        ru: ["Родился как внутренний инструмент в Plata-банке", "Сейчас в личном репозитории — github.com/xvar/kts-compiler"],
+        en: ["Started as an internal tool at Banco Plata", "Now lives in a personal repo — github.com/xvar/kts-compiler"],
+      },
+    },
+    {
+      id: "measure-sync", glyph: "⏱️",
+      title: { ru: "MeasureSync", en: "MeasureSync" },
+      role: { ru: "Open source · изначально в Plata-банке", en: "Open source · started at Banco Plata" },
+      period: { ru: "", en: "" },
+      href: "https://github.com/xvar/MeasureSync",
+      summary: {
+        ru: "Плагин для IntelliJ IDEA / Android Studio, который в реальном времени замеряет фазы Gradle-синхронизации и показывает, какая из них реально тормозит. Экспортирует метрики в JSON и умеет передавать их во внешние скрипты.",
+        en: "An IntelliJ IDEA / Android Studio plugin that measures Gradle sync phases in real time and shows which one is actually slow. Exports metrics as JSON and can hand them off to external scripts.",
+      },
+      highlights: {
+        ru: ["Тоже начинался как внутренний инструмент в Plata-банке", "Личный репозиторий — github.com/xvar/MeasureSync"],
+        en: ["Also started as an internal tool at Banco Plata", "Personal repo — github.com/xvar/MeasureSync"],
+      },
+    },
+    {
+      id: "khaiminov-site", glyph: "🌐",
+      title: { ru: "khaiminov.com", en: "khaiminov.com" },
+      role: { ru: "Личный проект", en: "Personal project" },
+      period: { ru: "", en: "" },
+      href: "https://github.com/xvar/khaiminov.com",
+      summary: {
+        ru: "Этот самый сайт. Статический HTML/CSS/JS без бэкенда и без сборки, задеплоен на Cloudflare Workers. Дизайн и вёрстку делал в паре с Клодом — буквально тем самым, кто сейчас пишет этот текст.",
+        en: "This very site. Static HTML/CSS/JS, no backend, no build step, deployed on Cloudflare Workers. Designed and built together with Claude — literally the one writing this text right now.",
+      },
+      highlights: { ru: [], en: [] },
+    },
+    {
+      id: "inventory-service", glyph: "📦", placeholder: true,
+      title: { ru: "Сервис учёта товаров", en: "Inventory tracking service" },
+      role: { ru: "В разработке", en: "In development" },
+      period: { ru: "", en: "" },
+      summary: { ru: "В разработке — сервис для учёта товаров. Подробности скоро.", en: "In development — an inventory tracking service. Details soon." },
+      highlights: { ru: [], en: [] },
+    },
   ],
   talks: [
     {
