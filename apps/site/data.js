@@ -120,7 +120,7 @@ const DATA = {
   education: [
     {
       id: "msu", glyph: "🎓",
-      title: { ru: "МГУ им. М.В. Ломоносова (Казахстанский филиал)", en: "Moscow State University (Kazakhstan branch)" },
+      title: { ru: "МГУ имени М.В. Ломоносова", en: "Lomonosov Moscow State University" },
       role: { ru: "Магистратура, компьютерные науки", en: "Master's degree, Computer Science" },
       period: { ru: "2008–2013 · Астана", en: "2008–2013 · Astana" },
       summary: { ru: "Подробности и фото — позже.", en: "Details and photos — later." },
