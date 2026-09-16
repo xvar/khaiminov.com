@@ -152,6 +152,7 @@ const DATA = {
       role: { ru: "Личный проект", en: "Personal project" },
       period: { ru: "", en: "" },
       href: "https://github.com/xvar/khaiminov.com",
+      photos: ["assets/projects/khaiminov-site/telegram-control.webp"],
       summary: {
         ru: "Этот самый сайт. Статический HTML/CSS/JS без бэкенда и без сборки, задеплоен на Cloudflare Workers. Дизайн и вёрстку делал в паре с Клодом — буквально тем самым, кто сейчас пишет этот текст. Часть правок веду прямо с телефона, через Telegram, пока Клод делает всю работу за компьютером.",
         en: "This very site. Static HTML/CSS/JS, no backend, no build step, deployed on Cloudflare Workers. Designed and built together with Claude — literally the one writing this text right now. I manage part of it straight from my phone over Telegram, while Claude does the actual work on a computer.",
