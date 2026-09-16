@@ -2,12 +2,9 @@ backend:
   name: github
   repo: xvar/khaiminov.com
   branch: feature/blog # TODO: switch to main once this branch is merged
-  # GitHub backend needs an OAuth client to authenticate — this repo isn't on
-  # Netlify, so that has to be either:
-  #   - Decap Turbo (hosted OAuth + proxy, no infra to run: https://decapcms.org/docs/external-oauth-clients/)
-  #   - a self-hosted OAuth provider (e.g. a small Cloudflare Worker)
-  # Once you pick one, set base_url (and auth_endpoint if needed) here.
-  base_url: "" # TODO
+  # OAuth for the GitHub backend, via a self-hosted sveltia-cms-auth Worker
+  # (this repo isn't on Netlify, which is Decap's other supported option).
+  base_url: "https://sveltia-cms-auth.alex-haiminov.workers.dev"
 
 media_folder: "apps/blog/public/images/blog"
 public_folder: "/images/blog"
