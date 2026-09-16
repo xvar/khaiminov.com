@@ -170,7 +170,11 @@ function renderCollectionWall(key) {
   const items = DATA[key];
   const cards = items.map((it, i) => photoCard({
     id: it.id, glyph: it.glyph, logo: it.logo, photo: it.photo, placeholder: it.placeholder,
-    caption: t(it.title), size: it.size, pinLeft: it.pinLeft, order: it.order, href: it.href,
+    caption: t(it.title), size: it.size, pinLeft: it.pinLeft, order: it.order,
+    // only "talks" cards jump straight to the external link (a video) --
+    // everywhere else (projects included) the card opens the story panel
+    // first, so the write-up actually gets read before anyone clicks out.
+    href: key === "talks" ? it.href : undefined,
     natural: !!it.photo,
   })).join("");
   return `
@@ -217,6 +221,7 @@ function openStory(collection, id) {
       ${metaParts ? `<p class="story-meta">${metaParts}</p>` : ""}
       <p class="story-summary">${t(job.summary)}</p>
       ${t(job.highlights).length ? `<ul class="story-highlights">${t(job.highlights).map((h) => `<li>${h}</li>`).join("")}</ul>` : ""}
+      ${job.href ? `<a class="cv-button" href="${job.href}" target="_blank" rel="noopener">${lang === "ru" ? "Открыть репозиторий" : "Open repository"} ↗</a>` : ""}
     </div>
   `;
   document.body.appendChild(overlay);

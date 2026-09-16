@@ -127,8 +127,8 @@ const DATA = {
         en: "A utility that checks whether a .main.kts (Kotlin Script) file will compile — without actually running it. Useful for CI/CD where pipeline logic is written in Kotlin: resolves dependencies via @DependsOn and @Repository, caches results, and runs from the CLI.",
       },
       highlights: {
-        ru: ["Родился как внутренний инструмент в Plata-банке", "Сейчас в личном репозитории — github.com/xvar/kts-compiler"],
-        en: ["Started as an internal tool at Banco Plata", "Now lives in a personal repo — github.com/xvar/kts-compiler"],
+        ru: ["Изначально появился как внутренний инструмент в Plata-банке", "Теперь веду и дорабатываю в личном репозитории — github.com/xvar/kts-compiler"],
+        en: ["Originally built as an internal tool at Banco Plata", "Now maintaining and polishing it in my own repo — github.com/xvar/kts-compiler"],
       },
     },
     {
@@ -142,8 +142,8 @@ const DATA = {
         en: "An IntelliJ IDEA / Android Studio plugin that measures Gradle sync phases in real time and shows which one is actually slow. Exports metrics as JSON and can hand them off to external scripts.",
       },
       highlights: {
-        ru: ["Тоже начинался как внутренний инструмент в Plata-банке", "Личный репозиторий — github.com/xvar/MeasureSync"],
-        en: ["Also started as an internal tool at Banco Plata", "Personal repo — github.com/xvar/MeasureSync"],
+        ru: ["Тоже начинался как внутренний инструмент в Plata-банке", "Продолжаю поддерживать и дорабатывать у себя — github.com/xvar/MeasureSync"],
+        en: ["Also started as an internal tool at Banco Plata", "Continuing to maintain and polish it on my own — github.com/xvar/MeasureSync"],
       },
     },
     {
@@ -153,8 +153,8 @@ const DATA = {
       period: { ru: "", en: "" },
       href: "https://github.com/xvar/khaiminov.com",
       summary: {
-        ru: "Этот самый сайт. Статический HTML/CSS/JS без бэкенда и без сборки, задеплоен на Cloudflare Workers. Дизайн и вёрстку делал в паре с Клодом — буквально тем самым, кто сейчас пишет этот текст.",
-        en: "This very site. Static HTML/CSS/JS, no backend, no build step, deployed on Cloudflare Workers. Designed and built together with Claude — literally the one writing this text right now.",
+        ru: "Этот самый сайт. Статический HTML/CSS/JS без бэкенда и без сборки, задеплоен на Cloudflare Workers. Дизайн и вёрстку делал в паре с Клодом — буквально тем самым, кто сейчас пишет этот текст. Часть правок веду прямо с телефона, через Telegram, пока Клод делает всю работу за компьютером.",
+        en: "This very site. Static HTML/CSS/JS, no backend, no build step, deployed on Cloudflare Workers. Designed and built together with Claude — literally the one writing this text right now. I manage part of it straight from my phone over Telegram, while Claude does the actual work on a computer.",
       },
       highlights: { ru: [], en: [] },
     },
