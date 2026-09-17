@@ -7,8 +7,11 @@
   --ink-faint: #8577a6;
   --brass: #d9a343;
   --brass-hot: #ffda8a;
+  --card-bg: #f3ecdd;
+  --card-shadow: 0 10px 24px -8px rgba(0, 0, 0, 0.55);
   --serif: "Spectral", Georgia, serif;
   --sans: "Manrope", system-ui, sans-serif;
+  --hand: "Caveat", "Segoe Script", cursive;
 }
 
 * {
@@ -73,35 +76,152 @@ h3 {
   line-height: 1.2;
 }
 
-.post-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
+/* ---------- section boards (PRO / Life index cards) ---------- */
+.board-wrap {
+  container-type: inline-size;
+}
+
+.boards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem 2rem;
+  padding-top: 0.5rem;
+}
+@container (max-width: 560px) {
+  .boards {
+    grid-template-columns: 1fr;
+    gap: 2.75rem;
+  }
+}
+
+.board-card {
+  --rot: -1.6deg;
+  position: relative;
+  transform: rotate(var(--rot));
+  transition: transform 0.25s cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+.board-card.life {
+  --rot: 1.4deg;
+}
+.board-card:hover,
+.board-card:focus-within {
+  transform: rotate(0deg) translateY(-4px);
+}
+@container (max-width: 560px) {
+  .board-card {
+    --rot: 0deg;
+  }
+  .board-card:hover,
+  .board-card:focus-within {
+    transform: none;
+  }
+}
+
+.board-card .tape {
+  position: absolute;
+  width: 56px;
+  height: 24px;
+  background: rgba(233, 217, 168, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+  z-index: 2;
+  top: -12px;
+  left: calc(50% - 28px);
+  transform: rotate(1deg);
+}
+
+.board-face {
+  background: var(--card-bg);
+  border-radius: 3px;
+  box-shadow: var(--card-shadow);
+  padding: 1.5rem 1.4rem 1.6rem;
   display: flex;
   flex-direction: column;
-  gap: 1.75rem;
 }
 
-.post-list li a {
+.board-title {
+  font-family: var(--hand);
+  font-weight: 600;
+  font-size: 3rem;
+  line-height: 1;
+  color: #2c1f14;
+  text-align: center;
+}
+
+.board-sub {
+  display: block;
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #6b5b46;
+  text-align: center;
+  margin-top: 0.35rem;
+}
+
+.board-frame {
+  margin-top: 1.3rem;
+  border-radius: 2px;
+  background: linear-gradient(145deg, #4b3468, #241533);
+  flex: 1;
+  min-height: 360px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.row-list {
+  list-style: none;
+  margin: 0;
+  padding: 0.4rem 0;
+  overflow-y: auto;
+  flex: 1;
+  scrollbar-width: thin;
+  scrollbar-color: var(--panel-line) transparent;
+}
+.row-list::-webkit-scrollbar {
+  width: 8px;
+}
+.row-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+.row-list::-webkit-scrollbar-thumb {
+  background: var(--panel-line);
+  border-radius: 4px;
+}
+
+.row-list li a {
+  display: block;
   text-decoration: none;
   color: var(--ink);
+  padding: 0.85rem 1.3rem;
+  border-bottom: 1px solid var(--panel-line);
+  transition: background 0.15s ease;
+}
+.row-list li:last-child a {
+  border-bottom: none;
+}
+.row-list li a:hover {
+  background: rgba(217, 163, 67, 0.1);
 }
 
-.post-list .title {
-  font-family: var(--serif);
-  font-weight: 600;
-  font-size: 1.35rem;
+.row-list .date {
   display: block;
-}
-
-.post-list .date {
-  font-size: 0.85rem;
+  font-size: 0.76rem;
   color: var(--ink-faint);
+  margin-bottom: 0.2rem;
+}
+.row-list .title {
+  display: block;
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 1.04rem;
 }
 
-.post-list .description {
-  color: var(--ink-soft);
-  margin: 0.35rem 0 0;
+.row-list .empty {
+  padding: 1.3rem;
+  color: var(--ink-faint);
+  font-size: 0.9rem;
 }
 
 .post-meta {
@@ -124,6 +244,20 @@ h3 {
   border-radius: 4px;
   padding: 0.1em 0.4em;
   font-size: 0.9em;
+}
+
+.post-body pre {
+  overflow-x: auto;
+  border-radius: 6px;
+  padding: 1rem 1.1rem;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.post-body pre code {
+  background: none;
+  border: none;
+  padding: 0;
 }
 
 #giscus-container {

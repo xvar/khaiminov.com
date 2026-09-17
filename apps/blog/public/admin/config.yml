@@ -20,4 +20,10 @@ collections:
       - { label: "Заголовок", name: "title", widget: "string" }
       - { label: "Дата", name: "date", widget: "datetime" }
       - { label: "Описание", name: "description", widget: "text" }
+      - label: "Раздел"
+        name: "section"
+        widget: "select"
+        options:
+          - { label: "PRO (программирование, Android, работа)", value: "pro" }
+          - { label: "Life (всё остальное)", value: "life" }
       - { label: "Текст", name: "body", widget: "markdown" }
