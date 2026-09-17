@@ -1,0 +1,133 @@
+:root {
+  --bg: #170d22;
+  --panel: #1b1027;
+  --panel-line: #3a2a55;
+  --ink: #ede7f6;
+  --ink-soft: #c3b6dc;
+  --ink-faint: #8577a6;
+  --brass: #d9a343;
+  --brass-hot: #ffda8a;
+  --serif: "Spectral", Georgia, serif;
+  --sans: "Manrope", system-ui, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  line-height: 1.6;
+}
+
+a {
+  color: var(--brass-hot);
+}
+
+a:hover {
+  color: var(--brass);
+}
+
+.wrap {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 2.5rem 1.25rem 4rem;
+}
+
+.site-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--panel-line);
+}
+
+.site-header a.brand {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 1.3rem;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.site-header .back {
+  font-size: 0.9rem;
+  color: var(--ink-faint);
+  text-decoration: none;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--serif);
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.post-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+.post-list li a {
+  text-decoration: none;
+  color: var(--ink);
+}
+
+.post-list .title {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 1.35rem;
+  display: block;
+}
+
+.post-list .date {
+  font-size: 0.85rem;
+  color: var(--ink-faint);
+}
+
+.post-list .description {
+  color: var(--ink-soft);
+  margin: 0.35rem 0 0;
+}
+
+.post-meta {
+  color: var(--ink-faint);
+  font-size: 0.9rem;
+  margin-bottom: 2rem;
+}
+
+.post-body {
+  font-size: 1.05rem;
+}
+
+.post-body p {
+  margin: 1.1em 0;
+}
+
+.post-body code {
+  background: var(--panel);
+  border: 1px solid var(--panel-line);
+  border-radius: 4px;
+  padding: 0.1em 0.4em;
+  font-size: 0.9em;
+}
+
+#giscus-container {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--panel-line);
+}

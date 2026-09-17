@@ -1,0 +1,23 @@
+backend:
+  name: github
+  repo: xvar/khaiminov.com
+  branch: feature/blog # TODO: switch to main once this branch is merged
+  # OAuth for the GitHub backend, via a self-hosted sveltia-cms-auth Worker
+  # (this repo isn't on Netlify, which is Decap's other supported option).
+  base_url: "https://sveltia-cms-auth.alex-haiminov.workers.dev"
+
+media_folder: "apps/blog/public/images/blog"
+public_folder: "/images/blog"
+
+collections:
+  - name: "blog"
+    label: "Блог"
+    label_singular: "Статья"
+    folder: "apps/blog/src/content/blog"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Заголовок", name: "title", widget: "string" }
+      - { label: "Дата", name: "date", widget: "datetime" }
+      - { label: "Описание", name: "description", widget: "text" }
+      - { label: "Текст", name: "body", widget: "markdown" }

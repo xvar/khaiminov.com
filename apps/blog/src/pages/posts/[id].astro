@@ -1,0 +1,29 @@
+---
+import { getCollection, render } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import Giscus from "../../components/Giscus.astro";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog");
+  return posts.map((post) => ({
+    params: { id: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+
+<Base title={`${post.data.title} — Блог Алексея Хайминов`} description={post.data.description}>
+  <article>
+    <h1>{post.data.title}</h1>
+    <p class="post-meta">
+      {post.data.date.toLocaleDateString("ru-RU", { year: "numeric", month: "long", day: "numeric" })}
+    </p>
+    <div class="post-body">
+      <Content />
+    </div>
+  </article>
+  <Giscus />
+</Base>
