@@ -103,17 +103,29 @@ h3 {
 .board-card.life {
   --rot: 1.4deg;
 }
-.board-card:hover,
 .board-card:focus-within {
   transform: rotate(0deg) translateY(-4px);
+}
+/* Real mouse hover only - on touch, :hover sticks to whichever card was
+   last tapped until something else is tapped, and since the PRO card's
+   rows are links that navigate away immediately, only a non-link card
+   (e.g. an empty one) ever holds that state long enough to be seen. */
+@media (hover: hover) and (pointer: fine) {
+  .board-card:hover {
+    transform: rotate(0deg) translateY(-4px);
+  }
 }
 @container (max-width: 560px) {
   .board-card {
     --rot: 0deg;
   }
-  .board-card:hover,
   .board-card:focus-within {
     transform: none;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .board-card:hover {
+      transform: none;
+    }
   }
 }
 
@@ -218,8 +230,9 @@ h3 {
   font-size: 1.04rem;
 }
 
-.row-list .empty {
-  padding: 1.3rem;
+.board-frame .empty {
+  margin: 0;
+  padding: 1.25rem 1.3rem;
   color: var(--ink-faint);
   font-size: 0.9rem;
 }
