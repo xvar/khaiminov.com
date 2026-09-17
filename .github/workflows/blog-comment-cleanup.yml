@@ -43,7 +43,11 @@ jobs:
 
             for (const file of files) {
               const slug = file.split("/").pop().replace(/\.md$/, "");
-              const pathname = `/posts/${slug}/`;
+              // giscus titles pathname-mapped discussions without a leading
+              // slash (e.g. "posts/<slug>/", not "/posts/<slug>/") - this
+              // must match that exactly or the search below silently finds
+              // nothing.
+              const pathname = `posts/${slug}/`;
 
               const search = await github.graphql(
                 `query($q: String!) {
