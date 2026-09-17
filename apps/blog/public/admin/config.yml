@@ -1,7 +1,7 @@
 backend:
   name: github
   repo: xvar/khaiminov.com
-  branch: feature/blog # TODO: switch to main once this branch is merged
+  branch: main
   # OAuth for the GitHub backend, via a self-hosted sveltia-cms-auth Worker
   # (this repo isn't on Netlify, which is Decap's other supported option).
   base_url: "https://sveltia-cms-auth.alex-haiminov.workers.dev"
