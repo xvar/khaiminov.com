@@ -1,0 +1,70 @@
+name: Blog comment cleanup
+
+# giscus comments live as GitHub Discussions, keyed by page pathname
+# (see apps/blog/src/components/Giscus.astro). They don't disappear on
+# their own when a post's markdown file is removed, so when a push
+# deletes a post, delete its matching discussion too.
+on:
+  push:
+    branches: ["**"]
+    paths:
+      - "apps/blog/src/content/blog/**"
+
+permissions:
+  contents: read
+  discussions: write
+
+jobs:
+  delete-orphaned-discussions:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: List removed posts
+        id: removed
+        run: |
+          files=$(git diff --diff-filter=D --name-only HEAD^ HEAD -- 'apps/blog/src/content/blog/*.md' || true)
+          {
+            echo "files<<EOF"
+            echo "$files"
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Delete matching giscus discussions
+        if: steps.removed.outputs.files != ''
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const repoOwner = "xvar";
+            const repoName = "khaiminov.com";
+            const files = `${{ steps.removed.outputs.files }}`.split("\n").filter(Boolean);
+
+            for (const file of files) {
+              const slug = file.split("/").pop().replace(/\.md$/, "");
+              const pathname = `/posts/${slug}/`;
+
+              const search = await github.graphql(
+                `query($q: String!) {
+                  search(query: $q, type: DISCUSSION, first: 10) {
+                    nodes { ... on Discussion { id title } }
+                  }
+                }`,
+                { q: `repo:${repoOwner}/${repoName} in:title "${pathname}"` }
+              );
+
+              const match = search.search.nodes.find((n) => n.title === pathname);
+              if (!match) {
+                console.log(`No giscus discussion found for ${pathname}, nothing to clean up.`);
+                continue;
+              }
+
+              await github.graphql(
+                `mutation($id: ID!) {
+                  deleteDiscussion(input: { id: $id }) { discussion { id } }
+                }`,
+                { id: match.id }
+              );
+              console.log(`Deleted discussion for ${pathname} (id ${match.id}).`);
+            }
