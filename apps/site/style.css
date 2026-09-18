@@ -139,8 +139,20 @@ button{font:inherit}
    .sidebar's containing-block ancestors, and any non-visible overflow on
    one of those breaks position:sticky (it'd stick to that box instead of
    the viewport). Scoping it to .content keeps rotated-card overhang from
-   causing a horizontal scrollbar without touching the sidebar's own chain. */
-.content{flex:1;min-width:0;position:relative;overflow-x:hidden}
+   causing a horizontal scrollbar without touching the sidebar's own chain.
+   overflow-y:visible is NOT the default once overflow-x is set to
+   anything but visible -- per spec, the UA computes the other axis as
+   auto instead, which silently turned .content into its OWN vertical
+   scroll container, nested inside the page's real one. Its 15px gutter
+   toggled independently whenever .content's own scrollHeight crossed its
+   clientHeight by a pixel or two -- which the Contacts card's hover lift,
+   sitting right at the bottom edge, was just barely enough to trigger --
+   and that's what was actually resizing .hero-photo: not the grid, a
+   second nested scrollbar appearing and disappearing. Setting overflow-y
+   back to visible explicitly opts out of that pairing; horizontal
+   clipping still works on its own axis, and vertical overflow goes back
+   to being the document's problem, where it belongs. */
+.content{flex:1;min-width:0;position:relative;overflow-x:clip;overflow-y:visible}
 .content::before{
   content:"";position:absolute;inset:0;pointer-events:none;z-index:0;opacity:.05;mix-blend-mode:overlay;
   background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
@@ -186,7 +198,14 @@ button{font:inherit}
    width and stealing space from the photo column. Pinning both to 0
    forces the fr tracks to stay purely proportional regardless of what
    the cards are doing. */
-.hero--split .split{display:grid;grid-template-columns:1.15fr 1fr;gap:0;align-items:center}
+/* minmax(0,Nfr), not bare Nfr: a bare fr track's automatic minimum is
+   still its content's min-content size regardless of min-width on the
+   item inside it (tried that first -- it wasn't enough, the Contacts
+   column could still outgrow its share). Wrapping every track in
+   minmax(0, ...) is the actual fix: it pins the track's own automatic
+   minimum to 0, so nothing the cards do can ever widen it past its
+   proportional share. */
+.hero--split .split{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:0;align-items:center}
 .hero--split .split>*{min-width:0}
 .hero-photo{
   position:relative;aspect-ratio:4/5;overflow:hidden;border-radius:10px;
@@ -246,14 +265,21 @@ button{font:inherit}
    combining opacity with mix-blend-mode forces its own isolated
    compositing group, so the blend would happen against that group's
    transparent backdrop instead of .wall's background.
-   Anchored top-right (not bottom-right): that's empty space right next to
-   the section title on every section, on any screen width, so it stays
-   visible even where the card grid would otherwise cover a bottom corner
-   -- that's what made it invisible on mobile, where the stacked cards run
-   the full width of .wall. */
+   Anchored top-right (not bottom-right) by default: that's empty space
+   right next to the section title on every section, on any screen width,
+   so it stays visible even where the card grid would otherwise cover a
+   bottom corner -- that's what made it invisible on mobile, where the
+   stacked cards run the full width of .wall.
+   Every offset reads from a --mascot-* custom property first: a NAV
+   entry's mascotPos (see renderCollectionWall in app.js) sets these
+   inline per-image to override any subset of top/right/bottom/left/width,
+   so any mascot can be repositioned anywhere on its section's wall
+   without touching this rule. */
 .wall-mascot{
-  position:absolute;right:clamp(.5rem,3vw,2rem);top:.25rem;z-index:0;
-  width:clamp(110px,18vw,220px);height:auto;
+  position:absolute;z-index:0;
+  top:var(--mascot-top,.25rem);right:var(--mascot-right,clamp(.5rem,3vw,2rem));
+  bottom:var(--mascot-bottom,auto);left:var(--mascot-left,auto);
+  width:var(--mascot-width,clamp(110px,18vw,220px));height:auto;
   mix-blend-mode:screen;pointer-events:none;
 }
 .wall-grid{
