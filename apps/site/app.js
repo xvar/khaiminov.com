@@ -3,6 +3,25 @@
 // decisions and open questions. No backend, no build step.
 // NAV/DATA content lives in data.js, loaded before this file.
 
+// Intrinsic pixel sizes for every "natural" (uncropped) card-face photo, so
+// the <img> width/height attributes let the browser reserve the right box
+// before the file has loaded -- without this, "natural" cards visibly pop
+// and reflow the whole grid around them once each image arrives, which
+// reads as the wall "jittering" during a route change.
+const PHOTO_DIMS = {
+  "assets/education/msu/main-building-exterior.webp": [640, 1138],
+  "assets/education/lyceum-165/facade.webp": [640, 480],
+  "assets/talks/mobius-graphql-rest/thumb.webp": [480, 270],
+  "assets/talks/heisenbug-ui-tests/thumb.webp": [480, 270],
+  "assets/talks/podlodka-performance-battle/thumb.webp": [480, 270],
+  "assets/talks/podlodka-cicd-roundtable/thumb.webp": [480, 270],
+  "assets/talks/kotlin-scripts-cicd/thumb.webp": [480, 270],
+  "assets/talks/sirius/thumb.webp": [980, 490],
+  "assets/personal/guitar/balcony.webp": [700, 560],
+  "assets/personal/knives/map-lineup.webp": [900, 676],
+  "assets/personal/mentoring/code-izobiliya.webp": [500, 500],
+};
+
 let lang = localStorage.getItem("km-lang") || "ru";
 const app = document.getElementById("app");
 const sideNavEl = document.getElementById("side-nav");
@@ -35,7 +54,7 @@ langButtons.forEach((b) => b.addEventListener("click", () => setLang(b.dataset.l
 // photographic bokeh look instead of a flat gradient dot.
 function garlandSVG() {
   const wireY = 22;
-  const count = 42;
+  const count = 26;
   const palette = ["#FFD98A", "#FFC873", "#FFE9B0", "#FFDA8A"];
   let lights = "";
   for (let i = 0; i < count; i++) {
@@ -131,8 +150,10 @@ function photoCard({ id, glyph, logo, photo, caption, meta, placeholder, href, s
   const naturalClass = natural ? " natural" : "";
   const orderVars = order ? `;--order-desktop:${order.desktop};--order-mobile:${order.mobile}` : "";
   const style = `--rot:${rot}deg${pinLeft ? ";grid-column:1" : ""}${orderVars}`;
+  const dims = photo && PHOTO_DIMS[photo];
+  const dimAttrs = dims ? ` width="${dims[0]}" height="${dims[1]}"` : "";
   const media = photo
-    ? `<img class="frame-photo" src="${photo}" alt="">`
+    ? `<img class="frame-photo" src="${photo}"${dimAttrs} alt="">`
     : logo
     ? `<img class="frame-logo" src="${logo}" alt="">`
     : `<span class="glyph">${glyph}</span>`;
