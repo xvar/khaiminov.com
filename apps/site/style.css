@@ -233,17 +233,27 @@ button{font:inherit}
    context boundary away. Repeating the same gradient as a real background
    here (matching body::before) gives the mascot something local and
    visually seamless to screen-blend against, instead of nothing. */
-.wall{position:relative;z-index:1;padding:1.25rem clamp(1rem,3vw,2.5rem) 5rem;background:linear-gradient(160deg,var(--wall-1) 0%,var(--wall-2) 100%)}
+/* background-attachment:fixed anchors this gradient to the viewport, same
+   as body::before's -- .wall starts partway down the page, so a gradient
+   painted relative to *its own* box (the plain "background:" version)
+   restarts from --wall-1 right at the garland instead of continuing the
+   page's actual gradient, showing up as a visible seam right under it. */
+.wall{position:relative;z-index:1;padding:1.25rem clamp(1rem,3vw,2.5rem) 5rem;background:linear-gradient(160deg,var(--wall-1) 0%,var(--wall-2) 100%);background-attachment:fixed}
 /* the section's mascot sits as a corner decoration behind the card grid,
    not as a clickable preview -- z-index:0 plus DOM order (it's the first
    child) keeps it under the cards, which each get their own stacking
    context from --rot's transform. Opacity is intentionally NOT reduced:
    combining opacity with mix-blend-mode forces its own isolated
    compositing group, so the blend would happen against that group's
-   transparent backdrop instead of .wall's background. */
+   transparent backdrop instead of .wall's background.
+   Anchored top-right (not bottom-right): that's empty space right next to
+   the section title on every section, on any screen width, so it stays
+   visible even where the card grid would otherwise cover a bottom corner
+   -- that's what made it invisible on mobile, where the stacked cards run
+   the full width of .wall. */
 .wall-mascot{
-  position:absolute;right:clamp(.5rem,3vw,2rem);bottom:1rem;z-index:0;
-  width:clamp(140px,22vw,280px);height:auto;
+  position:absolute;right:clamp(.5rem,3vw,2rem);top:.25rem;z-index:0;
+  width:clamp(110px,18vw,220px);height:auto;
   mix-blend-mode:screen;pointer-events:none;
 }
 .wall-grid{
@@ -405,6 +415,7 @@ footer.site-footer{position:relative;z-index:1;text-align:left;color:var(--ink-f
   .wall-grid--career::before,.wall-grid--career::after{display:none}
   .wall-grid--career .photo-card{order:var(--order-mobile, 0)}
   .photo-card{width:clamp(150px,42vw,200px)}
+  .wall-mascot{width:clamp(70px,24vw,110px)}
   .hero--split .split{grid-template-columns:1fr;gap:1.75rem}
   .hero-photo{aspect-ratio:4/5}
   .hero-wall-grid{max-width:100%}
