@@ -177,7 +177,17 @@ button{font:inherit}
    right edge fades the IMAGE ITSELF to transparent (a mask, not a flat
    color layered on top), so whatever's actually behind it shows through
    instead of an approximated solid patch. */
+/* min-width:0 on both direct grid items: without it, each column's
+   automatic minimum size is its content's min-content width, which can
+   outgrow the 1.15fr/1fr proportional split -- in practice this showed up
+   as .hero-photo visibly resizing whenever the lone card in the wall
+   grid's last row (Contacts, un-paired in the 2-column layout) settled
+   into its hover/synced transform, nudging that column's min-content
+   width and stealing space from the photo column. Pinning both to 0
+   forces the fr tracks to stay purely proportional regardless of what
+   the cards are doing. */
 .hero--split .split{display:grid;grid-template-columns:1.15fr 1fr;gap:0;align-items:center}
+.hero--split .split>*{min-width:0}
 .hero-photo{
   position:relative;aspect-ratio:4/5;overflow:hidden;border-radius:10px;
   background:linear-gradient(160deg,var(--wall-1) 0%,var(--wall-2) 100%);
@@ -414,3 +424,12 @@ footer.site-footer{position:relative;z-index:1;text-align:left;color:var(--ink-f
 }
 
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+/* One deliberate exception to the blanket rule above: the corner mascot's
+   sway is a few-degree rotation on a small decorative element, not the
+   kind of large/parallax motion prefers-reduced-motion exists to guard
+   against, so it stays on even for that preference. Higher selector
+   specificity than the *{...} rule above wins this regardless of source
+   order, so it doesn't need to be literally last in the file. */
+@media (prefers-reduced-motion:reduce){
+  .hero-photo:hover .hero-mascot{animation:mascot-sway 1.6s ease-in-out infinite!important}
+}
