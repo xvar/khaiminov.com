@@ -5,11 +5,11 @@
 const NAV = [
   { id: "career", glyph: "💼", mascot: "assets/mascots/career-mascot.webp", label: { ru: "Карьера", en: "Career" } },
   { id: "education", glyph: "🎓", mascot: "assets/mascots/education-mascot.webp", label: { ru: "Образование", en: "Education" } },
-  { id: "projects", glyph: "🧩", mascot: "assets/mascots/projects-mascot.webp", label: { ru: "Проекты", en: "Projects" } },
+  { id: "projects", glyph: "🧩", mascot: "assets/mascots/projects-mascot.webp", mascotPos: { z: 2 }, label: { ru: "Проекты", en: "Projects" } },
   { id: "talks", glyph: "🎤", mascot: "assets/mascots/talks-mascot.webp", mascotPos: { top: "18rem" }, label: { ru: "Выступления", en: "Public Talks" } },
   { id: "blog", glyph: "📝", mascot: "assets/mascots/blog-mascot.webp", label: { ru: "Блог", en: "Blog" }, external: "https://blog.khaiminov.com" },
   { id: "personal", glyph: "🎸", mascot: "assets/mascots/personal-mascot.webp", label: { ru: "Личное", en: "Personal" } },
-  { id: "contacts", glyph: "✉️", mascot: "assets/mascots/contacts-mascot.webp", label: { ru: "Контакты", en: "Contacts" } },
+  { id: "contacts", glyph: "✉️", mascot: "assets/mascots/contacts-mascot.webp", mascotPos: { z: 2 }, label: { ru: "Контакты", en: "Contacts" } },
 ];
 
 const DATA = {
