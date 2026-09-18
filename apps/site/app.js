@@ -105,7 +105,7 @@ function syncSet(id, on) {
   document.querySelectorAll(`[data-sync="${id}"]`).forEach((el) => el.classList.toggle("is-synced", on));
 }
 
-function photoCard({ id, glyph, logo, mascot, photo, caption, meta, placeholder, href, syncId, size, pinLeft, natural, lightbox, order }) {
+function photoCard({ id, glyph, logo, photo, caption, meta, placeholder, href, syncId, size, pinLeft, natural, lightbox, order }) {
   const rot = (((id.charCodeAt(0) + id.length) % 7) - 3) * 1.1;
   const tag = href ? "a" : "button";
   const extAttrs = href && href.startsWith("http") ? `target="_blank" rel="noopener"` : "";
@@ -124,8 +124,6 @@ function photoCard({ id, glyph, logo, mascot, photo, caption, meta, placeholder,
   const dimAttrs = dims ? ` width="${dims[0]}" height="${dims[1]}"` : "";
   const media = photo
     ? `<img class="frame-photo" src="${photo}"${dimAttrs} alt="">`
-    : mascot
-    ? `<img class="frame-mascot" src="${mascot}" alt="">`
     : logo
     ? `<img class="frame-logo" src="${logo}" alt="">`
     : `<span class="glyph">${glyph}</span>`;
@@ -152,7 +150,7 @@ function renderHome() {
           <img class="hero-photo-img" src="assets/hero/studio.webp" alt="">
           <h1 class="hero-name">${t(DATA.hero)}</h1>
           <p class="hero-bio">${t(DATA.heroLede)}</p>
-          <img class="hero-mascot" src="assets/mascots/nusya-albino-basket.webp" alt="">
+          <img class="hero-mascot" src="assets/mascots/hero-mascot.webp" alt="">
         </div>
         <div class="hero-cards"><div class="wall-grid hero-wall-grid">${cards}</div></div>
       </div>
