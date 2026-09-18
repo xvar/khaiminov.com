@@ -49,38 +49,8 @@ function setLang(next) {
 }
 langButtons.forEach((b) => b.addEventListener("click", () => setLang(b.dataset.lang)));
 
-// Horizontal LED strand: a plain wire with a loose bunch of lights along
-// it. Each light is a real Gaussian-blurred halo plus a sharp core, for a
-// photographic bokeh look instead of a flat gradient dot.
-function garlandSVG() {
-  const wireY = 22;
-  const count = 26;
-  const palette = ["#FFD98A", "#FFC873", "#FFE9B0", "#FFDA8A"];
-  let lights = "";
-  for (let i = 0; i < count; i++) {
-    const x = (1000 / (count - 1)) * i + (Math.random() * 10 - 5);
-    const y = wireY + Math.sin(i * 2.3) * 3 + (Math.random() * 12 - 6);
-    const big = Math.random() < 0.3;
-    const haloR = big ? 9 + Math.random() * 4 : 5 + Math.random() * 3;
-    const coreR = big ? 2.6 + Math.random() : 1.6 + Math.random() * 0.8;
-    const color = palette[i % palette.length];
-    const delay = (Math.random() * 3).toFixed(2);
-    lights += `<g class="bulb-glow" style="animation-delay:${delay}s">
-      <circle cx="${x}" cy="${y}" r="${haloR}" fill="${color}" filter="url(#softBlur)" opacity=".65"/>
-      <circle cx="${x}" cy="${y}" r="${coreR}" fill="#FFF8E6"/>
-    </g>`;
-  }
-  return `<svg viewBox="0 0 1000 44" preserveAspectRatio="none" aria-hidden="true">
-    <defs>
-      <filter id="softBlur" x="-200%" y="-200%" width="500%" height="500%">
-        <feGaussianBlur stdDeviation="3.2"/>
-      </filter>
-    </defs>
-    <path d="M0,${wireY} Q 250,${wireY + 5} 500,${wireY} T 1000,${wireY}" fill="none" stroke="#4a3a28" stroke-width="1" stroke-opacity=".45"/>
-    ${lights}
-  </svg>`;
-}
-document.querySelectorAll(".garland").forEach((g) => (g.innerHTML = garlandSVG()));
+// Garland is a repeating photoreal string-light image tile (CSS
+// background-repeat on .garland) — see style.css.
 
 // Only physically plausible mounts: taped at all 4 corners, taped at the
 // 2 top corners, taped by a single strip top-center, or clipped onto a
