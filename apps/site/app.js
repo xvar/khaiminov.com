@@ -142,7 +142,7 @@ function photoCard({ id, glyph, logo, mascot, photo, caption, meta, placeholder,
 
 function renderHome() {
   const cards = NAV.map((n, i) => photoCard({
-    id: n.id, glyph: n.glyph, mascot: n.mascot, caption: n.label[lang],
+    id: n.id, glyph: n.glyph, caption: n.label[lang],
     href: n.external || "#/" + n.id, syncId: n.id,
   })).join("");
   return `
@@ -172,8 +172,10 @@ function renderCollectionWall(key) {
     natural: !!it.photo,
   })).join("");
   const lede = t(DATA.sectionIntro[key]);
+  const navMascot = NAV.find((n) => n.id === key)?.mascot;
   return `
     <section class="wall">
+      ${navMascot ? `<img class="wall-mascot" src="${navMascot}" alt="">` : ""}
       <h2 class="section-title">${navLabel(key)}</h2>
       ${lede ? `<p class="section-lede">${lede}</p>` : ""}
       <div class="wall-grid wall-grid--${key}">${cards}</div>

@@ -218,6 +218,15 @@ button{font:inherit}
 .hero-wall-grid .photo-card{width:100%}
 
 .wall{position:relative;z-index:1;padding:1.25rem clamp(1rem,3vw,2.5rem) 5rem}
+/* the section's mascot sits as a quiet corner watermark behind the card
+   grid, not as a clickable preview -- z-index:0 plus DOM order (it's the
+   first child) keeps it under the cards, which each get their own
+   stacking context from --rot's transform. */
+.wall-mascot{
+  position:absolute;right:clamp(.5rem,3vw,2rem);bottom:1rem;z-index:0;
+  width:clamp(140px,22vw,280px);height:auto;
+  mix-blend-mode:screen;opacity:.5;pointer-events:none;
+}
 .wall-grid{
   display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,260px));
   justify-content:center;justify-items:center;
