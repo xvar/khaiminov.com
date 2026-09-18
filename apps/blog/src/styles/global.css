@@ -64,7 +64,13 @@ a:hover {
   pointer-events: none;
 }
 @media (max-width: 560px) {
+  /* top-right collides with the "khaiminov.com ->" header link at narrow
+     widths -- there isn't horizontal room for both. Move to the bottom
+     corner instead of just shrinking it further. */
   .site-mascot {
+    top: auto;
+    bottom: 1rem;
+    right: 0.75rem;
     width: clamp(60px, 20vw, 90px);
   }
 }
