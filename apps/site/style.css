@@ -200,9 +200,9 @@ button{font:inherit}
   position:absolute;left:1.75rem;right:1.75rem;bottom:1.5rem;z-index:2;margin:0;
   color:var(--ink-soft);font-size:1.02rem;text-shadow:0 2px 12px rgba(0,0,0,.55);
 }
-/* Нуся-альбинос, tucked in her basket in the hero photo's corner — a purely
-   decorative mascot (screen-blended, see .frame-mascot), not a nav item.
-   Gentle side-to-side sway on hover, off by default so she isn't distracting. */
+/* Decorative mascot tucked in the hero photo's corner, screen-blended
+   (see .wall-mascot), not tied to a nav item. Gentle side-to-side sway on
+   hover, off by default so it isn't distracting. */
 .hero-mascot{
   position:absolute;right:.75rem;bottom:.75rem;z-index:2;width:clamp(70px,12vw,110px);height:auto;
   mix-blend-mode:screen;filter:drop-shadow(0 4px 10px rgba(0,0,0,.5));
@@ -217,15 +217,24 @@ button{font:inherit}
 .wall-grid.hero-wall-grid{grid-template-columns:repeat(2,1fr);justify-items:stretch;width:100%;max-width:460px;gap:4rem 3.25rem;padding-top:0}
 .hero-wall-grid .photo-card{width:100%}
 
-.wall{position:relative;z-index:1;padding:1.25rem clamp(1rem,3vw,2.5rem) 5rem}
-/* the section's mascot sits as a quiet corner watermark behind the card
-   grid, not as a clickable preview -- z-index:0 plus DOM order (it's the
-   first child) keeps it under the cards, which each get their own
-   stacking context from --rot's transform. */
+/* z-index:1 here makes .wall its own stacking context, which matters for
+   .wall-mascot below: mix-blend-mode can only blend against paint inside
+   that same context, not reach back to body::before's fixed gradient a
+   context boundary away. Repeating the same gradient as a real background
+   here (matching body::before) gives the mascot something local and
+   visually seamless to screen-blend against, instead of nothing. */
+.wall{position:relative;z-index:1;padding:1.25rem clamp(1rem,3vw,2.5rem) 5rem;background:linear-gradient(160deg,var(--wall-1) 0%,var(--wall-2) 100%)}
+/* the section's mascot sits as a corner decoration behind the card grid,
+   not as a clickable preview -- z-index:0 plus DOM order (it's the first
+   child) keeps it under the cards, which each get their own stacking
+   context from --rot's transform. Opacity is intentionally NOT reduced:
+   combining opacity with mix-blend-mode forces its own isolated
+   compositing group, so the blend would happen against that group's
+   transparent backdrop instead of .wall's background. */
 .wall-mascot{
   position:absolute;right:clamp(.5rem,3vw,2rem);bottom:1rem;z-index:0;
   width:clamp(140px,22vw,280px);height:auto;
-  mix-blend-mode:screen;opacity:.5;pointer-events:none;
+  mix-blend-mode:screen;pointer-events:none;
 }
 .wall-grid{
   display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,260px));
@@ -307,10 +316,6 @@ button{font:inherit}
 .frame .glyph{font-size:clamp(3.2rem,7vw,4.6rem);position:relative;z-index:1;filter:drop-shadow(0 2px 4px rgba(0,0,0,.4))}
 .frame .frame-logo{width:62%;height:62%;object-fit:contain;position:relative;z-index:1;filter:drop-shadow(0 2px 4px rgba(0,0,0,.4))}
 .frame .frame-photo{width:100%;height:100%;object-fit:cover;position:relative;z-index:1}
-/* mascots are nanobanana renders on a black background (the model has no
-   reliable alpha-channel output) -- mix-blend-mode:screen makes true black
-   vanish into whatever's behind it, same trick as the garland. */
-.frame .frame-mascot{width:82%;height:82%;object-fit:contain;position:relative;z-index:1;mix-blend-mode:screen}
 
 /* natural: real photos keep their own aspect ratio instead of a forced square crop */
 .photo-card.natural .frame{aspect-ratio:auto;background:none}
