@@ -201,8 +201,18 @@ function renderContacts() {
     { id: "cv", glyph: "📄", caption: lang === "ru" ? "Скачать CV" : "Download CV", href: c.cv[lang] },
   ];
   const cards = items.map((it) => photoCard(it)).join("");
+  // same navMascot/mascotPos mechanism as renderCollectionWall -- contacts
+  // isn't in COLLECTION_ROUTES so it doesn't go through that function, but
+  // it still wants the same .wall-mascot corner decoration.
+  const navItem = NAV.find((n) => n.id === "contacts");
+  const navMascot = navItem?.mascot;
+  const posVars = Object.entries(navItem?.mascotPos || {})
+    .map(([prop, val]) => `--mascot-${prop}:${val}`)
+    .join(";");
+  const mascotStyle = posVars ? ` style="${posVars}"` : "";
   return `
     <section class="wall">
+      ${navMascot ? `<img class="wall-mascot" src="${navMascot}"${mascotStyle} alt="">` : ""}
       <h2 class="section-title">${navLabel("contacts")}</h2>
       <p class="section-lede">${t(DATA.sectionIntro.contacts)} · 📍 ${t(c.location)}</p>
       <div class="wall-grid">${cards}</div>
