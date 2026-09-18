@@ -170,10 +170,20 @@ function renderCollectionWall(key) {
     natural: !!it.photo,
   })).join("");
   const lede = t(DATA.sectionIntro[key]);
-  const navMascot = NAV.find((n) => n.id === key)?.mascot;
+  const navItem = NAV.find((n) => n.id === key);
+  const navMascot = navItem?.mascot;
+  // mascotPos lets a NAV entry override any of the default top/right
+  // placement (see .wall-mascot in style.css) with its own CSS values --
+  // e.g. { bottom: "1rem", left: "2rem", width: "180px" } to pin it
+  // somewhere else on that section's wall entirely. Unset props just fall
+  // through to the CSS defaults.
+  const posVars = Object.entries(navItem?.mascotPos || {})
+    .map(([prop, val]) => `--mascot-${prop}:${val}`)
+    .join(";");
+  const mascotStyle = posVars ? ` style="${posVars}"` : "";
   return `
     <section class="wall">
-      ${navMascot ? `<img class="wall-mascot" src="${navMascot}" alt="">` : ""}
+      ${navMascot ? `<img class="wall-mascot" src="${navMascot}"${mascotStyle} alt="">` : ""}
       <h2 class="section-title">${navLabel(key)}</h2>
       ${lede ? `<p class="section-lede">${lede}</p>` : ""}
       <div class="wall-grid wall-grid--${key}">${cards}</div>
