@@ -200,6 +200,19 @@ button{font:inherit}
   position:absolute;left:1.75rem;right:1.75rem;bottom:1.5rem;z-index:2;margin:0;
   color:var(--ink-soft);font-size:1.02rem;text-shadow:0 2px 12px rgba(0,0,0,.55);
 }
+/* Нуся-альбинос, tucked in her basket in the hero photo's corner — a purely
+   decorative mascot (screen-blended, see .frame-mascot), not a nav item.
+   Gentle side-to-side sway on hover, off by default so she isn't distracting. */
+.hero-mascot{
+  position:absolute;right:.75rem;bottom:.75rem;z-index:2;width:clamp(70px,12vw,110px);height:auto;
+  mix-blend-mode:screen;filter:drop-shadow(0 4px 10px rgba(0,0,0,.5));
+  transform-origin:50% 85%;transition:transform .4s ease;
+}
+.hero-photo:hover .hero-mascot{animation:mascot-sway 1.6s ease-in-out infinite}
+@keyframes mascot-sway{
+  0%,100%{transform:rotate(-4deg)}
+  50%{transform:rotate(4deg)}
+}
 .hero-cards{display:flex;justify-content:center;position:relative;z-index:2}
 .wall-grid.hero-wall-grid{grid-template-columns:repeat(2,1fr);justify-items:stretch;width:100%;max-width:460px;gap:4rem 3.25rem;padding-top:0}
 .hero-wall-grid .photo-card{width:100%}
@@ -285,6 +298,10 @@ button{font:inherit}
 .frame .glyph{font-size:clamp(3.2rem,7vw,4.6rem);position:relative;z-index:1;filter:drop-shadow(0 2px 4px rgba(0,0,0,.4))}
 .frame .frame-logo{width:62%;height:62%;object-fit:contain;position:relative;z-index:1;filter:drop-shadow(0 2px 4px rgba(0,0,0,.4))}
 .frame .frame-photo{width:100%;height:100%;object-fit:cover;position:relative;z-index:1}
+/* mascots are nanobanana renders on a black background (the model has no
+   reliable alpha-channel output) -- mix-blend-mode:screen makes true black
+   vanish into whatever's behind it, same trick as the garland. */
+.frame .frame-mascot{width:82%;height:82%;object-fit:contain;position:relative;z-index:1;mix-blend-mode:screen}
 
 /* natural: real photos keep their own aspect ratio instead of a forced square crop */
 .photo-card.natural .frame{aspect-ratio:auto;background:none}
