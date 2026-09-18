@@ -64,14 +64,16 @@ a:hover {
   pointer-events: none;
 }
 @media (max-width: 560px) {
-  /* top-right collides with the "khaiminov.com ->" header link at narrow
-     widths -- there isn't horizontal room for both. Move to the bottom
-     corner instead of just shrinking it further. */
+  /* A fixed corner overlay reads as too small/incidental on narrow
+     screens (Alex: "почти не видно"). Instead give it its own reserved
+     strip above the header, in normal document flow -- bigger and not
+     fighting for space with any page content or the header link. */
   .site-mascot {
-    top: auto;
-    bottom: 1rem;
-    right: 0.75rem;
-    width: clamp(60px, 20vw, 90px);
+    position: static;
+    display: block;
+    margin: 0 auto 0.75rem;
+    width: clamp(140px, 45vw, 200px);
+    z-index: auto;
   }
 }
 
