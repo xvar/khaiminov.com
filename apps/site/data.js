@@ -3,12 +3,12 @@
 // asset paths and translation completeness in CI.
 
 const NAV = [
-  { id: "career", glyph: "💼", label: { ru: "Карьера", en: "Career" } },
-  { id: "education", glyph: "🎓", label: { ru: "Образование", en: "Education" } },
+  { id: "career", glyph: "💼", mascot: "assets/mascots/busya.webp", label: { ru: "Карьера", en: "Career" } },
+  { id: "education", glyph: "🎓", mascot: "assets/mascots/burunduchok.webp", label: { ru: "Образование", en: "Education" } },
   { id: "projects", glyph: "🧩", label: { ru: "Проекты", en: "Projects" } },
-  { id: "talks", glyph: "🎤", label: { ru: "Выступления", en: "Public Talks" } },
-  { id: "blog", glyph: "📝", label: { ru: "Блог", en: "Blog" }, external: "https://blog.khaiminov.com" },
-  { id: "personal", glyph: "🎸", label: { ru: "Личное", en: "Personal" } },
+  { id: "talks", glyph: "🎤", mascot: "assets/mascots/pandas.webp", label: { ru: "Выступления", en: "Public Talks" } },
+  { id: "blog", glyph: "📝", mascot: "assets/mascots/fusya.webp", label: { ru: "Блог", en: "Blog" }, external: "https://blog.khaiminov.com" },
+  { id: "personal", glyph: "🎸", mascot: "assets/mascots/nusya-armchair.webp", label: { ru: "Личное", en: "Personal" } },
   { id: "contacts", glyph: "✉️", label: { ru: "Контакты", en: "Contacts" } },
 ];
 
