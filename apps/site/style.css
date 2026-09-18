@@ -33,10 +33,21 @@ body{
 }
 /* Fixed to the viewport (not the document box) so the gradient can never
    mis-measure body's height on mobile browsers with dynamic toolbars/
-   resizing — it just always covers what's on screen, full stop. */
+   resizing — it just always covers what's on screen, full stop.
+   The radial-gradient layer is the garland's warm glow (used to live as
+   .garland::after, radial-gradient anchored to the garland's own box) --
+   moved here because .garland and .wall are separate same-z-index DOM
+   siblings, and .wall (later in the DOM) painted its own opaque
+   background on top of the ~150px of glow that spilled past the
+   garland's 72px height into the wall below, hard-cutting the fade
+   exactly at that boundary. Sharing this same fixed-attachment layer
+   between body::before and .wall (below) — the same trick already used
+   for the base linear-gradient — makes the glow one continuous paint
+   surface with no seam, regardless of which element's box it's
+   technically inside. */
 body::before{
   content:"";position:fixed;inset:0;z-index:-1;
-  background:linear-gradient(160deg,var(--wall-1) 0%,var(--wall-2) 100%);
+  background:radial-gradient(700px 220px at 50% 60px,rgba(255,196,110,.16),transparent 75%),linear-gradient(160deg,var(--wall-1) 0%,var(--wall-2) 100%);
 }
 a{color:inherit}
 img{max-width:100%}
@@ -171,11 +182,6 @@ button{font:inherit}
   background-repeat:repeat-x;background-position:left top;background-size:auto 100%;
   mix-blend-mode:screen;
 }
-.garland::after{
-  content:"";position:absolute;left:0;right:0;top:0;height:220px;pointer-events:none;z-index:-1;
-  background:radial-gradient(60% 100% at 50% 0%,rgba(255,196,110,.16),transparent 75%);
-  mix-blend-mode:screen;
-}
 .hero{padding:1.5rem var(--content-gutter) 0;position:relative;z-index:1}
 .hero h1{
   font-family:var(--serif);font-weight:600;font-size:clamp(1.9rem,4vw,2.6rem);
@@ -257,7 +263,7 @@ button{font:inherit}
    painted relative to *its own* box (the plain "background:" version)
    restarts from --wall-1 right at the garland instead of continuing the
    page's actual gradient, showing up as a visible seam right under it. */
-.wall{position:relative;z-index:1;padding:1.25rem clamp(1rem,3vw,2.5rem) 5rem;background:linear-gradient(160deg,var(--wall-1) 0%,var(--wall-2) 100%);background-attachment:fixed}
+.wall{position:relative;z-index:1;padding:1.25rem clamp(1rem,3vw,2.5rem) 5rem;background:radial-gradient(700px 220px at 50% 60px,rgba(255,196,110,.16),transparent 75%),linear-gradient(160deg,var(--wall-1) 0%,var(--wall-2) 100%);background-attachment:fixed,fixed}
 /* the section's mascot sits as a corner decoration behind the card grid,
    not as a clickable preview -- z-index:0 plus DOM order (it's the first
    child) keeps it under the cards, which each get their own stacking
@@ -274,9 +280,13 @@ button{font:inherit}
    entry's mascotPos (see renderCollectionWall in app.js) sets these
    inline per-image to override any subset of top/right/bottom/left/width,
    so any mascot can be repositioned anywhere on its section's wall
-   without touching this rule. */
+   without touching this rule. --mascot-z overrides the default z-index:0
+   for a mascot whose pose reaches far enough into the card area that
+   sitting behind them clips it awkwardly (e.g. Contacts' and Projects'
+   dynamic-pose mascots) -- pointer-events:none keeps it non-interactive
+   either way, so raising it above the cards is purely visual. */
 .wall-mascot{
-  position:absolute;z-index:0;
+  position:absolute;z-index:var(--mascot-z,0);
   top:var(--mascot-top,.25rem);right:var(--mascot-right,clamp(.5rem,3vw,2rem));
   bottom:var(--mascot-bottom,auto);left:var(--mascot-left,auto);
   width:var(--mascot-width,clamp(110px,18vw,220px));height:auto;
