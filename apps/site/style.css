@@ -89,16 +89,13 @@ button{font:inherit}
    needs a taller ancestor to have room to float in as you scroll, which
    is exactly what this full-height outer box provides. */
 .sidebar{
-  /* position:fixed (not a flex item taking its own width out of .shell)
-     so opening it on hover overlays the page instead of shrinking
-     .content -- it used to be flex:none;width:0->N, which pushed .content
-     narrower on every hover/pin, visibly resizing the hero photo and
-     jumping the grid under it. Fixed positioning also means .sidebar-inner
-     no longer needs position:sticky to track scroll -- the whole panel is
-     already viewport-relative. */
-  position:fixed;top:var(--header-h);left:0;bottom:0;width:0;z-index:31;
-  /* no overflow:hidden here on purpose: collapsed content is fully inert
-     instead, via opacity + pointer-events, so nothing needs to clip. */
+  width:0;flex:none;z-index:31;
+  /* no overflow:hidden here on purpose -- .sidebar is the containing
+     block .sidebar-inner needs for position:sticky to have room to float
+     in, and any non-visible overflow on an ancestor of a sticky element
+     breaks its sticky behavior (it'd stick to that ancestor's box instead
+     of the viewport). Collapsed content is fully inert instead: opacity
+     hides it and pointer-events keeps it from stealing clicks/hover. */
   /* above .sidebar-hover-zone -- that strip only needs to sit on top while
      the sidebar is collapsed (to catch the hover that opens it); once
      open, the sidebar itself must win hit-testing over its own leftmost
@@ -108,7 +105,7 @@ button{font:inherit}
   opacity:0;pointer-events:none;
   transition:width .28s cubic-bezier(.2,.7,.3,1),opacity .2s,border-color .28s;
 }
-.sidebar-inner{padding:1.25rem .75rem}
+.sidebar-inner{position:sticky;top:var(--header-h);padding:1.25rem .75rem}
 .sidebar-hover-zone:hover ~ .sidebar,
 .sidebar:hover,
 .sidebar.is-pinned,
