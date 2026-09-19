@@ -9,7 +9,7 @@ const NAV = [
   { id: "talks", glyph: "🎤", mascot: "assets/mascots/talks-mascot.webp", mascotPos: { top: "18rem" }, label: { ru: "Выступления", en: "Public Talks" } },
   { id: "blog", glyph: "📝", mascot: "assets/mascots/blog-mascot.webp", label: { ru: "Блог", en: "Blog" }, external: "https://blog.khaiminov.com" },
   { id: "personal", glyph: "🎸", mascot: "assets/mascots/personal-mascot.webp", label: { ru: "Личное", en: "Personal" } },
-  { id: "contacts", glyph: "✉️", mascot: "assets/mascots/contacts-mascot.webp", mascotPos: { z: 2, width: "95px" }, label: { ru: "Контакты", en: "Contacts" } },
+  { id: "contacts", glyph: "✉️", mascot: "assets/mascots/contacts-mascot.webp", mascotPos: { z: 2, top: "auto", bottom: "1rem" }, label: { ru: "Контакты", en: "Contacts" } },
 ];
 
 const DATA = {
