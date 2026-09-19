@@ -63,11 +63,18 @@ a:hover {
   mix-blend-mode: screen;
   pointer-events: none;
 }
-@media (max-width: 560px) {
+@media (max-width: 900px) {
   /* A fixed corner overlay reads as too small/incidental on narrow
      screens (Alex: "почти не видно"). Instead give it its own reserved
      strip above the header, in normal document flow -- bigger and not
-     fighting for space with any page content or the header link. */
+     fighting for space with any page content or the header link.
+     Breakpoint is 900px, not 560px: .wrap tops out at max-width:680px,
+     centered, so anywhere the *viewport* is wider than that but not by
+     much (roughly 560-890px), .wrap hasn't hit its cap yet and the
+     header (inside .wrap) reaches close enough to the real right edge
+     to collide with the fixed-corner mascot -- confirmed by measuring
+     bounding-box overlap between .site-mascot and .site-header across
+     that whole range, not just guessed from the mobile check alone. */
   .site-mascot {
     position: static;
     display: block;
