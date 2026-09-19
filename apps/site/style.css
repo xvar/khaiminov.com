@@ -310,6 +310,32 @@ button{font:inherit}
   gap:clamp(1.5rem,3vw,3rem) clamp(1.2rem,3vw,2.5rem);
   padding-top:1.25rem;
 }
+/* At the default top-right corner position, the top-most card's exact
+   vertical start shifts around as auto-fill changes column count while
+   resizing the desktop window -- at some widths (not just the narrowest
+   or widest, the ones in between) it lands close enough to genuinely
+   overlap the mascot instead of sitting safely below it, the same class
+   of bug Contacts had. Reusing the mascot's own width formula here
+   (instead of a guessed constant) keeps this reservation correct at
+   every width without per-width tuning: it's sized to always be at
+   least as tall as the mascot's own rendered height (aspect ratio
+   assumed <=1.4, a safe overestimate for these portraits) plus its top
+   offset and a small buffer. Mobile is untouched (this only applies
+   >=861px) since the mascot is in normal flow there already, not
+   fighting the grid for space. */
+@media (min-width:861px){
+  .wall-grid{padding-top:calc(1.5rem + clamp(110px,18vw,220px) * 1.4)}
+  /* career's loose-pyramid order was tuned against the original small
+     padding and doesn't have this overlap problem (its own top card
+     sits low enough already) -- leave it alone. */
+  .wall-grid--career{padding-top:1.25rem}
+  /* talks' mascot has its own extra --mascot-top offset (see mascotPos
+     in data.js); fold that into the reservation too. */
+  .wall-grid--talks{padding-top:calc(18rem + 1.5rem + clamp(110px,18vw,220px) * 1.4)}
+  /* contacts' mascot is bottom-anchored now (see .wall--contacts
+     below), so it needs none of this extra top space. */
+  .wall--contacts .wall-grid{padding-top:1.25rem}
+}
 .section-title{font-family:var(--serif);font-weight:600;font-size:1.4rem;margin:.4rem 0 .3rem;text-shadow:var(--heading-shadow)}
 .section-lede{color:var(--ink-soft);max-width:38rem;margin:0 0 .5rem}
 
