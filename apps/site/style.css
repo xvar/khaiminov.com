@@ -337,6 +337,14 @@ button{font:inherit}
   }
   .wall-grid{clear:none;padding-right:calc(clamp(110px,18vw,220px) + 2rem)}
   .wall--contacts .wall-grid{padding-right:0}
+  /* .hero-wall-grid is also a .wall-grid (shares the class for its base
+     grid/gap rules) but it's a fixed-2-column layout inside a
+     max-width:460px box on the homepage, with no .wall-mascot floating
+     beside it -- there's nothing for this reserved strip to make room
+     for. Reserving it anyway ate ~250px straight out of that 460px box,
+     visibly shrinking both homepage nav-preview cards (Alex: "cards on
+     the homepage got a lot smaller"). */
+  .hero-wall-grid{padding-right:0}
 }
 .section-title{font-family:var(--serif);font-weight:600;font-size:1.4rem;margin:.4rem 0 .3rem;text-shadow:var(--heading-shadow)}
 .section-lede{color:var(--ink-soft);max-width:38rem;margin:0 0 .5rem}
