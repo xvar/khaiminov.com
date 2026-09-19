@@ -319,6 +319,25 @@ button{font:inherit}
   top:var(--mascot-top,.25rem);right:var(--mascot-right,clamp(.5rem,3vw,2rem));
   bottom:var(--mascot-bottom,auto);left:var(--mascot-left,auto);
 }
+/* Alex: below this width the grid only fits ~2 columns anyway, so the
+   float sitting "above" (clear:right) reads fine -- but once there's
+   room for 3-4 columns, having it clear the WHOLE row instead of just
+   sitting in the corner beside the top row reads as its own stray
+   line, wasted width to its left included. 1500px is where a typical
+   section's grid still resolves to 3+ columns even after reserving a
+   mascot-width-plus-gap strip on the right (verified empirically,
+   talks: 2 cols at 1432px, 3 at 1512px) -- past that point, reserve
+   the strip and let the mascot sit in it via absolute positioning
+   (same scheme contacts already uses) instead of floating+clearing. */
+@media (min-width:1500px){
+  .wall-mascot{
+    float:none;position:absolute;z-index:var(--mascot-z,0);
+    top:var(--mascot-top,.25rem);right:var(--mascot-right,clamp(.5rem,3vw,2rem));
+    margin:0;
+  }
+  .wall-grid{clear:none;padding-right:calc(clamp(110px,18vw,220px) + 2rem)}
+  .wall--contacts .wall-grid{padding-right:0}
+}
 .section-title{font-family:var(--serif);font-weight:600;font-size:1.4rem;margin:.4rem 0 .3rem;text-shadow:var(--heading-shadow)}
 .section-lede{color:var(--ink-soft);max-width:38rem;margin:0 0 .5rem}
 
