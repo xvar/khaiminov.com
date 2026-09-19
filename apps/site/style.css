@@ -451,7 +451,25 @@ footer.site-footer{position:relative;z-index:1;text-align:left;color:var(--ink-f
   .wall-grid--career::before,.wall-grid--career::after{display:none}
   .wall-grid--career .photo-card{order:var(--order-mobile, 0)}
   .photo-card{width:clamp(150px,42vw,200px)}
-  .wall-mascot{width:clamp(70px,24vw,110px)}
+  /* absolute top-right corner positioning works on desktop because the
+     lede text stays short/narrow enough to leave that corner clear, but
+     on a narrow column the same text wraps wide enough to run right
+     under the mascot -- for any mascot whose pose is large/tall enough
+     to reach that far down (confirmed on Contacts and Projects), it
+     ends up sitting on top of (or, before --mascot-z existed, hidden
+     behind) the section title and lede. Fixed the same way as Fusya's
+     mobile placement in apps/blog: take it out of absolute positioning
+     and flow it in normal document order, after the lede and before the
+     card grid, so it structurally can't overlap either -- no per-section
+     text length to guess at. */
+  .wall{display:flex;flex-direction:column}
+  .section-title{order:1}
+  .section-lede{order:2}
+  .wall-mascot{
+    position:static;order:3;margin:0 auto 1rem;
+    width:clamp(120px,38vw,180px);
+  }
+  .wall-grid{order:4}
   .hero--split .split{grid-template-columns:1fr;gap:1.75rem}
   .hero-photo{aspect-ratio:4/5}
   .hero-wall-grid{max-width:100%}
