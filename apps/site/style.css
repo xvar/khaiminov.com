@@ -276,65 +276,48 @@ button{font:inherit}
 @media (min-width:861px){
   .wall--contacts{padding-bottom:23rem}
 }
-/* the section's mascot sits as a corner decoration behind the card grid,
-   not as a clickable preview -- z-index:0 plus DOM order (it's the first
-   child) keeps it under the cards, which each get their own stacking
-   context from --rot's transform. Opacity is intentionally NOT reduced:
-   combining opacity with mix-blend-mode forces its own isolated
-   compositing group, so the blend would happen against that group's
-   transparent backdrop instead of .wall's background.
-   Anchored top-right (not bottom-right) by default: that's empty space
-   right next to the section title on every section, on any screen width,
-   so it stays visible even where the card grid would otherwise cover a
-   bottom corner -- that's what made it invisible on mobile, where the
-   stacked cards run the full width of .wall.
+/* the section's mascot sits as a corner decoration next to the section
+   title, not as a clickable preview. It's a CSS float, not
+   position:absolute -- a fixed-size reservation (tried first: extra
+   padding-top sized for the mascot's worst-case height) avoids overlap
+   at every width, but wastes a lot of visible space at any width where
+   the mascot is actually smaller or the title/lede is short, which
+   reads as an obviously wrong layout rather than "safe". A float lets
+   .wall-grid's `clear` below pull the cards up to sit exactly as close
+   as the *actually rendered* mascot and text allow, at any width, with
+   no per-width guessing and no wasted gap -- the browser measures the
+   real box, not an estimate.
+   Opacity is intentionally NOT reduced: combining opacity with
+   mix-blend-mode forces its own isolated compositing group, so the
+   blend would happen against that group's transparent backdrop instead
+   of .wall's background.
    Every offset reads from a --mascot-* custom property first: a NAV
    entry's mascotPos (see renderCollectionWall in app.js) sets these
-   inline per-image to override any subset of top/right/bottom/left/width,
-   so any mascot can be repositioned anywhere on its section's wall
-   without touching this rule. --mascot-z overrides the default z-index:0
-   for a mascot whose pose reaches far enough into the card area that
-   sitting behind them clips it awkwardly (e.g. Contacts' and Projects'
-   dynamic-pose mascots) -- pointer-events:none keeps it non-interactive
-   either way, so raising it above the cards is purely visual. */
+   inline per-image. --mascot-top became a margin-top here (still the
+   same lever talks' mascotPos uses to sit lower) since a float has no
+   top/right/bottom/left offsets of its own. */
 .wall-mascot{
-  position:absolute;z-index:var(--mascot-z,0);
-  top:var(--mascot-top,.25rem);right:var(--mascot-right,clamp(.5rem,3vw,2rem));
-  bottom:var(--mascot-bottom,auto);left:var(--mascot-left,auto);
+  float:right;
+  margin:var(--mascot-top,.25rem) 0 1rem clamp(1rem,3vw,1.5rem);
   width:var(--mascot-width,clamp(110px,18vw,220px));height:auto;
   mix-blend-mode:screen;pointer-events:none;
 }
+/* clear (not position/padding trickery) is what actually guarantees no
+   overlap: whatever height the float and the title/lede text end up
+   at, at any width, the grid starts below both. */
 .wall-grid{
   display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,260px));
   justify-content:center;justify-items:center;
   gap:clamp(1.5rem,3vw,3rem) clamp(1.2rem,3vw,2.5rem);
-  padding-top:1.25rem;
+  padding-top:1.25rem;clear:right;
 }
-/* At the default top-right corner position, the top-most card's exact
-   vertical start shifts around as auto-fill changes column count while
-   resizing the desktop window -- at some widths (not just the narrowest
-   or widest, the ones in between) it lands close enough to genuinely
-   overlap the mascot instead of sitting safely below it, the same class
-   of bug Contacts had. Reusing the mascot's own width formula here
-   (instead of a guessed constant) keeps this reservation correct at
-   every width without per-width tuning: it's sized to always be at
-   least as tall as the mascot's own rendered height (aspect ratio
-   assumed <=1.4, a safe overestimate for these portraits) plus its top
-   offset and a small buffer. Mobile is untouched (this only applies
-   >=861px) since the mascot is in normal flow there already, not
-   fighting the grid for space. */
-@media (min-width:861px){
-  .wall-grid{padding-top:calc(1.5rem + clamp(110px,18vw,220px) * 1.4)}
-  /* career's loose-pyramid order was tuned against the original small
-     padding and doesn't have this overlap problem (its own top card
-     sits low enough already) -- leave it alone. */
-  .wall-grid--career{padding-top:1.25rem}
-  /* talks' mascot has its own extra --mascot-top offset (see mascotPos
-     in data.js); fold that into the reservation too. */
-  .wall-grid--talks{padding-top:calc(18rem + 1.5rem + clamp(110px,18vw,220px) * 1.4)}
-  /* contacts' mascot is bottom-anchored now (see .wall--contacts
-     below), so it needs none of this extra top space. */
-  .wall--contacts .wall-grid{padding-top:1.25rem}
+/* Contacts' mascot is bottom-anchored (see .wall--contacts below), a
+   pose that doesn't work as a float -- switch it back to the older
+   absolute-positioning scheme just for this one section. */
+.wall--contacts .wall-mascot{
+  float:none;margin:0;position:absolute;z-index:var(--mascot-z,0);
+  top:var(--mascot-top,.25rem);right:var(--mascot-right,clamp(.5rem,3vw,2rem));
+  bottom:var(--mascot-bottom,auto);left:var(--mascot-left,auto);
 }
 .section-title{font-family:var(--serif);font-weight:600;font-size:1.4rem;margin:.4rem 0 .3rem;text-shadow:var(--heading-shadow)}
 .section-lede{color:var(--ink-soft);max-width:38rem;margin:0 0 .5rem}
