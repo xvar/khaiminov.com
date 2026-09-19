@@ -264,6 +264,18 @@ button{font:inherit}
    restarts from --wall-1 right at the garland instead of continuing the
    page's actual gradient, showing up as a visible seam right under it. */
 .wall{position:relative;z-index:1;padding:1.25rem clamp(1rem,3vw,2.5rem) 5rem;background:radial-gradient(700px 220px at 50% 60px,rgba(255,196,110,.16),transparent 75%),linear-gradient(160deg,var(--wall-1) 0%,var(--wall-2) 100%);background-attachment:fixed,fixed}
+/* Contacts' mascot is bottom-anchored (mascotPos) at full size, reaching
+   up toward the card row from below -- Alex asked for zero overlap with
+   the cards, not just a charming reach. The default 5rem bottom padding
+   (shared by every section) isn't enough room for her at full height,
+   so give this one section extra reserved space below its card row,
+   scoped by the wall--contacts class so no other section's spacing
+   changes. Kept inside .wall's own padding box on purpose, same as the
+   bottom-anchor fix itself -- see .wall-mascot's comment on why
+   crossing that boundary breaks mix-blend-mode:screen. */
+@media (min-width:861px){
+  .wall--contacts{padding-bottom:23rem}
+}
 /* the section's mascot sits as a corner decoration behind the card grid,
    not as a clickable preview -- z-index:0 plus DOM order (it's the first
    child) keeps it under the cards, which each get their own stacking

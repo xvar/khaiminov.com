@@ -182,7 +182,7 @@ function renderCollectionWall(key) {
     .join(";");
   const mascotStyle = posVars ? ` style="${posVars}"` : "";
   return `
-    <section class="wall">
+    <section class="wall wall--${key}">
       ${navMascot ? `<img class="wall-mascot" src="${navMascot}"${mascotStyle} alt="">` : ""}
       <h2 class="section-title">${navLabel(key)}</h2>
       ${lede ? `<p class="section-lede">${lede}</p>` : ""}
@@ -211,7 +211,7 @@ function renderContacts() {
     .join(";");
   const mascotStyle = posVars ? ` style="${posVars}"` : "";
   return `
-    <section class="wall">
+    <section class="wall wall--contacts">
       ${navMascot ? `<img class="wall-mascot" src="${navMascot}"${mascotStyle} alt="">` : ""}
       <h2 class="section-title">${navLabel("contacts")}</h2>
       <p class="section-lede">${t(DATA.sectionIntro.contacts)} · 📍 ${t(c.location)}</p>
