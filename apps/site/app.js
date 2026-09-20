@@ -105,7 +105,7 @@ function syncSet(id, on) {
   document.querySelectorAll(`[data-sync="${id}"]`).forEach((el) => el.classList.toggle("is-synced", on));
 }
 
-function photoCard({ id, glyph, logo, photo, caption, meta, placeholder, href, syncId, size, pinLeft, natural, lightbox, order }) {
+function photoCard({ id, glyph, logo, photo, caption, meta, placeholder, href, syncId, size, pinLeft, natural, lightbox, order, fit }) {
   const rot = (((id.charCodeAt(0) + id.length) % 7) - 3) * 1.1;
   const tag = href ? "a" : "button";
   const extAttrs = href && href.startsWith("http") ? `target="_blank" rel="noopener"` : "";
@@ -133,7 +133,7 @@ function photoCard({ id, glyph, logo, photo, caption, meta, placeholder, href, s
       ${mount.tape}
       ${placeholder ? `<span class="ph-flag">${lang === "ru" ? "план" : "planned"}</span>` : ""}
       <span class="frame">${media}</span>
-      <span class="caption">${caption}${meta ? `<span class="meta">${meta}</span>` : ""}</span>
+      <span class="caption${fit ? " caption--fit" : ""}">${fit ? `<span class="fit-text">${caption}</span>` : caption}${meta ?`<span class="meta">${meta}</span>` : ""}</span>
     </span>
   </${tag}>`;
 }
@@ -147,10 +147,12 @@ function renderHome() {
     <section class="hero hero--split">
       <div class="split">
         <div class="hero-photo">
-          <img class="hero-photo-img" src="assets/hero/studio.webp" alt="">
+          <div class="hero-photo-media">
+            <img class="hero-photo-img" src="assets/hero/studio.webp" alt="">
+            <img class="hero-mascot" src="assets/mascots/hero-mascot.webp" alt="">
+          </div>
           <h1 class="hero-name">${t(DATA.hero)}</h1>
           <p class="hero-bio">${t(DATA.heroLede)}</p>
-          <img class="hero-mascot" src="assets/mascots/hero-mascot.webp" alt="">
         </div>
         <div class="hero-cards"><div class="wall-grid hero-wall-grid">${cards}</div></div>
       </div>
@@ -194,7 +196,7 @@ function renderCollectionWall(key) {
 function renderContacts() {
   const c = DATA.contacts;
   const items = [
-    { id: "email", glyph: "✉️", caption: c.email, href: `mailto:${c.email}` },
+    { id: "email", glyph: "✉️", caption: c.email, href: `mailto:${c.email}`, fit: true },
     { id: "telegram", logo: "assets/icons/telegram.svg", caption: c.telegram, href: `https://t.me/${c.telegram.replace("@", "")}` },
     { id: "github", glyph: "🐙", caption: c.github, href: `https://${c.github}` },
     { id: "linkedin", logo: "assets/icons/linkedin.svg", caption: "LinkedIn", href: `https://${c.linkedin}` },
