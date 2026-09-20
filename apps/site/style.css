@@ -25,7 +25,13 @@
   --heading-shadow:0 -1px 0 rgba(255,255,255,.08),0 3px 10px rgba(0,0,0,.45);
 }
 *{box-sizing:border-box}
-html{height:100%}
+/* Solid fallback for the page canvas: body::before's fixed gradient only
+   covers the viewport size it was laid out at, so on mobile browsers whose
+   toolbar collapses while scrolling, the strip that gets exposed at the
+   bottom shows html's own (default white) background until the layout
+   catches up -- the white band seen while scrolling. --wall-2 is the
+   gradient's end color, so the strip blends in instead. */
+html{height:100%;background:var(--wall-2)}
 body{
   margin:0;min-height:100vh;color:var(--ink);
   font:400 16px/1.6 var(--sans);
@@ -217,6 +223,10 @@ button{font:inherit}
   position:relative;aspect-ratio:4/5;overflow:hidden;border-radius:10px;
   background:linear-gradient(160deg,var(--wall-1) 0%,var(--wall-2) 100%);
 }
+/* Wrapper for the photo + its corner mascot: fills the whole card on
+   desktop (where name/bio overlay the photo), and on mobile becomes the
+   photo-only 4/5 box with the bio flowing below it (see the 860px block). */
+.hero-photo-media{position:absolute;inset:0}
 .hero-photo-img{
   position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 30%;z-index:0;
   /* fixed pixel distances, not percentages, so the fade's reach doesn't
@@ -239,7 +249,7 @@ button{font:inherit}
    (see .wall-mascot), not tied to a nav item. Gentle side-to-side sway on
    hover, off by default so it isn't distracting. */
 .hero-mascot{
-  position:absolute;right:.75rem;bottom:.75rem;z-index:2;width:clamp(70px,12vw,110px);height:auto;
+  position:absolute;right:.75rem;bottom:.75rem;z-index:3;width:clamp(70px,12vw,110px);height:auto;
   mix-blend-mode:screen;filter:drop-shadow(0 4px 10px rgba(0,0,0,.5));
   transform-origin:50% 85%;transition:transform .4s ease;
 }
@@ -426,6 +436,16 @@ button{font:inherit}
 .photo-card.natural .frame::after{display:none}
 .photo-card.natural .frame-photo{width:100%;height:auto;display:block;object-fit:initial}
 .caption{font-family:var(--hand);font-size:1.3rem;line-height:1.15;color:#3a2c1e;margin-top:.65rem;text-align:center}
+/* Long one-line caption (the email address): the handwriting face is wider
+   than the polaroid's inner width on a phone (~177px of text vs ~152px
+   available at 390px), so it ran past the card's edge. Shrinks the text to
+   the caption's own width instead of wrapping mid-address; the 8.8 is the
+   address's measured width in em (8.51) plus a little slack. Caps at the
+   normal caption size so wider cards look unchanged. display:block +
+   margin-top:0 because container-type needs a real box (the plain caption
+   is an inline span) and the block's own top margin would nudge it down. */
+.caption--fit{display:block;margin-top:0;container-type:inline-size}
+.caption--fit .fit-text{display:block;white-space:nowrap;font-size:min(1.3rem,calc(100cqw / 8.8))}
 .caption .meta{display:block;font-family:var(--sans);font-size:.74rem;letter-spacing:.03em;color:#6b5b46;margin-top:.2rem;text-transform:uppercase}
 .ph-flag{position:absolute;top:6px;right:6px;background:rgba(20,10,30,.7);color:var(--brass-hot);font-size:.6rem;padding:.15rem .4rem;border-radius:3px;letter-spacing:.03em;z-index:2}
 .photo-card.link .frame{background:linear-gradient(145deg,#3a2a55,#1c1128)}
@@ -519,7 +539,14 @@ footer.site-footer{position:relative;z-index:1;text-align:left;color:var(--ink-f
   }
   .wall-grid{order:4}
   .hero--split .split{grid-template-columns:1fr;gap:1.75rem}
-  .hero-photo{aspect-ratio:4/5}
+  /* Stacked layout: the photo keeps its 4/5 box, but the bio now flows in
+     a block BELOW it instead of overlaying it -- on a phone the 4-line bio
+     ran over the subject's shirt (unreadable) and the corner mascot
+     covered its last word. The mascot stays in the photo's own corner.
+     The name still overlays the photo's dark upper area, where it reads. */
+  .hero-photo{aspect-ratio:auto;display:flex;flex-direction:column}
+  .hero-photo-media{position:relative;inset:auto;aspect-ratio:4/5;width:100%;flex:none}
+  .hero-bio{position:static;padding:.25rem 1.5rem 1.5rem}
   .hero-wall-grid{max-width:100%}
   .hero-cards{margin-left:0}
   /* stacked layout: the cards sit below the photo now, not beside it, so
