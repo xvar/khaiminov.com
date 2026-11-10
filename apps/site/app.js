@@ -22,7 +22,9 @@ const PHOTO_DIMS = {
   "assets/personal/mentoring/code-izobiliya.webp": [500, 500],
 };
 
-let lang = localStorage.getItem("km-lang") || "ru";
+const LANGS = ["ru", "en", "es"];
+let lang = localStorage.getItem("km-lang");
+if (!LANGS.includes(lang)) lang = "ru";
 const app = document.getElementById("app");
 const sideNavEl = document.getElementById("side-nav");
 const footerEl = document.getElementById("site-footer");
@@ -40,11 +42,24 @@ menuBtn.addEventListener("click", () => sidebarEl.classList.toggle("is-pinned"))
 function t(field) { return field ? field[lang] : ""; }
 function navLabel(id) { const n = NAV.find((x) => x.id === id); return n ? n.label[lang] : id; }
 
+// Interface strings that live in the templates below rather than in
+// data.js content.
+const UI = {
+  back: { ru: "← Назад", en: "← Back", es: "← Volver" },
+  planned: { ru: "план", en: "planned", es: "próximamente" },
+  downloadCv: { ru: "Скачать CV", en: "Download CV", es: "Descargar CV" },
+  close: { ru: "Закрыть", en: "Close", es: "Cerrar" },
+  openRepo: { ru: "Открыть репозиторий", en: "Open repository", es: "Abrir repositorio" },
+  version: { ru: "версия", en: "version", es: "versión" },
+  menu: { ru: "Меню", en: "Menu", es: "Menú" },
+};
+
 function setLang(next) {
   lang = next;
   localStorage.setItem("km-lang", lang);
   langButtons.forEach((b) => b.classList.toggle("active", b.dataset.lang === lang));
   document.documentElement.lang = lang;
+  menuBtn.setAttribute("aria-label", t(UI.menu));
   renderAll();
 }
 langButtons.forEach((b) => b.addEventListener("click", () => setLang(b.dataset.lang)));
@@ -76,7 +91,7 @@ function randomMount() {
 
 function renderSideNav(activeId) {
   const backItem = activeId
-    ? `<li class="nav-back"><a href="#/" data-nav="home">${lang === "ru" ? "← Назад" : "← Back"}</a></li>`
+    ? `<li class="nav-back"><a href="#/" data-nav="home">${t(UI.back)}</a></li>`
     : "";
   const items = NAV.map((n) => {
     if (n.external) {
@@ -131,7 +146,7 @@ function photoCard({ id, glyph, logo, photo, caption, meta, placeholder, href, s
     ${mount.pre}
     <span class="polaroid">
       ${mount.tape}
-      ${placeholder ? `<span class="ph-flag">${lang === "ru" ? "план" : "planned"}</span>` : ""}
+      ${placeholder ? `<span class="ph-flag">${t(UI.planned)}</span>` : ""}
       <span class="frame">${media}</span>
       <span class="caption${fit ? " caption--fit" : ""}">${fit ? `<span class="fit-text">${caption}</span>` : caption}${meta ?`<span class="meta">${meta}</span>` : ""}</span>
     </span>
@@ -200,7 +215,7 @@ function renderContacts() {
     { id: "telegram", logo: "assets/icons/telegram.svg", caption: c.telegram, href: `https://t.me/${c.telegram.replace("@", "")}` },
     { id: "github", glyph: "🐙", caption: c.github, href: `https://${c.github}` },
     { id: "linkedin", logo: "assets/icons/linkedin.svg", caption: "LinkedIn", href: `https://${c.linkedin}` },
-    { id: "cv", glyph: "📄", caption: lang === "ru" ? "Скачать CV" : "Download CV", href: c.cv[lang] },
+    { id: "cv", glyph: "📄", caption: t(UI.downloadCv), href: c.cv[lang] },
   ];
   const cards = items.map((it) => photoCard(it)).join("");
   // same navMascot/mascotPos mechanism as renderCollectionWall -- contacts
@@ -239,13 +254,13 @@ function openStory(collection, id) {
   overlay.className = "story-overlay";
   overlay.innerHTML = `
     <div class="story-panel" role="dialog" aria-modal="true">
-      <button class="story-close" aria-label="${lang === "ru" ? "Закрыть" : "Close"}">&times;</button>
+      <button class="story-close" aria-label="${t(UI.close)}">&times;</button>
       ${gallery ? `<div class="story-gallery">${gallery}</div>` : ""}
       <h3 class="story-head">${t(job.title)}</h3>
       ${metaParts ? `<p class="story-meta">${metaParts}</p>` : ""}
       <p class="story-summary">${t(job.summary)}</p>
       ${t(job.highlights).length ? `<ul class="story-highlights">${t(job.highlights).map((h) => `<li>${h}</li>`).join("")}</ul>` : ""}
-      ${job.href ? `<a class="cv-button" href="${job.href}" target="_blank" rel="noopener">${t(job.linkLabel) || (lang === "ru" ? "Открыть репозиторий" : "Open repository")} ↗</a>` : ""}
+      ${job.href ? `<a class="cv-button" href="${job.href}" target="_blank" rel="noopener">${t(job.linkLabel) || t(UI.openRepo)} ↗</a>` : ""}
     </div>
   `;
   document.body.appendChild(overlay);
@@ -300,11 +315,11 @@ const COPYRIGHT_START_YEAR = 2026;
 function copyrightLine() {
   const now = new Date().getFullYear();
   const years = now > COPYRIGHT_START_YEAR ? `${COPYRIGHT_START_YEAR}–${now}` : `${COPYRIGHT_START_YEAR}`;
-  const name = lang === "ru" ? "Алексей Хайминов" : "Alexey Khaiminov";
+  const name = t(DATA.hero);
   return `© ${years} ${name}`;
 }
 function renderFooter() {
-  const label = lang === "ru" ? "версия" : "version";
+  const label = t(UI.version);
   footerEl.textContent = `${copyrightLine()} · ${label}: —`;
   fetch("version.json").then((r) => r.ok ? r.json() : null).then((v) => {
     if (!v) return;
@@ -315,4 +330,5 @@ function renderFooter() {
 window.addEventListener("hashchange", renderAll);
 langButtons.forEach((b) => b.classList.toggle("active", b.dataset.lang === lang));
 document.documentElement.lang = lang;
+menuBtn.setAttribute("aria-label", t(UI.menu));
 renderAll();

@@ -4,7 +4,7 @@
 //
 // Catches two classes of mistake that are easy to make by hand when adding
 // a career/project/talk entry: a photo/logo path that doesn't exist on
-// disk, and a {ru, en} pair where only one language got filled in.
+// disk, and a {ru, en, es} entry where only some languages got filled in.
 
 import { createRequire } from "node:module";
 import { existsSync } from "node:fs";
@@ -24,16 +24,22 @@ function checkAssetPath(p, where) {
   if (!existsSync(full)) errors.push(`missing asset: "${p}" (${where})`);
 }
 
-// {ru, en} pair: fine if both are empty (placeholder), fine if both are
-// filled in; only flag a mismatch (one side has content, the other doesn't).
+const LANGS = ["ru", "en", "es"];
+
+// {ru, en, es} entry: fine if all are empty (placeholder), fine if all are
+// filled in; flag a missing language key, or a mismatch where one side has
+// content and another doesn't. Every language is compared against ru.
 function checkI18nPair(pair, where) {
-  if (!pair || typeof pair !== "object" || !("ru" in pair) || !("en" in pair)) return;
-  const ru = pair.ru, en = pair.en;
-  const ruEmpty = Array.isArray(ru) ? ru.length === 0 : !ru;
-  const enEmpty = Array.isArray(en) ? en.length === 0 : !en;
-  if (ruEmpty !== enEmpty) errors.push(`untranslated field: ${where} has ru=${JSON.stringify(ru)} en=${JSON.stringify(en)}`);
-  if (Array.isArray(ru) && Array.isArray(en) && ru.length !== en.length) {
-    errors.push(`mismatched list length: ${where} has ${ru.length} ru item(s) but ${en.length} en item(s)`);
+  if (!pair || typeof pair !== "object" || !("ru" in pair)) return;
+  const isEmpty = (v) => Array.isArray(v) ? v.length === 0 : !v;
+  const ru = pair.ru;
+  for (const l of LANGS.slice(1)) {
+    if (!(l in pair)) { errors.push(`missing language: ${where} has no "${l}" key`); continue; }
+    const v = pair[l];
+    if (isEmpty(ru) !== isEmpty(v)) errors.push(`untranslated field: ${where} has ru=${JSON.stringify(ru)} ${l}=${JSON.stringify(v)}`);
+    if (Array.isArray(ru) && Array.isArray(v) && ru.length !== v.length) {
+      errors.push(`mismatched list length: ${where} has ${ru.length} ru item(s) but ${v.length} ${l} item(s)`);
+    }
   }
 }
 
@@ -61,6 +67,7 @@ checkI18nPair(DATA.contacts.location, "DATA.contacts.location");
 checkI18nPair(DATA.contacts.cv, "DATA.contacts.cv");
 checkAssetPath(DATA.contacts.cv.ru, "DATA.contacts.cv.ru");
 checkAssetPath(DATA.contacts.cv.en, "DATA.contacts.cv.en");
+checkAssetPath(DATA.contacts.cv.es, "DATA.contacts.cv.es");
 
 if (errors.length) {
   console.error(`content check failed (${errors.length} issue${errors.length > 1 ? "s" : ""}):`);
