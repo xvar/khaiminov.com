@@ -1,21 +1,36 @@
 ---
 import "../styles/global.css";
+import { LOCALES, UI, homePath, type Locale } from "../i18n";
 
 interface Props {
   title: string;
   description?: string;
+  locale: Locale;
+  /**
+   * Path of this same page in each language it exists in. A language missing
+   * here has no version of the page, so the switcher sends it to that
+   * language's index instead.
+   */
+  alternates?: Partial<Record<Locale, string>>;
 }
 
-const { title, description } = Astro.props;
+const { title, description, locale, alternates = {} } = Astro.props;
+const abs = (path: string) => new URL(path, Astro.site).href;
 ---
 
 <!doctype html>
-<html lang="ru">
+<html lang={locale}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     {description && <meta name="description" content={description} />}
+    {alternates[locale] && <link rel="canonical" href={abs(alternates[locale])} />}
+    {
+      LOCALES.filter((l) => alternates[l]).map((l) => (
+        <link rel="alternate" hreflang={l} href={abs(alternates[l]!)} />
+      ))
+    }
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link
       href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,500;0,600;1,500&family=Caveat:wght@600&family=Manrope:wght@500;600;700&display=swap"
@@ -26,8 +41,27 @@ const { title, description } = Astro.props;
     <img class="site-mascot" src="/mascots/blog-mascot.webp" alt="" />
     <div class="wrap">
       <header class="site-header">
-        <a class="brand" href="/">Блог Алексея Хайминова</a>
-        <a class="back" href="https://khaiminov.com" target="_blank" rel="noopener">khaiminov.com ↗</a>
+        <a class="brand" href={homePath(locale)}>{UI.blogTitle[locale]}</a>
+        <div class="header-side">
+          <nav class="lang-toggle" aria-label={UI.language[locale]}>
+            {
+              LOCALES.map((l) => (
+                <a
+                  href={alternates[l] ?? homePath(l)}
+                  hreflang={l}
+                  lang={l}
+                  class={l === locale ? "active" : undefined}
+                  aria-current={l === locale ? "true" : undefined}
+                >
+                  {l.toUpperCase()}
+                </a>
+              ))
+            }
+          </nav>
+          <a class="back" href={`https://khaiminov.com/?lang=${locale}`} target="_blank" rel="noopener"
+            >khaiminov.com ↗</a
+          >
+        </div>
       </header>
       <slot />
     </div>

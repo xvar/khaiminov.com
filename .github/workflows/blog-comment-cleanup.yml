@@ -4,6 +4,11 @@ name: Blog comment cleanup
 # (see apps/blog/src/components/Giscus.astro). They don't disappear on
 # their own when a post's markdown file is removed, so when a push
 # deletes a post, delete its matching discussion too.
+#
+# A post is one file per language (apps/blog/src/content/blog/<locale>/
+# <slug>.md) and all of its translations share one discussion, so the
+# discussion only goes once the slug is gone in every language - removing
+# a single translation (or moving a file between folders) keeps it.
 on:
   push:
     branches: ["**"]
@@ -25,7 +30,14 @@ jobs:
       - name: List removed posts
         id: removed
         run: |
-          files=$(git diff --diff-filter=D --name-only HEAD^ HEAD -- 'apps/blog/src/content/blog/*.md' || true)
+          # Slugs that lost a file in this push and have none left in any
+          # language (the pathspec's * also matches the <locale>/ folder).
+          files=$(git diff --diff-filter=D --no-renames --name-only HEAD^ HEAD -- 'apps/blog/src/content/blog/*.md' | while read -r file; do
+                slug=$(basename "$file" .md)
+                if ! ls apps/blog/src/content/blog/*/"$slug".md apps/blog/src/content/blog/"$slug".md >/dev/null 2>&1; then
+                  echo "$slug"
+                fi
+              done | sort -u || true)
           {
             echo "files<<EOF"
             echo "$files"
@@ -41,12 +53,11 @@ jobs:
             const repoName = "khaiminov.com";
             const files = `${{ steps.removed.outputs.files }}`.split("\n").filter(Boolean);
 
-            for (const file of files) {
-              const slug = file.split("/").pop().replace(/\.md$/, "");
-              // giscus titles pathname-mapped discussions without a leading
-              // slash (e.g. "posts/<slug>/", not "/posts/<slug>/") - this
-              // must match that exactly or the search below silently finds
-              // nothing.
+            for (const slug of files) {
+              // The discussion title is the giscus term set in
+              // apps/blog/src/components/Giscus.astro: "posts/<slug>/" with
+              // no leading slash and no language prefix - this must match
+              // that exactly or the search below silently finds nothing.
               const pathname = `posts/${slug}/`;
 
               const search = await github.graphql(

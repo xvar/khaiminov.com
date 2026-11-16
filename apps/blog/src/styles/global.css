@@ -108,6 +108,49 @@ a:hover {
   text-decoration: none;
 }
 
+.site-header .header-side {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  flex: none;
+}
+
+/* Same pill as the RU/EN/ES toggle on khaiminov.com (apps/site), but made
+   of links: every language is its own static URL here. */
+.lang-toggle {
+  display: flex;
+  border: 1px solid var(--panel-line);
+  border-radius: 999px;
+  overflow: hidden;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+}
+.lang-toggle a {
+  padding: 0.3rem 0.6rem;
+  color: var(--ink-faint);
+  text-decoration: none;
+}
+.lang-toggle a:hover {
+  color: var(--ink);
+}
+.lang-toggle a.active {
+  background: var(--brass);
+  color: #241533;
+  font-weight: 600;
+}
+
+@media (max-width: 560px) {
+  .site-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.6rem;
+  }
+  .site-header .header-side {
+    align-self: stretch;
+    justify-content: space-between;
+  }
+}
+
 h1,
 h2,
 h3 {
@@ -262,6 +305,15 @@ h3 {
   font-size: 0.76rem;
   color: var(--ink-faint);
   margin-bottom: 0.2rem;
+}
+/* Marks a post listed in a language it has no translation for yet. */
+.row-list .lang-tag {
+  margin-left: 0.5rem;
+  padding: 0.05rem 0.35rem;
+  border: 1px solid var(--panel-line);
+  border-radius: 4px;
+  font-size: 0.66rem;
+  letter-spacing: 0.04em;
 }
 .row-list .title {
   display: block;

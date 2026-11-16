@@ -9,6 +9,15 @@ backend:
 media_folder: "apps/blog/public/images/blog"
 public_folder: "/images/blog"
 
+# One file per language: apps/blog/src/content/blog/<locale>/<slug>.md.
+# Russian is the original and is always required; EN/ES are optional - a post
+# without a translation is listed on that language's index with a language
+# tag and opens the Russian version (see apps/blog/src/i18n.ts).
+i18n:
+  structure: multiple_folders
+  locales: [ru, en, es]
+  default_locale: ru
+
 collections:
   - name: "blog"
     label: "Блог"
@@ -16,14 +25,18 @@ collections:
     folder: "apps/blog/src/content/blog"
     create: true
     slug: "{{slug}}"
+    i18n: true
     fields:
-      - { label: "Заголовок", name: "title", widget: "string" }
-      - { label: "Дата", name: "date", widget: "datetime" }
-      - { label: "Описание", name: "description", widget: "text" }
+      - { label: "Заголовок", name: "title", widget: "string", i18n: true }
+      # Date and section are shared: edited once (in Russian) and copied
+      # into every translation.
+      - { label: "Дата", name: "date", widget: "datetime", i18n: duplicate }
+      - { label: "Описание", name: "description", widget: "text", i18n: true }
       - label: "Раздел"
         name: "section"
         widget: "select"
+        i18n: duplicate
         options:
           - { label: "PRO (программирование, Android, работа)", value: "pro" }
           - { label: "Life (всё остальное)", value: "life" }
-      - { label: "Текст", name: "body", widget: "markdown" }
+      - { label: "Текст", name: "body", widget: "markdown", i18n: true }

@@ -1,0 +1,56 @@
+---
+import { getCollection, render, type CollectionEntry } from "astro:content";
+import Base from "../../../layouts/Base.astro";
+import Giscus from "../../../components/Giscus.astro";
+import {
+  LOCALES,
+  UI,
+  formatDate,
+  groupBySlug,
+  langParam,
+  postPath,
+  type Locale,
+} from "../../../i18n";
+
+// One page per (post, language it is actually written in). A missing
+// translation gets no page of its own: the index of that language links to
+// the version that exists instead.
+export async function getStaticPaths() {
+  const bySlug = groupBySlug(await getCollection("blog"));
+  return [...bySlug].flatMap(([slug, versions]) => {
+    const alternates = Object.fromEntries(
+      LOCALES.filter((l) => versions[l]).map((l) => [l, postPath(l, slug)]),
+    );
+    return LOCALES.filter((l) => versions[l]).map((locale) => ({
+      params: { lang: langParam(locale), slug },
+      props: { post: versions[locale]!, locale, slug, alternates },
+    }));
+  });
+}
+
+interface Props {
+  post: CollectionEntry<"blog">;
+  locale: Locale;
+  slug: string;
+  alternates: Partial<Record<Locale, string>>;
+}
+
+const { post, locale, slug, alternates } = Astro.props;
+const { Content } = await render(post);
+---
+
+<Base
+  title={`${post.data.title} — ${UI.blogTitle[locale]}`}
+  description={post.data.description}
+  locale={locale}
+  alternates={alternates}
+>
+  <article>
+    <h1>{post.data.title}</h1>
+    <p class="post-meta">{formatDate(post.data.date, locale)}</p>
+    <div class="post-body">
+      <Content />
+    </div>
+  </article>
+  <Giscus slug={slug} locale={locale} />
+</Base>

@@ -23,8 +23,15 @@ const PHOTO_DIMS = {
 };
 
 const LANGS = ["ru", "en", "es"];
-let lang = localStorage.getItem("km-lang");
+// ?lang=xx (the blog links back here with its current language) wins
+// over the stored choice and becomes the stored choice.
+const urlLang = new URLSearchParams(location.search).get("lang");
+let lang = LANGS.includes(urlLang) ? urlLang : localStorage.getItem("km-lang");
 if (!LANGS.includes(lang)) lang = "ru";
+if (urlLang === lang) localStorage.setItem("km-lang", lang);
+// External nav target in the current language: the blog mirrors this
+// site's locales, Russian at its root and the others under /<lang>/.
+function externalHref(n) { return n.localized && lang !== "ru" ? `${n.external}/${lang}/` : n.external; }
 const app = document.getElementById("app");
 const sideNavEl = document.getElementById("side-nav");
 const footerEl = document.getElementById("site-footer");
@@ -95,7 +102,7 @@ function renderSideNav(activeId) {
     : "";
   const items = NAV.map((n) => {
     if (n.external) {
-      return `<li><a href="${n.external}" target="_blank" rel="noopener" data-sync="${n.id}"><span class="dot" aria-hidden="true"></span>${n.label[lang]} ↗</a></li>`;
+      return `<li><a href="${externalHref(n)}" target="_blank" rel="noopener" data-sync="${n.id}"><span class="dot" aria-hidden="true"></span>${n.label[lang]} ↗</a></li>`;
     }
     return `<li><a href="#/${n.id}" data-sync="${n.id}" class="${n.id === activeId ? "active" : ""}"><span class="dot" aria-hidden="true"></span>${n.label[lang]}</a></li>`;
   }).join("");
@@ -156,7 +163,7 @@ function photoCard({ id, glyph, logo, photo, caption, meta, placeholder, href, s
 function renderHome() {
   const cards = NAV.map((n, i) => photoCard({
     id: n.id, glyph: n.glyph, caption: n.label[lang],
-    href: n.external || "#/" + n.id, syncId: n.id,
+    href: n.external ? externalHref(n) : "#/" + n.id, syncId: n.id,
   })).join("");
   return `
     <section class="hero hero--split">

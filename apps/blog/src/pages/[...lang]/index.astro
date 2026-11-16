@@ -1,0 +1,81 @@
+---
+import { getCollection } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import {
+  LOCALES,
+  UI,
+  formatDate,
+  homePath,
+  langParam,
+  postPath,
+  postsFor,
+  type Locale,
+} from "../../i18n";
+
+export function getStaticPaths() {
+  return LOCALES.map((locale) => ({
+    params: { lang: langParam(locale) },
+    props: { locale },
+  }));
+}
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const posts = postsFor(locale, await getCollection("blog"));
+
+const boards = [
+  { key: "pro", title: "PRO", sub: UI.proSub[locale] },
+  { key: "life", title: "Life", sub: UI.lifeSub[locale] },
+] as const;
+
+const alternates = Object.fromEntries(LOCALES.map((l) => [l, homePath(l)]));
+---
+
+<Base title={UI.blogTitle[locale]} locale={locale} alternates={alternates}>
+  <div class="board-wrap">
+    <div class="boards">
+      {
+        boards.map((board) => {
+          const boardPosts = posts.filter((post) => post.entry.data.section === board.key);
+          return (
+            <div class={`board-card ${board.key}`}>
+              <span class="tape" aria-hidden="true" />
+              <div class="board-face">
+                <span class="board-title">{board.title}</span>
+                <span class="board-sub">{board.sub}</span>
+                <div class="board-frame">
+                  {boardPosts.length ? (
+                    <ul class="row-list">
+                      {boardPosts.map((post) => (
+                        <li>
+                          <a href={postPath(post.locale, post.slug)} hreflang={post.locale}>
+                            <span class="date">
+                              {formatDate(post.entry.data.date, locale)}
+                              {post.locale !== locale && (
+                                <span class="lang-tag" title={UI.onlyIn[locale][post.locale]}>
+                                  {post.locale.toUpperCase()}
+                                </span>
+                              )}
+                            </span>
+                            <span class="title" lang={post.locale}>
+                              {post.entry.data.title}
+                            </span>
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p class="empty">{UI.empty[locale]}</p>
+                  )}
+                </div>
+              </div>
+            </div>
+          );
+        })
+      }
+    </div>
+  </div>
+</Base>

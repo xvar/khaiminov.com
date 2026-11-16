@@ -7,7 +7,7 @@ const NAV = [
   { id: "education", glyph: "🎓", mascot: "assets/mascots/education-mascot.webp", label: { ru: "Образование", en: "Education", es: "Educación" } },
   { id: "projects", glyph: "🧩", mascot: "assets/mascots/projects-mascot.webp", mascotPos: { z: 2 }, label: { ru: "Проекты", en: "Projects", es: "Proyectos" } },
   { id: "talks", glyph: "🎤", mascot: "assets/mascots/talks-mascot.webp", mascotPos: { top: "18rem" }, label: { ru: "Выступления", en: "Public Talks", es: "Charlas" } },
-  { id: "blog", glyph: "📝", mascot: "assets/mascots/blog-mascot.webp", label: { ru: "Блог", en: "Blog", es: "Blog" }, external: "https://blog.khaiminov.com" },
+  { id: "blog", glyph: "📝", mascot: "assets/mascots/blog-mascot.webp", label: { ru: "Блог", en: "Blog", es: "Blog" }, external: "https://blog.khaiminov.com", localized: true },
   { id: "personal", glyph: "🎸", mascot: "assets/mascots/personal-mascot.webp", label: { ru: "Личное", en: "Personal", es: "Personal" } },
   { id: "contacts", glyph: "✉️", mascot: "assets/mascots/contacts-mascot.webp", mascotPos: { z: 2, top: "auto", bottom: "1rem" }, label: { ru: "Контакты", en: "Contacts", es: "Contacto" } },
 ];
