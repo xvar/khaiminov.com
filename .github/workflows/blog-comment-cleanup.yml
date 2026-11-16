@@ -34,7 +34,7 @@ jobs:
           # language (the pathspec's * also matches the <locale>/ folder).
           files=$(git diff --diff-filter=D --no-renames --name-only HEAD^ HEAD -- 'apps/blog/src/content/blog/*.md' | while read -r file; do
                 slug=$(basename "$file" .md)
-                if ! ls apps/blog/src/content/blog/*/"$slug".md apps/blog/src/content/blog/"$slug".md >/dev/null 2>&1; then
+                if ! compgen -G "apps/blog/src/content/blog/*/$slug.md" >/dev/null && [ ! -e "apps/blog/src/content/blog/$slug.md" ]; then
                   echo "$slug"
                 fi
               done | sort -u || true)
